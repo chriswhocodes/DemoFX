@@ -1,8 +1,14 @@
+/*
+ * Copyright (c) 2015 Chris Newland.
+ * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
+ */
 package com.chrisnewland.demofx.effect;
 
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
+
+import com.chrisnewland.demofx.DemoConfig;
 
 public abstract class AbstractEffect implements IEffect
 {
@@ -40,14 +46,14 @@ public abstract class AbstractEffect implements IEffect
 		return random.nextInt(max - min + 1) + min;
 	}
 
-	public AbstractEffect(GraphicsContext gc, int count, int width, int height)
+	public AbstractEffect(GraphicsContext gc, DemoConfig config)
 	{
 		this.gc = gc;
 
-		this.itemCount = count;
+		this.itemCount = config.getCount();
 
-		this.width = width;
-		this.height = height;
+		this.width = config.getWidth();
+		this.height = config.getHeight();
 
 		this.halfWidth = width / 2;
 		this.halfHeight = height / 2;

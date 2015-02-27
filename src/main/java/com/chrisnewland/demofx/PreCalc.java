@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 Chris Newland.
+ * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
+ */
 package com.chrisnewland.demofx;
 
 public class PreCalc
@@ -44,7 +48,7 @@ public class PreCalc
 
 				double normalisedDistance = distance / maxDimension; // 0..1
 
-				double fadeFactor = 1 - (normalisedDistance * 1.1);
+				double fadeFactor = 1 - (normalisedDistance * 1.5);
 
 				FADE_FACTOR[x][y] = fadeFactor;
 			}

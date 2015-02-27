@@ -1,0 +1,19 @@
+<project name="jitwatch" default="all" basedir=".">
+	<property name="src" value="src/main/java" />
+	<property name="target" value="target" />
+	<property name="resources" value="src/main/resources" />
+	<property name="classes" value="${target}/classes" />
+	<property environment="env" />
+
+	<target name="clean">
+		<delete quiet="true" dir="${classes}" />
+		<mkdir dir="${classes}" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${classes}" />
+		<javac srcdir="${src}" destdir="${classes}" includeantruntime="false" />
+	</target>
+
+	<target name="all" depends="compile" />
+</project>

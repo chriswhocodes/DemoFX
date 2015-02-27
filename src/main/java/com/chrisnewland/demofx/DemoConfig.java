@@ -1,13 +1,20 @@
+/*
+ * Copyright (c) 2015 Chris Newland.
+ * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
+ */
 package com.chrisnewland.demofx;
-
-import com.chrisnewland.demofx.effect.Stars;
 
 public class DemoConfig
 {
-	public enum PlotMode {PLOT_MODE_LINE, PLOT_MODE_POLYGON};
+	public enum PlotMode
+	{
+		PLOT_MODE_LINE, PLOT_MODE_POLYGON
+	}
 
-	private String effect = Stars.class.getName();
-	private int count = 500;
+	private String effect = "stars";
+	private int sides = 3;
+	private int count = 300;
+	private int rotation = 10;
 	private int width = 640;
 	private int height = 480;
 	private boolean antialias = false;
@@ -25,7 +32,7 @@ public class DemoConfig
 
 		int argc = args.length;
 
-		for (int i = 0; i < argc; i+=2)
+		for (int i = 0; i < argc; i += 2)
 		{
 			String arg = args[i];
 
@@ -42,14 +49,20 @@ public class DemoConfig
 					case "e":
 						config.effect = value;
 						break;
-					case "i":
+					case "c":
 						config.count = Integer.parseInt(value);
+						break;
+					case "s":
+						config.sides = Integer.parseInt(value);
 						break;
 					case "w":
 						config.width = Integer.parseInt(value);
 						break;
 					case "h":
 						config.height = Integer.parseInt(value);
+						break;
+					case "r":
+						config.rotation = Integer.parseInt(value);
 						break;
 					case "a":
 						config.antialias = Boolean.parseBoolean(value);
@@ -95,7 +108,7 @@ public class DemoConfig
 
 	public String getEffect()
 	{
-		return effect;
+		return effect.substring(0, 1).toUpperCase() + effect.substring(1).toLowerCase();
 	}
 
 	public int getCount()
@@ -121,5 +134,15 @@ public class DemoConfig
 	public PlotMode getPlotMode()
 	{
 		return plotMode;
+	}
+
+	public int getSides()
+	{
+		return sides;
+	}
+
+	public int getRotation()
+	{
+		return rotation;
 	}
 }

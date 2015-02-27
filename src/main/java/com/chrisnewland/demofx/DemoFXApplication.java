@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 Chris Newland.
+ * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
+ */
 package com.chrisnewland.demofx;
 
 import java.lang.reflect.Constructor;
@@ -15,7 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import com.chrisnewland.demofx.DemoConfig.PlotMode;
 import com.chrisnewland.demofx.effect.IEffect;
 
 public class DemoFXApplication extends Application
@@ -30,6 +33,7 @@ public class DemoFXApplication extends Application
 	}
 
 	private GraphicsContext gc;
+
 	private Label statsLabel;
 
 	@Override
@@ -42,12 +46,14 @@ public class DemoFXApplication extends Application
 			StringBuilder builder = new StringBuilder();
 
 			builder.append("DemoFXApplication [options]").append("\n");
-			builder.append("-e <effect>\t\tstars").append("\n");
-			builder.append("-i <items>\t\tnumber of items on screen").append("\n");
-			builder.append("-w <width>\t\tcanvas width").append("\n");
-			builder.append("-h <height>\t\tcanvas height").append("\n");
-			builder.append("-a <true|false>\t\tantialias canvas").append("\n");
-			builder.append("-m <line|poly>\t\tcanvas plot mode").append("\n");
+			builder.append("-e <effect>").append("\t\t").append("stars | stars2 | triangles | squares").append("\n");
+			builder.append("-s <sides>").append("\t\t").append("sides per polygon").append("\n");
+			builder.append("-c <count>").append("\t\t").append("number of items on screen").append("\n");
+			builder.append("-r <degrees>").append("\t\t").append("rotation per frame").append("\n");
+			builder.append("-w <width>").append("\t\t").append("canvas width").append("\n");
+			builder.append("-h <height>").append("\t\t").append("canvas height").append("\n");
+			builder.append("-a <true|false>").append("\t\t").append("antialias canvas").append("\n");
+			builder.append("-m <line|poly>").append("\t\t").append("canvas plot mode").append("\n");
 
 			System.err.print(builder.toString());
 			System.exit(-1);
@@ -61,22 +67,17 @@ public class DemoFXApplication extends Application
 		IEffect effect = null;
 
 		Canvas canvas = new Canvas(config.getWidth(), config.getHeight());
+
 		gc = canvas.getGraphicsContext2D();
 
 		try
 		{
-			Class<IEffect> effectClass = (Class<IEffect>) Class.forName(config.getEffect());
+			@SuppressWarnings("unchecked")
+			Class<IEffect> effectClass = (Class<IEffect>) Class.forName("com.chrisnewland.demofx.effect." + config.getEffect());
 
-			Constructor<IEffect> constructor = effectClass.getDeclaredConstructor(GraphicsContext.class, int.class, int.class,
-					int.class, PlotMode.class);
+			Constructor<IEffect> constructor = effectClass.getDeclaredConstructor(GraphicsContext.class, DemoConfig.class);
 
-			effect = constructor.newInstance(new Object[] {
-					gc,
-					config.getCount(),
-					config.getWidth(),
-					config.getHeight(),
-					config.getPlotMode() });
-
+			effect = constructor.newInstance(new Object[] { gc, config });
 		}
 		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e)
@@ -99,8 +100,6 @@ public class DemoFXApplication extends Application
 		{
 			scene = new Scene(root, config.getWidth(), config.getHeight() + topHeight, false, SceneAntialiasing.DISABLED);
 		}
-
-
 
 		final String BLACK_BG_STYLE = "-fx-background-color:black;";
 		final String FONT_STYLE = "-fx-font-family:monospace; -fx-font-size:16px; -fx-text-fill:white;";
