@@ -17,5 +17,5 @@ Examples:
 ```
 java -cp target/classes/ com.chrisnewland.demofx.DemoFXApplication -e squares
 java -cp target/classes/ com.chrisnewland.demofx.DemoFXApplication -e triangles -c 500
-java -cp target/classes/ com.chrisnewland.demofx.DemoFXApplication -e stars2 -r 20 -w 512 -h 512
+java -cp target/classes/ com.chrisnewland.demofx.DemoFXApplication -e stars2 -r 20
 ```
