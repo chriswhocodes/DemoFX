@@ -292,9 +292,9 @@ public abstract class ShapeEffect extends AbstractEffect
 		g *= fadeFactor;
 		b *= fadeFactor;
 
-		r = Math.min(r, 255);
-		g = Math.min(g, 255);
-		b = Math.min(b, 255);
+		r = Math.max(0, Math.min(r, 255));
+		g = Math.max(0, Math.min(g, 255));
+		b = Math.max(0, Math.min(b, 255));
 
 		gc.setStroke(Color.rgb(r, g, b));
 	}

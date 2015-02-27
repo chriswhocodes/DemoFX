@@ -48,7 +48,7 @@ public class PreCalc
 
 				double normalisedDistance = distance / maxDimension; // 0..1
 
-				double fadeFactor = 1 - (normalisedDistance * 1.5);
+				double fadeFactor = 1 - (normalisedDistance * 1.3);
 
 				FADE_FACTOR[x][y] = fadeFactor;
 			}

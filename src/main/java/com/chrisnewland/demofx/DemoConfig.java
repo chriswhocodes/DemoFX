@@ -12,7 +12,6 @@ public class DemoConfig
 	}
 
 	private String effect = "stars";
-	private int sides = 3;
 	private int count = 300;
 	private int rotation = 10;
 	private int width = 640;
@@ -51,9 +50,6 @@ public class DemoConfig
 						break;
 					case "c":
 						config.count = Integer.parseInt(value);
-						break;
-					case "s":
-						config.sides = Integer.parseInt(value);
 						break;
 					case "w":
 						config.width = Integer.parseInt(value);
@@ -134,11 +130,6 @@ public class DemoConfig
 	public PlotMode getPlotMode()
 	{
 		return plotMode;
-	}
-
-	public int getSides()
-	{
-		return sides;
 	}
 
 	public int getRotation()
