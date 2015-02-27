@@ -118,7 +118,7 @@ public class DemoFXApplication extends Application
 		root.setTop(hbox);
 		root.setCenter(canvas);
 
-		stage.setTitle("@chriswhocodes JavaFX Canvas Demo");
+		stage.setTitle("DemoFX performance test platform by @chriswhocodes ");
 		stage.setScene(scene);
 		stage.show();
 
