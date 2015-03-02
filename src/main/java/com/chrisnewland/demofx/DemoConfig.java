@@ -8,19 +8,35 @@ public class DemoConfig
 {
 	public enum PlotMode
 	{
-		PLOT_MODE_LINE, PLOT_MODE_POLYGON
+		PLOT_MODE_LINE, PLOT_MODE_POLYGON, PLOT_MODE_FILL_POLYGON
 	}
 
 	private String effect = "stars";
 	private int count = 300;
 	private int rotation = 10;
-	private int width = 640;
-	private int height = 480;
+	private int width = 800;
+	private int height = 600;
 	private boolean antialias = false;
-	private PlotMode plotMode = PlotMode.PLOT_MODE_POLYGON;
+	private PlotMode plotMode = PlotMode.PLOT_MODE_FILL_POLYGON;
 
 	private DemoConfig()
 	{
+	}
+
+	public static String getUsageError()
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("DemoFXApplication [options]").append("\n");
+		builder.append("-e <effect>").append("\t\t").append("triangles,squares,pentagons,hexagons,stars").append("\n");
+		builder.append("-c <count>").append("\t\t").append("number of items on screen").append("\n");
+		builder.append("-r <degrees>").append("\t\t").append("rotation per frame").append("\n");
+		builder.append("-w <width>").append("\t\t").append("canvas width").append("\n");
+		builder.append("-h <height>").append("\t\t").append("canvas height").append("\n");
+		builder.append("-a <true|false>").append("\t\t").append("antialias canvas").append("\n");
+		builder.append("-m <line|poly|fill>").append("\t").append("canvas plot mode").append("\n");
+
+		return builder.toString();
 	}
 
 	public static DemoConfig parseArgs(String[] args)
@@ -71,6 +87,10 @@ public class DemoConfig
 						else if ("poly".equals(value.toLowerCase()))
 						{
 							config.plotMode = PlotMode.PLOT_MODE_POLYGON;
+						}
+						else if ("fill".equals(value.toLowerCase()))
+						{
+							config.plotMode = PlotMode.PLOT_MODE_FILL_POLYGON;
 						}
 						else
 						{

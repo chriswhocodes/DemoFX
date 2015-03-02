@@ -24,7 +24,7 @@ public abstract class AbstractEffect implements IEffect
 
 	protected long lastSecond;
 	protected int frameCount = 0;
-	protected int showFPS = 0;
+	protected int framesPerSecond = 0;
 	protected String itemName = null;
 
 	private long lastRenderNanos = 0;
@@ -72,7 +72,7 @@ public abstract class AbstractEffect implements IEffect
 
 		if (now - lastSecond > 1000)
 		{
-			showFPS = frameCount;
+			framesPerSecond = frameCount;
 			frameCount = 0;
 			lastSecond = now;
 
@@ -85,7 +85,7 @@ public abstract class AbstractEffect implements IEffect
 	{
 		builder.setLength(0);
 
-		builder.append(showFPS).append(" fps / ");
+		builder.append(framesPerSecond).append(" fps / ");
 
 		if (itemCount > -1)
 		{

@@ -6,6 +6,7 @@ package com.chrisnewland.demofx;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -16,14 +17,18 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.chrisnewland.demofx.effect.EffectFactory;
 import com.chrisnewland.demofx.effect.IEffect;
+import com.sun.prism.GraphicsPipeline;
+import com.sun.prism.impl.PrismSettings;
 
 public class DemoFXApplication extends Application
 {
 	private static String[] args;
+
 	private static final long ONE_SECOND_NANOS = 1_000_000_000L;
 
 	public static void main(String[] args)
@@ -35,6 +40,7 @@ public class DemoFXApplication extends Application
 	private GraphicsContext gc;
 
 	private Label statsLabel;
+	private Label fxLabel;
 
 	@Override
 	public void start(final Stage stage) throws Exception
@@ -43,19 +49,7 @@ public class DemoFXApplication extends Application
 
 		if (config == null)
 		{
-			StringBuilder builder = new StringBuilder();
-
-			builder.append("DemoFXApplication [options]").append("\n");
-			builder.append("-e <effect>").append("\t\t").append("stars | stars2 | triangles | squares").append("\n");
-			builder.append("-s <sides>").append("\t\t").append("sides per polygon").append("\n");
-			builder.append("-c <count>").append("\t\t").append("number of items on screen").append("\n");
-			builder.append("-r <degrees>").append("\t\t").append("rotation per frame").append("\n");
-			builder.append("-w <width>").append("\t\t").append("canvas width").append("\n");
-			builder.append("-h <height>").append("\t\t").append("canvas height").append("\n");
-			builder.append("-a <true|false>").append("\t\t").append("antialias canvas").append("\n");
-			builder.append("-m <line|poly>").append("\t\t").append("canvas plot mode").append("\n");
-
-			System.err.print(builder.toString());
+			System.err.print(DemoConfig.getUsageError());
 			System.exit(-1);
 		}
 
@@ -69,20 +63,14 @@ public class DemoFXApplication extends Application
 		Canvas canvas = new Canvas(config.getWidth(), config.getHeight());
 
 		gc = canvas.getGraphicsContext2D();
-
+		
 		try
-		{
-			@SuppressWarnings("unchecked")
-			Class<IEffect> effectClass = (Class<IEffect>) Class.forName("com.chrisnewland.demofx.effect." + config.getEffect());
-
-			Constructor<IEffect> constructor = effectClass.getDeclaredConstructor(GraphicsContext.class, DemoConfig.class);
-
-			effect = constructor.newInstance(new Object[] { gc, config });
+		{		
+			effect = EffectFactory.getEffect(gc, config);
 		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException e)
+		catch (RuntimeException re)
 		{
-			e.printStackTrace();
+			System.err.println(re.getMessage());
 			System.exit(-1);
 		}
 
@@ -90,7 +78,7 @@ public class DemoFXApplication extends Application
 
 		Scene scene;
 
-		int topHeight = 25;
+		int topHeight = 50;
 
 		if (config.isAntialias())
 		{
@@ -106,23 +94,63 @@ public class DemoFXApplication extends Application
 
 		statsLabel = new Label();
 		statsLabel.setStyle(FONT_STYLE);
-		statsLabel.setAlignment(Pos.CENTER);
+		statsLabel.setAlignment(Pos.BASELINE_LEFT);
 		statsLabel.prefWidthProperty().bind(root.widthProperty());
+
+		fxLabel = new Label();
+		fxLabel.setStyle(FONT_STYLE);
+		fxLabel.setAlignment(Pos.BASELINE_LEFT);
+		fxLabel.prefWidthProperty().bind(root.widthProperty());
+		fxLabel.setText(getFXLabelText());
 
 		root.setStyle(BLACK_BG_STYLE);
 
-		HBox hbox = new HBox();
-		hbox.setMinHeight(topHeight);
-		hbox.getChildren().add(statsLabel);
+		VBox vbox = new VBox();
+		vbox.setMinHeight(topHeight);
+		vbox.getChildren().add(statsLabel);
+		vbox.getChildren().add(fxLabel);
 
-		root.setTop(hbox);
+		root.setTop(vbox);
 		root.setCenter(canvas);
 
-		stage.setTitle("DemoFX performance test platform by @chriswhocodes ");
+		stage.setTitle("DemoFX performance test platform by @chriswhocodes");
 		stage.setScene(scene);
 		stage.show();
 
 		animate(effect);
+	}
+
+	private String getFXLabelText()
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("Trying: ").append(listToString(PrismSettings.tryOrder));
+		builder.append("  Using: ").append(getUsedPipeline());
+
+		return builder.toString();
+	}
+
+	private String getUsedPipeline()
+	{
+		GraphicsPipeline pipeline = GraphicsPipeline.getPipeline();
+		return pipeline.getClass().getName();
+	}
+
+	private String listToString(List<String> list)
+	{
+		StringBuilder builder = new StringBuilder();
+
+		for (String str : list)
+		{
+			builder.append(str).append(",");
+		}
+
+		if (builder.length() > 0)
+		{
+			builder.deleteCharAt(builder.length() - 1);
+		}
+
+		return builder.toString();
 	}
 
 	private void animate(final IEffect effect)

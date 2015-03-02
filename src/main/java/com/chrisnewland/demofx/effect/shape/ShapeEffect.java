@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
-package com.chrisnewland.demofx.effect;
+package com.chrisnewland.demofx.effect.shape;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -10,13 +10,18 @@ import javafx.scene.paint.Color;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.DemoConfig.PlotMode;
 import com.chrisnewland.demofx.PreCalc;
+import com.chrisnewland.demofx.effect.AbstractEffect;
 
-public abstract class ShapeEffect extends AbstractEffect
+public class ShapeEffect extends AbstractEffect
 {
-	protected int[] shapePosX;
-	protected int[] shapePosY;
-	protected int[] shapeVectorX;
-	protected int[] shapeVectorY;
+	protected double[] shapePosX;
+	protected double[] shapePosY;
+	protected double[] shapeVectorX;
+	protected double[] shapeVectorY;
+
+	private double[] radius;
+	private final int points;
+	private boolean doubleAngle = false;
 
 	protected int[] shapeColorRed;
 	protected int[] shapeColorGreen;
@@ -47,8 +52,6 @@ public abstract class ShapeEffect extends AbstractEffect
 
 	private int respawnEllipse;
 
-	private boolean incRespawnAngle = true;
-
 	private int respawnShapeCount = 0;
 
 	private final int respawnShapeLimit = 5;
@@ -65,9 +68,12 @@ public abstract class ShapeEffect extends AbstractEffect
 	private final PlotMode mode;
 	private final int rotateDegrees;
 
-	public ShapeEffect(GraphicsContext gc, DemoConfig config)
+	public ShapeEffect(GraphicsContext gc, DemoConfig config, int points)
 	{
 		super(gc, config);
+
+		this.points = points;
+		itemName = config.getEffect();
 
 		this.mode = config.getPlotMode();
 		this.rotateDegrees = config.getRotation();
@@ -83,11 +89,11 @@ public abstract class ShapeEffect extends AbstractEffect
 	{
 		precalc = new PreCalc(width, height, 1000);
 
-		shapePosX = new int[itemCount];
-		shapePosY = new int[itemCount];
+		shapePosX = new double[itemCount];
+		shapePosY = new double[itemCount];
 
-		shapeVectorX = new int[itemCount];
-		shapeVectorY = new int[itemCount];
+		shapeVectorX = new double[itemCount];
+		shapeVectorY = new double[itemCount];
 
 		shapeColorRed = new int[itemCount];
 		shapeColorGreen = new int[itemCount];
@@ -141,7 +147,7 @@ public abstract class ShapeEffect extends AbstractEffect
 		bgColourGreen = 32;
 		bgColourBlue = 16;
 
-		initialiseEffect();
+		initialiseShapeRadii();
 	}
 
 	@Override
@@ -158,7 +164,10 @@ public abstract class ShapeEffect extends AbstractEffect
 			rotateShape(i);
 
 			moveShape(i);
+
 		}
+
+		adjustRespawnPoint();
 
 		long renderEndNanos = System.nanoTime();
 
@@ -169,13 +178,17 @@ public abstract class ShapeEffect extends AbstractEffect
 
 	private final void plotShape(int i)
 	{
-		if (mode == PlotMode.PLOT_MODE_POLYGON)
-		{
-			drawShapePolygon(i);
-		}
-		else if (mode == PlotMode.PLOT_MODE_LINE)
+		if (mode == PlotMode.PLOT_MODE_LINE)
 		{
 			drawShapeLine(i);
+		}
+		else if (mode == PlotMode.PLOT_MODE_POLYGON)
+		{
+			drawShapePolygon(i, false);
+		}
+		else if (mode == PlotMode.PLOT_MODE_FILL_POLYGON)
+		{
+			drawShapePolygon(i, true);
 		}
 	}
 
@@ -238,55 +251,71 @@ public abstract class ShapeEffect extends AbstractEffect
 	{
 		if (i > respawnEllipse)
 		{
-			// respawn on ellipse
-			shapePosX[i] = halfWidth + (int) (spawnDiameterX * respawnEllipseX[respawnAngle]);
-			shapePosY[i] = halfHeight + (int) (spawnDiameterY * respawnEllipseY[respawnAngle]);
-
-			if (incRespawnAngle)
-			{
-				respawnAngle++;
-			}
-
-			incRespawnAngle = !incRespawnAngle;
-
-			if (respawnAngle == 360)
-			{
-				respawnAngle = 0;
-			}
-
-			if (respawnShapeCount++ == respawnShapeLimit)
-			{
-				spawnDiameterX += spawnDiameterXDir;
-				spawnDiameterY += spawnDiameterYDir;
-
-				respawnShapeCount = 0;
-
-				if (spawnDiameterX < 50 || spawnDiameterX > halfWidth)
-				{
-					spawnDiameterXDir = -spawnDiameterXDir;
-				}
-
-				if (spawnDiameterY < 50 || spawnDiameterY > halfHeight)
-				{
-					spawnDiameterYDir = -spawnDiameterYDir;
-				}
-			}
+			respawnOnEllipse(i);
 		}
 		else
 		{
-			// respawn at random location
-			shapePosX[i] = (int) (precalc.getRandom() * width);
-			shapePosY[i] = (int) (precalc.getRandom() * height);
+			respawnRandomLocation(i);
 		}
 	}
 
-	protected final void setShapeColour(int index, int x, int y)
+	private final void respawnOnEllipse(int i)
+	{
+		shapePosX[i] = halfWidth + spawnDiameterX * respawnEllipseX[respawnAngle];
+		shapePosY[i] = halfHeight + spawnDiameterY * respawnEllipseY[respawnAngle];
+	}
+
+	private final void respawnRandomLocation(int i)
+	{
+		shapePosX[i] = precalc.getRandom() * width;
+		shapePosY[i] = precalc.getRandom() * height;
+	}
+
+	private final void adjustRespawnPoint()
+	{
+		rotateRespawnPoint();
+
+		if (respawnShapeCount++ == respawnShapeLimit)
+		{
+			modifyEllipseShape();
+		}
+	}
+
+	private final void rotateRespawnPoint()
+	{
+		respawnAngle += 3;
+
+		if (respawnAngle == 360)
+		{
+			respawnAngle = 0;
+		}
+	}
+
+	private final void modifyEllipseShape()
+	{
+		spawnDiameterX += spawnDiameterXDir;
+		spawnDiameterY += spawnDiameterYDir;
+
+		respawnShapeCount = 0;
+
+		if (spawnDiameterX < 50 || spawnDiameterX > halfWidth)
+		{
+			spawnDiameterXDir = -spawnDiameterXDir;
+		}
+
+		if (spawnDiameterY < 50 || spawnDiameterY > halfHeight)
+		{
+			spawnDiameterYDir = -spawnDiameterYDir;
+		}
+	}
+
+	private final Color getShapeColour(int index, double x, double y)
 	{
 		int r = shapeColorRed[index];
 		int g = shapeColorGreen[index];
 		int b = shapeColorBlue[index];
 
-		double fadeFactor = precalc.getCoordinateFade(x, y);
+		double fadeFactor = precalc.getCoordinateFade((int) x, (int) y);
 
 		r *= fadeFactor;
 		g *= fadeFactor;
@@ -296,13 +325,118 @@ public abstract class ShapeEffect extends AbstractEffect
 		g = Math.max(0, Math.min(g, 255));
 		b = Math.max(0, Math.min(b, 255));
 
-		gc.setStroke(Color.rgb(r, g, b));
+		return Color.rgb(r, g, b);
 	}
 
-	protected abstract void drawShapePolygon(int i);
+	private final void initialiseShapeRadii()
+	{
+		radius = new double[itemCount];
 
-	protected abstract void drawShapeLine(int i);
+		for (int i = 0; i < itemCount; i++)
+		{
+			radius[i] = getRandomIntInclusive(8, 16);
+		}
+	}
 
-	protected abstract void initialiseEffect();
+	public final void setDoubleAngle(boolean doubleAngle)
+	{
+		this.doubleAngle = doubleAngle;
+	}
 
+	private final void drawShapeLine(int index)
+	{
+		double x = shapePosX[index];
+		double y = shapePosY[index];
+
+		double outer = radius[index];
+
+		double firstX = 0;
+		double firstY = 0;
+
+		double lastX = 0;
+		double lastY = 0;
+
+		double pointAngle = 360.0 / points;
+
+		if (doubleAngle)
+		{
+			pointAngle *= 2;
+		}
+
+		double theta = pointAngle + shapeAngle[index];
+
+		gc.setStroke(getShapeColour(index, x, y));
+
+		for (int i = 0; i < points; i++)
+		{
+			theta += pointAngle;
+
+			double sinTheta = precalc.sin(theta);
+			double cosTheta = precalc.cos(theta);
+
+			double newX = (x + outer * sinTheta);
+			double newY = (y + outer * cosTheta);
+
+			if (i > 0)
+			{
+				gc.strokeLine(lastX, lastY, newX, newY);
+			}
+			else
+			{
+				firstX = newX;
+				firstY = newY;
+			}
+
+			lastX = newX;
+			lastY = newY;
+		}
+
+		gc.strokeLine(lastX, lastY, firstX, firstY);
+	}
+
+	private final void drawShapePolygon(int index, boolean filled)
+	{
+		double x = shapePosX[index];
+		double y = shapePosY[index];
+
+		double outer = radius[index];
+
+		double[] pointsX = new double[points];
+		double[] pointsY = new double[points];
+
+		double pointAngle = 360.0 / points;
+
+		if (doubleAngle)
+		{
+			pointAngle *= 2;
+		}
+
+		double theta = pointAngle + shapeAngle[index];
+
+		int pos = 0;
+
+		for (int i = 0; i < points; i++)
+		{
+			theta += pointAngle;
+
+			double sinTheta = precalc.sin(theta);
+			double cosTheta = precalc.cos(theta);
+
+			pointsX[pos] = x + outer * sinTheta;
+			pointsY[pos] = y + outer * cosTheta;
+
+			pos++;
+		}
+
+		if (filled)
+		{
+			gc.setFill(getShapeColour(index, x, y));
+			gc.fillPolygon(pointsX, pointsY, pos);
+		}
+		else
+		{
+			gc.setStroke(getShapeColour(index, x, y));
+			gc.strokePolygon(pointsX, pointsY, pos);
+		}
+	}
 }
