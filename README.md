@@ -2,9 +2,14 @@
 Performance test platform for JavaFX.
 
 I'll be using this to discover the best techniques for optimising JavaFX performance on the Raspberry Pi and Desktop.
+
+Compile in your IDE or with ant:
 ```
-Usage:
-DemoFXApplication [options]
+ant compile
+```
+```
+Run with:
+com.chrisnewland.demofx.DemoFXApplication [options]
 -e <effect>      stars | stars2 | triangles | squares
 -c <count>       number of items on screen
 -r <degrees>     rotation per frame
