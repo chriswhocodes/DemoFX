@@ -1,26 +1,33 @@
+/*
+ * Copyright (c) 2015 Chris Newland.
+ * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
+ */
 package com.chrisnewland.demofx;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import com.chrisnewland.demofx.DemoConfig.PlotMode;
+import com.chrisnewland.demofx.effect.EffectFactory;
 import com.chrisnewland.demofx.effect.IEffect;
+import com.sun.prism.GraphicsPipeline;
+import com.sun.prism.impl.PrismSettings;
 
 public class DemoFXApplication extends Application
 {
 	private static String[] args;
+
 	private static final long ONE_SECOND_NANOS = 1_000_000_000L;
 
 	public static void main(String[] args)
@@ -30,7 +37,9 @@ public class DemoFXApplication extends Application
 	}
 
 	private GraphicsContext gc;
+
 	private Label statsLabel;
+	private Label fxLabel;
 
 	@Override
 	public void start(final Stage stage) throws Exception
@@ -39,17 +48,7 @@ public class DemoFXApplication extends Application
 
 		if (config == null)
 		{
-			StringBuilder builder = new StringBuilder();
-
-			builder.append("DemoFXApplication [options]").append("\n");
-			builder.append("-e <effect>\t\tstars").append("\n");
-			builder.append("-i <items>\t\tnumber of items on screen").append("\n");
-			builder.append("-w <width>\t\tcanvas width").append("\n");
-			builder.append("-h <height>\t\tcanvas height").append("\n");
-			builder.append("-a <true|false>\t\tantialias canvas").append("\n");
-			builder.append("-m <line|poly>\t\tcanvas plot mode").append("\n");
-
-			System.err.print(builder.toString());
+			System.err.print(DemoConfig.getUsageError());
 			System.exit(-1);
 		}
 
@@ -61,27 +60,16 @@ public class DemoFXApplication extends Application
 		IEffect effect = null;
 
 		Canvas canvas = new Canvas(config.getWidth(), config.getHeight());
-		gc = canvas.getGraphicsContext2D();
 
+		gc = canvas.getGraphicsContext2D();
+		
 		try
 		{
-			Class<IEffect> effectClass = (Class<IEffect>) Class.forName(config.getEffect());
-
-			Constructor<IEffect> constructor = effectClass.getDeclaredConstructor(GraphicsContext.class, int.class, int.class,
-					int.class, PlotMode.class);
-
-			effect = constructor.newInstance(new Object[] {
-					gc,
-					config.getCount(),
-					config.getWidth(),
-					config.getHeight(),
-					config.getPlotMode() });
-
+			effect = EffectFactory.getEffect(gc, config);
 		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException e)
+		catch (RuntimeException re)
 		{
-			e.printStackTrace();
+			System.err.println(re.getMessage());
 			System.exit(-1);
 		}
 
@@ -89,41 +77,122 @@ public class DemoFXApplication extends Application
 
 		Scene scene;
 
-		int topHeight = 25;
+		int topHeight = 50;
 
-		if (config.isAntialias())
-		{
-			scene = new Scene(root, config.getWidth(), config.getHeight() + topHeight);
-		}
-		else
-		{
-			scene = new Scene(root, config.getWidth(), config.getHeight() + topHeight, false, SceneAntialiasing.DISABLED);
-		}
-
-
+		scene = new Scene(root, config.getWidth(), config.getHeight() + topHeight);
 
 		final String BLACK_BG_STYLE = "-fx-background-color:black;";
 		final String FONT_STYLE = "-fx-font-family:monospace; -fx-font-size:16px; -fx-text-fill:white;";
 
 		statsLabel = new Label();
 		statsLabel.setStyle(FONT_STYLE);
-		statsLabel.setAlignment(Pos.CENTER);
+		statsLabel.setAlignment(Pos.BASELINE_LEFT);
 		statsLabel.prefWidthProperty().bind(root.widthProperty());
+
+		fxLabel = new Label();
+		fxLabel.setStyle(FONT_STYLE);
+		fxLabel.setAlignment(Pos.BASELINE_LEFT);
+		fxLabel.prefWidthProperty().bind(root.widthProperty());
+		fxLabel.setText(getFXLabelText(config));
 
 		root.setStyle(BLACK_BG_STYLE);
 
-		HBox hbox = new HBox();
-		hbox.setMinHeight(topHeight);
-		hbox.getChildren().add(statsLabel);
+		VBox vbox = new VBox();
+		vbox.setMinHeight(topHeight);
+		vbox.getChildren().add(statsLabel);
+		vbox.getChildren().add(fxLabel);
 
-		root.setTop(hbox);
+		root.setTop(vbox);
 		root.setCenter(canvas);
 
-		stage.setTitle("@chriswhocodes JavaFX Canvas Demo");
+		stage.setTitle("DemoFX performance test platform by @chriswhocodes");
 		stage.setScene(scene);
 		stage.show();
 
 		animate(effect);
+	}
+
+	private String getFXLabelText(DemoConfig config)
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("Order: ").append(getPrismTryOrder());
+		builder.append(" | Pipeline: ").append(getUsedPipeline());
+		builder.append(" | Lookups: ");
+
+		StringBuilder lookupBuilder = new StringBuilder();
+
+		boolean anyLookups = false;
+
+		if (config.isLookupRandom())
+		{
+			anyLookups = true;
+			lookupBuilder.append("rand").append(",");
+		}
+
+		if (config.isLookupSqrt())
+		{
+			anyLookups = true;
+			lookupBuilder.append("sqrt").append(",");
+		}
+
+		if (config.isLookupTrig())
+		{
+			anyLookups = true;
+			lookupBuilder.append("trig");
+		}
+
+		if (!anyLookups)
+		{
+			lookupBuilder.append("none");
+		}
+		else if (lookupBuilder.charAt(lookupBuilder.length() - 1) == ',')
+		{
+			lookupBuilder.deleteCharAt(lookupBuilder.length() - 1);
+		}
+
+		builder.append(lookupBuilder.toString());
+
+		return builder.toString();
+	}
+
+	private String getUsedPipeline()
+	{
+		GraphicsPipeline pipeline = GraphicsPipeline.getPipeline();
+		return pipeline.getClass().getName();
+	}
+
+	@SuppressWarnings("unchecked")
+	private String getPrismTryOrder()
+	{
+		// Java 7 returns String[]
+		// Java 8 returns List<String>
+		Object result = PrismSettings.tryOrder;
+
+		List<String> tryOrderList = new ArrayList<>();
+
+		if (result instanceof String[])
+		{
+			tryOrderList.addAll(Arrays.asList((String[])result));
+		}
+		else if (result instanceof List)
+		{
+			tryOrderList.addAll((List<String>)result);
+		}
+
+		StringBuilder builder = new StringBuilder();
+
+		for (String str : tryOrderList)
+		{
+			builder.append(str).append(",");
+		}
+
+		if (builder.length() > 0)
+		{
+			builder.deleteCharAt(builder.length() - 1);
+		}
+
+		return builder.toString();
 	}
 
 	private void animate(final IEffect effect)

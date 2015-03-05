@@ -1,8 +1,15 @@
+/*
+ * Copyright (c) 2015 Chris Newland.
+ * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
+ */
 package com.chrisnewland.demofx.effect;
 
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
+
+import com.chrisnewland.demofx.DemoConfig;
+import com.chrisnewland.demofx.PreCalc;
 
 public abstract class AbstractEffect implements IEffect
 {
@@ -18,7 +25,7 @@ public abstract class AbstractEffect implements IEffect
 
 	protected long lastSecond;
 	protected int frameCount = 0;
-	protected int showFPS = 0;
+	protected int framesPerSecond = 0;
 	protected String itemName = null;
 
 	private long lastRenderNanos = 0;
@@ -27,6 +34,8 @@ public abstract class AbstractEffect implements IEffect
 
 	private long now;
 	private StringBuilder builder = new StringBuilder();
+
+	protected PreCalc precalc;
 
 	protected final double getRandomDouble(double min, double max)
 	{
@@ -40,14 +49,16 @@ public abstract class AbstractEffect implements IEffect
 		return random.nextInt(max - min + 1) + min;
 	}
 
-	public AbstractEffect(GraphicsContext gc, int count, int width, int height)
+	public AbstractEffect(GraphicsContext gc, DemoConfig config)
 	{
 		this.gc = gc;
+		
+		precalc = new PreCalc(config);
 
-		this.itemCount = count;
+		this.itemCount = config.getCount();
 
-		this.width = width;
-		this.height = height;
+		this.width = config.getWidth();
+		this.height = config.getHeight();
 
 		this.halfWidth = width / 2;
 		this.halfHeight = height / 2;
@@ -66,7 +77,7 @@ public abstract class AbstractEffect implements IEffect
 
 		if (now - lastSecond > 1000)
 		{
-			showFPS = frameCount;
+			framesPerSecond = frameCount;
 			frameCount = 0;
 			lastSecond = now;
 
@@ -79,7 +90,7 @@ public abstract class AbstractEffect implements IEffect
 	{
 		builder.setLength(0);
 
-		builder.append(showFPS).append(" fps / ");
+		builder.append(framesPerSecond).append(" fps / ");
 
 		if (itemCount > -1)
 		{

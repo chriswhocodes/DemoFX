@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 Chris Newland.
+ * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
+ */
 package com.chrisnewland.demofx;
 
 public class PreCalc
@@ -7,25 +11,93 @@ public class PreCalc
 
 	private final int WIDTH;
 	private final int HEIGHT;
+	private final int HALF_WIDTH;
+	private final int HALF_HEIGHT;
+
+	private final int MAX_DIMENSION;
+
 	private final int[][] DISTANCE;
 	private final double[][] FADE_FACTOR;
 
-	private final double[] RANDOM;
-	private final int RANDOM_COUNT;
+	private static final int RANDOM_COUNT = 4096;
+	private final double[] UNSIGNED_RANDOM;
+	private final double[] SIGNED_RANDOM;
 
-	private int randomPos = 0;
+	private int unsignedRandomPos = 0;
+	private int signedRandomPos = 0;
 
-	private final double PRECALC_ACCURACY = 0.1;
-	private final int INDEX_MULTIPLIER = (int) (1d / PRECALC_ACCURACY);
-	private final int PRECALC_LENGTH = 360 * INDEX_MULTIPLIER;
+	private static final double PRECALC_ACCURACY = 0.1;
+	private static final int INDEX_MULTIPLIER = (int) (1d / PRECALC_ACCURACY);
+	private static final int PRECALC_LENGTH = 360 * INDEX_MULTIPLIER;
 
-	public PreCalc(int width, int height, int randoms)
+	private final boolean USE_LOOKUPS_FOR_SQRT;
+	private final boolean USE_LOOKUPS_FOR_TRIG;
+	private final boolean USE_LOOKUPS_FOR_RANDOM;
+
+	public PreCalc(DemoConfig config)
 	{
-		WIDTH = width;
-		HEIGHT = height;
+		USE_LOOKUPS_FOR_SQRT = config.isLookupSqrt();
+		USE_LOOKUPS_FOR_TRIG = config.isLookupTrig();
+		USE_LOOKUPS_FOR_RANDOM = config.isLookupRandom();
+
+		WIDTH = config.getWidth();
+		HEIGHT = config.getHeight();
+
+		HALF_WIDTH = WIDTH / 2;
+		HALF_HEIGHT = HEIGHT / 2;
+
+		MAX_DIMENSION = Math.max(WIDTH, HEIGHT);
+
 		DISTANCE = new int[WIDTH][HEIGHT];
+
 		FADE_FACTOR = new double[WIDTH][HEIGHT];
 
+		if (USE_LOOKUPS_FOR_SQRT)
+		{
+			buildDistanceTable();
+			buildColourFadeTable();
+		}
+
+		if (USE_LOOKUPS_FOR_RANDOM)
+		{
+			UNSIGNED_RANDOM = new double[RANDOM_COUNT];
+			SIGNED_RANDOM = new double[RANDOM_COUNT];
+			buildRandomTables();
+		}
+		else
+		{
+			UNSIGNED_RANDOM = new double[0];
+			SIGNED_RANDOM = new double[0];
+		}
+
+		if (USE_LOOKUPS_FOR_TRIG)
+		{
+			SINE = new double[PRECALC_LENGTH];
+			COSINE = new double[PRECALC_LENGTH];
+			buildTrigTables();
+		}
+		else
+		{
+			SINE = new double[0];
+			COSINE = new double[0];
+		}
+	}
+
+	private final void buildDistanceTable()
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			for (int y = 0; y < HEIGHT; y++)
+			{
+				int distance = (int) Math.sqrt((x * x) + (y * y));
+
+				DISTANCE[x][y] = distance;
+			}
+		}
+	}
+
+	private final void buildColourFadeTable()
+	{
 		int midX = WIDTH / 2;
 		int midY = HEIGHT / 2;
 
@@ -33,35 +105,74 @@ public class PreCalc
 		{
 			for (int y = 0; y < HEIGHT; y++)
 			{
-				int dx = Math.abs(x - midX);
-				int dy = Math.abs(y - midY);
+				double distance = getDistance(midX, midY, x, y);
 
-				int distance = (int) Math.sqrt((dx * dx) + (dy * dy));
+				double normalisedDistance = distance / MAX_DIMENSION; // 0..1
 
-				DISTANCE[x][y] = distance;
-
-				double maxDimension = Math.max(WIDTH, HEIGHT);
-
-				double normalisedDistance = distance / maxDimension; // 0..1
-
-				double fadeFactor = 1 - (normalisedDistance * 1.1);
+				double fadeFactor = 1 - (normalisedDistance * 1.3);
 
 				FADE_FACTOR[x][y] = fadeFactor;
 			}
 		}
+	}
 
-		RANDOM_COUNT = randoms;
-
-		RANDOM = new double[RANDOM_COUNT];
-
+	private final void buildRandomTables()
+	{
 		for (int i = 0; i < RANDOM_COUNT; i++)
 		{
-			RANDOM[i] = Math.random();
+			UNSIGNED_RANDOM[i] = Math.random();
+			SIGNED_RANDOM[i] = (Math.random() - 0.5) * 2;
 		}
+	}
 
-		SINE = new double[PRECALC_LENGTH];
-		COSINE = new double[PRECALC_LENGTH];
 
+
+	/*
+	 * 0 <= x < 1
+	 */
+	public final double getRandom()
+	{
+		if (USE_LOOKUPS_FOR_RANDOM)
+		{
+			if (unsignedRandomPos >= RANDOM_COUNT)
+			{
+				unsignedRandomPos = 0;
+			}
+
+			return UNSIGNED_RANDOM[unsignedRandomPos++];
+		}
+		else
+		{
+			return Math.random();
+		}
+	}
+
+	/*
+	 * -1 < x < 1
+	 */
+	public final double getSignedRandom()
+	{
+		if (USE_LOOKUPS_FOR_RANDOM)
+		{
+			if (signedRandomPos >= RANDOM_COUNT)
+			{
+				signedRandomPos = 0;
+			}
+
+			return SIGNED_RANDOM[signedRandomPos++];
+		}
+		else
+		{
+			return (Math.random() - 0.5) * 2;
+		}
+	}
+
+	// =================================================
+	// Trigonometry methods
+	// =================================================
+
+	private final void buildTrigTables()
+	{
 		double theta = 0;
 		double inc = Math.toRadians(PRECALC_ACCURACY);
 
@@ -77,17 +188,19 @@ public class PreCalc
 		}
 	}
 
-	public final double getRandom()
+	public final double sin(double degrees)
 	{
-		if (randomPos >= RANDOM_COUNT)
+		if (USE_LOOKUPS_FOR_TRIG)
 		{
-			randomPos = 0;
+			return lookupSin(degrees);
 		}
-
-		return RANDOM[randomPos++];
+		else
+		{
+			return Math.sin(Math.toRadians(degrees));
+		}
 	}
 
-	public final double sin(double degrees)
+	private final double lookupSin(double degrees)
 	{
 		if (degrees >= 360)
 		{
@@ -104,6 +217,18 @@ public class PreCalc
 
 	public final double cos(double degrees)
 	{
+		if (USE_LOOKUPS_FOR_TRIG)
+		{
+			return lookupCos(degrees);
+		}
+		else
+		{
+			return Math.cos(Math.toRadians(degrees));
+		}
+	}
+
+	private final double lookupCos(double degrees)
+	{
 		if (degrees >= 360)
 		{
 			do
@@ -117,24 +242,74 @@ public class PreCalc
 		return COSINE[index];
 	}
 
-	public final int getDistance(int x, int y)
+	// =================================================
+	// Calculate 2D distance
+	// =================================================
+
+	public final double getDistance(double x1, double y1, double x2, double y2)
 	{
-		return DISTANCE[x][y];
+		if (USE_LOOKUPS_FOR_SQRT)
+		{
+			return lookupDistance(x1, y1, x2, y2);
+		}
+		else
+		{
+			return calculateDistance(x1, y1, x2, y2);
+		}
 	}
 
-	public final int getDistanceSafe(int x, int y)
+	private final double lookupDistance(double x1, double y1, double x2, double y2)
 	{
-		x = Math.min(Math.max(0, x), WIDTH - 1);
-		y = Math.min(Math.max(0, y), HEIGHT - 1);
+		int dx = (int) Math.abs(x1 - x2);
+		int dy = (int) Math.abs(y1 - y2);
 
-		return DISTANCE[x][y];
+		dx = Math.min(dx, WIDTH - 1);
+		dy = Math.min(dy, HEIGHT - 1);
+
+		return DISTANCE[dx][dy];
 	}
+
+	private final double calculateDistance(double x1, double y1, double x2, double y2)
+	{
+		double dx = x1 - x2;
+		double dy = y1 - y2;
+
+		return Math.sqrt(dx * dx + dy * dy);
+	}
+
+	// =================================================
+	// Coordinate based fade
+	// =================================================
 
 	public final double getCoordinateFade(int x, int y)
+	{
+		if (USE_LOOKUPS_FOR_SQRT)
+		{
+			return lookupFade(x, y);
+		}
+		else
+		{
+			return calculateFade(x, y);
+		}
+	}
+
+	private final double lookupFade(int x, int y)
 	{
 		x = Math.min(Math.max(0, x), WIDTH - 1);
 		y = Math.min(Math.max(0, y), HEIGHT - 1);
 
 		return FADE_FACTOR[x][y];
+	}
+
+	private final double calculateFade(int x, int y)
+	{
+		double dx = x - HALF_WIDTH;
+		double dy = y - HALF_HEIGHT;
+
+		double distance = Math.sqrt(dx * dx + dy * dy);
+
+		double normalisedDistance = distance / MAX_DIMENSION; // 0..1
+
+		return 1 - (normalisedDistance * 1.3);
 	}
 }
