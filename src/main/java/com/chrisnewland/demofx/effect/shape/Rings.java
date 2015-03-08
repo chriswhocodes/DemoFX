@@ -107,10 +107,7 @@ public class Rings extends AbstractEffect
 	@Override
 	public void render()
 	{
-		long renderStartNanos = System.nanoTime();
-
-		gc.setFill(Color.MIDNIGHTBLUE);
-		gc.fillRect(0, 0, width, height);
+		fillBackground(Color.MIDNIGHTBLUE);
 
 		master.incAngle();
 
@@ -118,12 +115,6 @@ public class Rings extends AbstractEffect
 		double ry = halfHeight + 80 * precalc.cos(master.getAngle());
 
 		master.plot(rx, ry);
-
-		long renderEndNanos = System.nanoTime();
-
-		long renderNanos = renderEndNanos - renderStartNanos;
-
-		updateFPS(renderNanos);
 	}
 
 	private final void drawRing(double x, double y, double radius, double thickness, Color color)

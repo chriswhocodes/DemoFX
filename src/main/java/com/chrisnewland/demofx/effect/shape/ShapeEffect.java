@@ -153,8 +153,6 @@ public class ShapeEffect extends AbstractEffect
 	@Override
 	public final void render()
 	{
-		long renderStartNanos = System.nanoTime();
-
 		fillBackground();
 
 		for (int i = 0; i < itemCount; i++)
@@ -168,12 +166,6 @@ public class ShapeEffect extends AbstractEffect
 		}
 
 		adjustRespawnPoint();
-
-		long renderEndNanos = System.nanoTime();
-
-		long renderNanos = renderEndNanos - renderStartNanos;
-
-		updateFPS(renderNanos);
 	}
 
 	private final void plotShape(int i)
@@ -242,9 +234,7 @@ public class ShapeEffect extends AbstractEffect
 			bgColourCounter = 0;
 		}
 
-		gc.setFill(Color.rgb(bgColourRed, bgColourGreen, bgColourBlue));
-
-		gc.fillRect(0, 0, width, height);
+		fillBackground(bgColourRed, bgColourGreen, bgColourBlue);
 	}
 
 	private final void respawn(int i)
@@ -267,8 +257,8 @@ public class ShapeEffect extends AbstractEffect
 
 	private final void respawnRandomLocation(int i)
 	{
-		shapePosX[i] = precalc.getRandom() * width;
-		shapePosY[i] = precalc.getRandom() * height;
+		shapePosX[i] = precalc.getUnsignedRandom() * width;
+		shapePosY[i] = precalc.getUnsignedRandom() * height;
 	}
 
 	private final void adjustRespawnPoint()

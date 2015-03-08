@@ -76,10 +76,7 @@ public class Bounce extends AbstractEffect
 	@Override
 	public void render()
 	{
-		long renderStartNanos = System.nanoTime();
-
-		gc.setFill(Color.rgb(0, 0, 20));
-		gc.fillRect(0, 0, width, height);
+		fillBackground(Color.rgb(0, 0, 20));
 
 		for (int i = 0; i < itemCount; i++)
 		{
@@ -91,12 +88,6 @@ public class Bounce extends AbstractEffect
 
 			drawBall(i);
 		}
-
-		long renderEndNanos = System.nanoTime();
-
-		long renderNanos = renderEndNanos - renderStartNanos;
-
-		updateFPS(renderNanos);
 	}
 
 	private final void moveBall(int i)

@@ -130,7 +130,7 @@ public class PreCalc
 	/*
 	 * 0 <= x < 1
 	 */
-	public final double getRandom()
+	public final double getUnsignedRandom()
 	{
 		if (USE_LOOKUPS_FOR_RANDOM)
 		{

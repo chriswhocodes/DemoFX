@@ -7,6 +7,7 @@ package com.chrisnewland.demofx.effect;
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.PreCalc;
@@ -52,7 +53,7 @@ public abstract class AbstractEffect implements IEffect
 	public AbstractEffect(GraphicsContext gc, DemoConfig config)
 	{
 		this.gc = gc;
-		
+
 		precalc = new PreCalc(config);
 
 		this.itemCount = config.getCount();
@@ -68,7 +69,8 @@ public abstract class AbstractEffect implements IEffect
 
 	protected abstract void initialise();
 
-	protected void updateFPS(long renderNanos)
+	@Override
+	public void updateStatistics(long renderNanos)
 	{
 		frameCount++;
 		lastRenderNanos = renderNanos;
@@ -90,18 +92,20 @@ public abstract class AbstractEffect implements IEffect
 	{
 		builder.setLength(0);
 
-		builder.append(framesPerSecond).append(" fps / ");
+		//builder.append(width).append("x").append(height).append(" | ");
+
+		builder.append(framesPerSecond).append(" fps | ");
 
 		if (itemCount > -1)
 		{
-			builder.append(itemCount).append(' ').append(itemName).append(" / ");
+			builder.append(itemCount).append(' ').append(itemName).append(" | ");
 		}
 
 		builder.append("render ");
 
 		formatNanos(builder, lastRenderNanos);
 
-		builder.append(" / avg render ");
+		builder.append(" | avg render ");
 
 		formatNanos(builder, averageRenderNanos);
 
@@ -122,5 +126,17 @@ public abstract class AbstractEffect implements IEffect
 		{
 			builder.append(nanos).append("ns");
 		}
+	}
+
+	protected final void fillBackground(int red, int green, int blue)
+	{
+		fillBackground(Color.rgb(red, green, blue));
+	}
+
+	protected final void fillBackground(Color colour)
+	{
+		gc.setFill(colour);
+
+		gc.fillRect(0, 0, width, height);
 	}
 }

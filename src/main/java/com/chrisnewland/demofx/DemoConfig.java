@@ -13,10 +13,8 @@ public class DemoConfig
 
 	private String effect = "stars";
 	private int count = -1;
-	private int rotation = 10;
-	private int width = 800;
-	private int height = 600;
-	private boolean antialias = false;
+	private int width = 1280;
+	private int height = 720-50;
 
 	private boolean lookupSqrt = false;
 	private boolean lookupTrig = true;
@@ -33,12 +31,11 @@ public class DemoConfig
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("DemoFXApplication [options]").append("\n");
-		builder.append(buildUsageLine("-e <effect>", "triangles,squares,pentagons,hexagons,stars,rings,tiles,spin"));
+		builder.append(buildUsageLine("-e <effect>", "triangles,squares,pentagons,hexagons,stars,rings,tiles,spin,burst,"));
 		builder.append(buildUsageLine("-c <count>", "number of items on screen"));
-		builder.append(buildUsageLine("-r <degrees>", "rotation per frame"));
 		builder.append(buildUsageLine("-w <width>", "canvas width"));
 		builder.append(buildUsageLine("-h <height>", "canvas height"));
-		builder.append(buildUsageLine("-l [sqrt,trig,rand,none]", "use lookup tables for Math.sqrt, Math.sin/Math.cos, Math.Random"));
+		builder.append(buildUsageLine("-l [sqrt,trig,rand,none]", "use lookup tables for Math.sqrt, Math.{sin|cos}, Math.Random"));
 		builder.append(buildUsageLine("-a <true|false>", "antialias canvas"));
 		builder.append(buildUsageLine("-m <line|poly|fill>", "canvas plot mode"));
 
@@ -98,12 +95,6 @@ public class DemoConfig
 						break;
 					case "h":
 						config.height = Integer.parseInt(value);
-						break;
-					case "r":
-						config.rotation = Integer.parseInt(value);
-						break;
-					case "a":
-						config.antialias = Boolean.parseBoolean(value);
 						break;
 					case "l":
 						checkLookupOptions(config, value);
@@ -196,19 +187,9 @@ public class DemoConfig
 		return height;
 	}
 
-	public boolean isAntialias()
-	{
-		return antialias;
-	}
-
 	public PlotMode getPlotMode()
 	{
 		return plotMode;
-	}
-
-	public int getRotation()
-	{
-		return rotation;
 	}
 
 	public boolean isLookupSqrt()

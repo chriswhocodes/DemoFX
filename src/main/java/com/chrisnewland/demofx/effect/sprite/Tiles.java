@@ -44,19 +44,11 @@ public class Tiles extends AbstractEffect
 	@Override
 	public void render()
 	{
-		long renderStartNanos = System.nanoTime();
-
 		scaleImage();
 
 		rotateOffset();
 
 		plotTiles();
-
-		long renderEndNanos = System.nanoTime();
-
-		long renderNanos = renderEndNanos - renderStartNanos;
-
-		updateFPS(renderNanos);
 	}
 
 	private final void scaleImage()

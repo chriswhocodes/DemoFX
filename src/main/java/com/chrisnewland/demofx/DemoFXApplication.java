@@ -62,7 +62,7 @@ public class DemoFXApplication extends Application
 		Canvas canvas = new Canvas(config.getWidth(), config.getHeight());
 
 		gc = canvas.getGraphicsContext2D();
-		
+
 		try
 		{
 			effect = EffectFactory.getEffect(gc, config);
@@ -202,14 +202,18 @@ public class DemoFXApplication extends Application
 			private long lastNanos = 0;
 
 			@Override
-			public void handle(long nanos)
+			public void handle(long startNanos)
 			{
 				effect.render();
 
-				if (nanos - lastNanos > ONE_SECOND_NANOS)
+				long renderNanos = System.nanoTime() - startNanos;
+
+				effect.updateStatistics(renderNanos);
+
+				if (startNanos - lastNanos > ONE_SECOND_NANOS)
 				{
 					statsLabel.setText(effect.getStatistics());
-					lastNanos = nanos;
+					lastNanos = startNanos;
 				}
 			}
 		};

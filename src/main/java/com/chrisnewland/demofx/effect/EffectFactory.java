@@ -7,11 +7,12 @@ package com.chrisnewland.demofx.effect;
 import javafx.scene.canvas.GraphicsContext;
 
 import com.chrisnewland.demofx.DemoConfig;
+import com.chrisnewland.demofx.effect.shape.Burst;
 import com.chrisnewland.demofx.effect.shape.Rings;
 import com.chrisnewland.demofx.effect.shape.ShapeEffect;
+import com.chrisnewland.demofx.effect.shape.Concentric;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
-import com.chrisnewland.demofx.effect.sprite.Sprites;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
 
 public class EffectFactory
@@ -40,9 +41,6 @@ public class EffectFactory
 		case "Rings":
 			return new Rings(gc, config);
 
-		case "Sprites":
-			return new Sprites(gc, config);
-
 		case "Tiles":
 			return new Tiles(gc, config);
 
@@ -51,6 +49,12 @@ public class EffectFactory
 
 		case "Bounce":
 			return new Bounce(gc, config);
+
+		case "Burst":
+			return new Burst(gc, config);
+
+		case "Concentric":
+			return new Concentric(gc, config);
 
 		default:
 			throw new RuntimeException("No such effect: " + config.getEffect());
