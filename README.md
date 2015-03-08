@@ -10,7 +10,7 @@ ant compile
 ```
 Run with:
 ./run.sh [options]
--e <effect>                triangles,squares,pentagons,hexagons,stars,rings,tiles,spin,burst,concentric
+-e <effect>                triangles,squares,pentagons,hexagons,stars,rings,tiles,spin,burst,concentric,bounce
 -c <count>                 number of items on screen
 -w <width>                 canvas width
 -h <height>                canvas height
