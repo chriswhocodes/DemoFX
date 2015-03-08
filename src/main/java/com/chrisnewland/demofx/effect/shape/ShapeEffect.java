@@ -84,6 +84,7 @@ public class ShapeEffect extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
+
 		if (itemCount == -1)
 		{
 			itemCount = 300;
@@ -427,8 +428,6 @@ public class ShapeEffect extends AbstractEffect
 		{
 			gc.setStroke(getShapeColour(index, x, y));
 			gc.strokePolygon(pointsX, pointsY, pos);
-			//gc.strokePolyline(pointsX, pointsY, pos); // no close
-
 		}
 	}
 }

@@ -125,8 +125,6 @@ public class PreCalc
 		}
 	}
 
-
-
 	/*
 	 * 0 <= x < 1
 	 */

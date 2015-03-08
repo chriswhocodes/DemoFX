@@ -14,7 +14,7 @@ public class DemoConfig
 	private String effect = "stars";
 	private int count = -1;
 	private int width = 1280;
-	private int height = 720-50;
+	private int height = 720 - 50;
 
 	private boolean lookupSqrt = false;
 	private boolean lookupTrig = true;

@@ -2,15 +2,16 @@
  * Copyright (c) 2015 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
+
 package com.chrisnewland.demofx.effect;
 
 import javafx.scene.canvas.GraphicsContext;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.shape.Burst;
+import com.chrisnewland.demofx.effect.shape.Concentric;
 import com.chrisnewland.demofx.effect.shape.Rings;
 import com.chrisnewland.demofx.effect.shape.ShapeEffect;
-import com.chrisnewland.demofx.effect.shape.Concentric;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
@@ -29,6 +30,7 @@ public class EffectFactory
 
 		case "Pentagons":
 			return new ShapeEffect(gc, config, 5);
+
 
 		case "Hexagons":
 			return new ShapeEffect(gc, config, 6);
