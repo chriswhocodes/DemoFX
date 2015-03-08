@@ -10,7 +10,17 @@ ant compile
 ```
 Run with:
 ./run.sh [options]
--e <effect>                triangles,squares,pentagons,hexagons,stars,rings,tiles,spin,burst,concentric,bounce
+-e <effect>                triangles
+                           squares
+                           pentagons
+                           hexagons
+                           stars
+                           rings
+                           tiles
+                           spin
+                           burst
+                           concentric
+                           bounce
 -c <count>                 number of items on screen
 -w <width>                 canvas width
 -h <height>                canvas height
@@ -30,5 +40,11 @@ Examples:
 ./run.sh -e squares -w 640 -h 480
 
 # Star effect, plot mode line
-./runs.sh -e stars -m line
+./run.sh -e stars -m line
+
+# Bounce effect
+./run.sh -e bounce
+
+# Burst effect
+./run.sh -e burst
 ```
