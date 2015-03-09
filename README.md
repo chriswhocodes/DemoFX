@@ -23,6 +23,7 @@ Run with:
                            burst
                            concentric
                            bounce
+                           sierpinski
 -c <count>                 number of items on screen
 -w <width>                 canvas width
 -h <height>                canvas height

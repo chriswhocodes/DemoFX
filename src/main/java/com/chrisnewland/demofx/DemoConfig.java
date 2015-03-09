@@ -31,7 +31,7 @@ public class DemoConfig
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("DemoFXApplication [options]").append("\n");
-		builder.append(buildUsageLine("-e <effect>", "triangles,squares,pentagons,hexagons,stars,rings,tiles,spin,burst,"));
+		builder.append(buildUsageLine("-e <effect>", "triangles,squares,pentagons,hexagons,stars,rings,tiles,spin,burst,bounce, sierpinski"));
 		builder.append(buildUsageLine("-c <count>", "number of items on screen"));
 		builder.append(buildUsageLine("-w <width>", "canvas width"));
 		builder.append(buildUsageLine("-h <height>", "canvas height"));

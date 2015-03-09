@@ -12,6 +12,7 @@ import com.chrisnewland.demofx.effect.shape.Burst;
 import com.chrisnewland.demofx.effect.shape.Concentric;
 import com.chrisnewland.demofx.effect.shape.Rings;
 import com.chrisnewland.demofx.effect.shape.ShapeEffect;
+import com.chrisnewland.demofx.effect.shape.Sierpinski;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
@@ -30,7 +31,6 @@ public class EffectFactory
 
 		case "Pentagons":
 			return new ShapeEffect(gc, config, 5);
-
 
 		case "Hexagons":
 			return new ShapeEffect(gc, config, 6);
@@ -57,6 +57,9 @@ public class EffectFactory
 
 		case "Concentric":
 			return new Concentric(gc, config);
+
+		case "Sierpinski":
+			return new Sierpinski(gc, config);
 
 		default:
 			throw new RuntimeException("No such effect: " + config.getEffect());
