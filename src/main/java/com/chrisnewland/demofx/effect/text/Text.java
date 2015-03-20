@@ -22,7 +22,7 @@ public class Text extends AbstractEffect
 	private List<String> stringList;
 	private Font font;
 
-	private static final int FONT_SIZE = 144;
+	private static final double FONT_SIZE = 144;
 	private static final int SPEED = 8;
 	private static final int AMPLITUDE = 50;
 
@@ -50,7 +50,7 @@ public class Text extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		font = Font.font(FONT_SIZE);
+		font = Font.font(Font.getDefault().getFamily(), FONT_SIZE);
 		gc.setFont(font);
 		xOffset = width;
 
