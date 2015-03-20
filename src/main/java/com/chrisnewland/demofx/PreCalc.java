@@ -19,7 +19,7 @@ public class PreCalc
 	private final int[][] DISTANCE;
 	private final double[][] FADE_FACTOR;
 
-	private static final int RANDOM_COUNT = 4096;
+	private static final int RANDOM_COUNT = 4096+1; // +1 to prevent multiple of screen size
 	private final double[] UNSIGNED_RANDOM;
 	private final double[] SIGNED_RANDOM;
 

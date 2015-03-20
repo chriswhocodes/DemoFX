@@ -8,6 +8,7 @@ package com.chrisnewland.demofx.effect;
 import javafx.scene.canvas.GraphicsContext;
 
 import com.chrisnewland.demofx.DemoConfig;
+import com.chrisnewland.demofx.effect.pixel.Shadebobs;
 import com.chrisnewland.demofx.effect.shape.Burst;
 import com.chrisnewland.demofx.effect.shape.Concentric;
 import com.chrisnewland.demofx.effect.shape.Rings;
@@ -16,6 +17,7 @@ import com.chrisnewland.demofx.effect.shape.Sierpinski;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
+import com.chrisnewland.demofx.effect.text.Text;
 
 public class EffectFactory
 {
@@ -60,6 +62,12 @@ public class EffectFactory
 
 		case "Sierpinski":
 			return new Sierpinski(gc, config);
+
+		case "Shadebobs":
+			return new Shadebobs(gc, config);
+
+		case "Text":
+			return new Text(gc, config);
 
 		default:
 			throw new RuntimeException("No such effect: " + config.getEffect());

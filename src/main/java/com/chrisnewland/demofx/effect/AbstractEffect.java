@@ -139,4 +139,9 @@ public abstract class AbstractEffect implements IEffect
 
 		gc.fillRect(0, 0, width, height);
 	}
+	
+	public void stop()
+	{
+		
+	}
 }

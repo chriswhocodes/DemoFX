@@ -10,6 +10,7 @@ import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import com.chrisnewland.demofx.effect.EffectFactory;
 import com.chrisnewland.demofx.effect.IEffect;
@@ -40,6 +42,7 @@ public class DemoFXApplication extends Application
 
 	private Label statsLabel;
 	private Label fxLabel;
+	private IEffect effect;
 
 	@Override
 	public void start(final Stage stage) throws Exception
@@ -57,8 +60,6 @@ public class DemoFXApplication extends Application
 
 	private void runDemo(final Stage stage, final DemoConfig config)
 	{
-		IEffect effect = null;
-
 		Canvas canvas = new Canvas(config.getWidth(), config.getHeight());
 
 		gc = canvas.getGraphicsContext2D();
@@ -108,6 +109,15 @@ public class DemoFXApplication extends Application
 		stage.setTitle("DemoFX performance test platform by @chriswhocodes");
 		stage.setScene(scene);
 		stage.show();
+
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+		{
+			@Override
+			public void handle(WindowEvent arg0)
+			{
+				effect.stop();
+			}
+		});
 
 		animate(effect);
 	}
@@ -173,11 +183,11 @@ public class DemoFXApplication extends Application
 
 		if (result instanceof String[])
 		{
-			tryOrderList.addAll(Arrays.asList((String[])result));
+			tryOrderList.addAll(Arrays.asList((String[]) result));
 		}
 		else if (result instanceof List)
 		{
-			tryOrderList.addAll((List<String>)result);
+			tryOrderList.addAll((List<String>) result);
 		}
 
 		StringBuilder builder = new StringBuilder();
