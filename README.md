@@ -7,7 +7,7 @@ I'll be using this to discover the best techniques for optimising JavaFX perform
 
 Compile in your IDE or with ant:
 ```
-ant compile
+ant
 ```
 ```
 Run with:
