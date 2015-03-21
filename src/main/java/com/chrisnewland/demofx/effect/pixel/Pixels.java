@@ -14,7 +14,7 @@ import javafx.scene.image.WritableImage;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 
-public class Shadebobs extends AbstractEffect
+public class Pixels extends AbstractEffect
 {
 	private WritableImage image;
 	private PixelWriter pixelWriter;
@@ -22,7 +22,7 @@ public class Shadebobs extends AbstractEffect
 	private PixelFormat<ByteBuffer> pixelFormat;
 	private boolean running = true;
 
-	public Shadebobs(GraphicsContext gc, DemoConfig config)
+	public Pixels(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
 	}
@@ -33,7 +33,7 @@ public class Shadebobs extends AbstractEffect
 		itemCount = 1;
 		itemName = "Image";
 		image = new WritableImage(width, height);
-		pixelWriter = gc.getPixelWriter();
+		pixelWriter = image.getPixelWriter();
 
 		imageData = new byte[width * height * 4];
 
@@ -59,7 +59,7 @@ public class Shadebobs extends AbstractEffect
 							byte red = (byte) (precalc.getUnsignedRandom() * 255);
 							byte alpha = 0;
 
-							imageData[pixel++] = (byte)255;
+							imageData[pixel++] = blue;
 							imageData[pixel++] = green;
 							imageData[pixel++] = red;
 							imageData[pixel++] = alpha;
@@ -83,7 +83,7 @@ public class Shadebobs extends AbstractEffect
 	public void render()
 	{
 		pixelWriter.setPixels(0, 0, width, height, pixelFormat, imageData, 0, width * 4);
-		gc.drawImage(image, 0, 0);
+		//gc.drawImage(image, 0, 0);
 	}
 
 	@Override
