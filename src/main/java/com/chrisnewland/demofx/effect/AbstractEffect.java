@@ -10,7 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import com.chrisnewland.demofx.DemoConfig;
-import com.chrisnewland.demofx.PreCalc;
+import com.chrisnewland.demofx.util.PreCalc;
 
 public abstract class AbstractEffect implements IEffect
 {

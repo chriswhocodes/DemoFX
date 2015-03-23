@@ -169,7 +169,7 @@ public class DemoConfig
 
 	public String getEffect()
 	{
-		return effect.substring(0, 1).toUpperCase() + effect.substring(1).toLowerCase();
+		return effect.toLowerCase();
 	}
 
 	public int getCount()

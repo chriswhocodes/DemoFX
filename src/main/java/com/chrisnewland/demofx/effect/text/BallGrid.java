@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import com.chrisnewland.demofx.util.TextUtil;
 
 public class BallGrid extends AbstractEffect
 {

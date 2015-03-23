@@ -13,8 +13,9 @@ import javafx.scene.text.Font;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import com.chrisnewland.demofx.util.TextUtil;
 
-public class Text extends AbstractEffect
+public class TextWave extends AbstractEffect
 {
 	private double xOffset;
 	private double lastCharX;
@@ -25,10 +26,11 @@ public class Text extends AbstractEffect
 	private static final double FONT_SIZE = 144;
 	private static final int SPEED = 8;
 	private static final int AMPLITUDE = 50;
+	private static final int OFFSCREEN = 100;
 
 	private int stringIndex = 0;
 
-	public Text(GraphicsContext gc, DemoConfig config)
+	public TextWave(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
 	}
@@ -70,6 +72,7 @@ public class Text extends AbstractEffect
 		if (lastCharX < 0)
 		{
 			xOffset = width;
+			
 			stringIndex++;
 
 			if (stringIndex == stringList.size())
@@ -91,7 +94,7 @@ public class Text extends AbstractEffect
 
 		double y = 0;
 
-		double charX = xOffset + 100;	
+		double charX = xOffset + OFFSCREEN;
 
 		for (int i = 0; i < chars.length; i++)
 		{
@@ -99,9 +102,9 @@ public class Text extends AbstractEffect
 
 			double charWidth = TextUtil.getStringWidthPixels(font, gc, character);
 
-			if (charX > -100 && charX < width) // only plot onscreen chars
+			if (isLetterOnScreen(charX))
 			{
-				y = halfHeight + precalc.sin(charX + 100) * AMPLITUDE;
+				y = halfHeight + precalc.sin(charX + OFFSCREEN) * AMPLITUDE;
 
 				gc.fillText(character, charX, y);
 			}
@@ -110,5 +113,10 @@ public class Text extends AbstractEffect
 		}
 
 		lastCharX = charX;
+	}
+
+	private final boolean isLetterOnScreen(double charX)
+	{
+		return (charX > -OFFSCREEN && charX < width);
 	}
 }

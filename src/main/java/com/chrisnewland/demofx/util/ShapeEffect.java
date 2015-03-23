@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
-package com.chrisnewland.demofx.effect.shape;
+package com.chrisnewland.demofx.util;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

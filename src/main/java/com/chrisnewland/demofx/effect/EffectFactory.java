@@ -11,14 +11,15 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.pixel.Pixels;
 import com.chrisnewland.demofx.effect.shape.Burst;
 import com.chrisnewland.demofx.effect.shape.Concentric;
+import com.chrisnewland.demofx.effect.shape.Grid;
 import com.chrisnewland.demofx.effect.shape.Rings;
-import com.chrisnewland.demofx.effect.shape.ShapeEffect;
 import com.chrisnewland.demofx.effect.shape.Sierpinski;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
 import com.chrisnewland.demofx.effect.text.BallGrid;
-import com.chrisnewland.demofx.effect.text.Text;
+import com.chrisnewland.demofx.effect.text.TextWave;
+import com.chrisnewland.demofx.util.ShapeEffect;
 
 public class EffectFactory
 {
@@ -26,52 +27,55 @@ public class EffectFactory
 	{
 		switch (config.getEffect())
 		{
-		case "Triangles":
+		case "triangles":
 			return new ShapeEffect(gc, config, 3);
 
-		case "Squares":
+		case "squares":
 			return new ShapeEffect(gc, config, 4);
 
-		case "Pentagons":
+		case "pentagons":
 			return new ShapeEffect(gc, config, 5);
 
-		case "Hexagons":
+		case "hexagons":
 			return new ShapeEffect(gc, config, 6);
 
-		case "Stars":
+		case "stars":
 			ShapeEffect stars = new ShapeEffect(gc, config, 5);
 			stars.setDoubleAngle(true);
 			return stars;
 
-		case "Rings":
+		case "rings":
 			return new Rings(gc, config);
 
-		case "Tiles":
+		case "tiles":
 			return new Tiles(gc, config);
 
-		case "Spin":
+		case "spin":
 			return new Spin(gc, config);
 
-		case "Bounce":
+		case "bounce":
 			return new Bounce(gc, config);
 
-		case "Burst":
+		case "burst":
 			return new Burst(gc, config);
 
-		case "Concentric":
+		case "concentric":
 			return new Concentric(gc, config);
 
-		case "Sierpinski":
+		case "sierpinski":
 			return new Sierpinski(gc, config);
 
-		case "Pixels":
+		case "pixels":
 			return new Pixels(gc, config);
 
-		case "Text":
-			return new Text(gc, config);
+		case "textwave":
+			return new TextWave(gc, config);
 			
-		case "Balls":
+		case "balls":
 			return new BallGrid(gc, config);
+			
+		case "grid":
+			return new Grid(gc, config);
 
 		default:
 			throw new RuntimeException("No such effect: " + config.getEffect());

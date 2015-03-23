@@ -1,4 +1,4 @@
-package com.chrisnewland.demofx.effect.text;
+package com.chrisnewland.demofx.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +63,13 @@ public class TextUtil
 		return result;
 	}
 
+	private static boolean isPixelSet(PixelReader reader, int x, int y)
+	{
+		int red = (reader.getArgb(x, y) & 0x00ff0000) >> 16;
+
+		return red > 0;
+	}
+
 	private static boolean isBall(Image image, int col, int row, int square)
 	{
 		boolean result = false;
@@ -73,9 +80,7 @@ public class TextUtil
 		{
 			for (int y = row * square; y < (row + 1) * square; y++)
 			{
-				int red = (reader.getArgb(x, y) & 0x00ff0000) >> 16;
-
-				if (red > 0)
+				if (isPixelSet(reader, x, y))
 				{
 					result = true;
 					break outer;
@@ -123,7 +128,7 @@ public class TextUtil
 		gc.setFont(font);
 
 		gc.setFill(Color.WHITE);
-		gc.fillText(str, 0, canvasHeight-4);
+		gc.fillText(str, 0, canvasHeight - 4);
 
 		WritableImage image = new WritableImage((int) canvasWidth, (int) canvasHeight);
 
@@ -152,11 +157,9 @@ public class TextUtil
 		{
 			for (int row = 0; row < height; row++)
 			{
-				int red = (reader.getArgb(col, row) & 0x00ff0000) >> 16;
-
-				if (red > 0)
+				if (isPixelSet(reader, col, row))
 				{
-					result = col+1;
+					result = col + 1;
 					break outer;
 				}
 			}
@@ -180,11 +183,9 @@ public class TextUtil
 		{
 			for (int col = 0; col < width; col++)
 			{
-				int red = (reader.getArgb(col, row) & 0x00ff0000) >> 16;
-
-				if (red > 0)
+				if (isPixelSet(reader, col, row))
 				{
-					result = row+1;
+					result = row;
 					break outer;
 				}
 			}
