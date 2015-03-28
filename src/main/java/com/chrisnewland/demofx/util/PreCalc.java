@@ -4,6 +4,8 @@
  */
 package com.chrisnewland.demofx.util;
 
+import java.util.Random;
+
 import com.chrisnewland.demofx.DemoConfig;
 
 public class PreCalc
@@ -21,12 +23,15 @@ public class PreCalc
 	private final int[][] DISTANCE;
 	private final double[][] FADE_FACTOR;
 
-	private static final int RANDOM_COUNT = 4096+1; // +1 to prevent multiple of screen size
+	private static final int RANDOM_COUNT = 4096 + 1; // +1 to prevent multiple
+														// of screen size
 	private final double[] UNSIGNED_RANDOM;
 	private final double[] SIGNED_RANDOM;
+	private final int[] RANDOM_COLOUR;
 
 	private int unsignedRandomPos = 0;
 	private int signedRandomPos = 0;
+	private int colourRandomPos = 0;
 
 	private static final double PRECALC_ACCURACY = 0.1;
 	private static final int INDEX_MULTIPLIER = (int) (1d / PRECALC_ACCURACY);
@@ -64,12 +69,14 @@ public class PreCalc
 		{
 			UNSIGNED_RANDOM = new double[RANDOM_COUNT];
 			SIGNED_RANDOM = new double[RANDOM_COUNT];
+			RANDOM_COLOUR = new int[RANDOM_COUNT];
 			buildRandomTables();
 		}
 		else
 		{
 			UNSIGNED_RANDOM = new double[0];
 			SIGNED_RANDOM = new double[0];
+			RANDOM_COLOUR = new int[0];
 		}
 
 		if (USE_LOOKUPS_FOR_TRIG)
@@ -120,10 +127,13 @@ public class PreCalc
 
 	private final void buildRandomTables()
 	{
+		Random random = new Random();
+
 		for (int i = 0; i < RANDOM_COUNT; i++)
 		{
 			UNSIGNED_RANDOM[i] = Math.random();
 			SIGNED_RANDOM[i] = (Math.random() - 0.5) * 2;
+			RANDOM_COLOUR[i] = random.nextInt(255 + 1);
 		}
 	}
 
@@ -144,6 +154,26 @@ public class PreCalc
 		else
 		{
 			return Math.random();
+		}
+	}
+
+	/*
+	 * 0 <= x <= 255
+	 */
+	public final int getRandomColour()
+	{
+		if (USE_LOOKUPS_FOR_RANDOM)
+		{
+			if (colourRandomPos >= RANDOM_COUNT)
+			{
+				colourRandomPos = 0;
+			}
+
+			return RANDOM_COLOUR[colourRandomPos++];
+		}
+		else
+		{
+			return (int) (Math.random() * 255);
 		}
 	}
 

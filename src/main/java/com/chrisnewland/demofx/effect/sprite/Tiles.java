@@ -6,6 +6,7 @@ package com.chrisnewland.demofx.effect.sprite;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
@@ -33,16 +34,14 @@ public class Tiles extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		itemName = "Tiles";
-
 		image = new Image(getClass().getResourceAsStream("/javafx.png"));
 
 		imgWidth = image.getWidth();
 		imgHeight = image.getHeight();
 	}
-
+	
 	@Override
-	public void render()
+	public void renderForeground()
 	{
 		scaleImage();
 

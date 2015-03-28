@@ -59,14 +59,19 @@ public class TextWave extends AbstractEffect
 		stringList = new ArrayList<>();
 
 		stringList.add("JavaFX Text Effect by @chriswhocodes");
-		stringList.add("The quick brown fox jumps over the lazy dog");
+		stringList.add("Letters plotted individually to allow per-character sine plotting.");
+		stringList.add("TextUtil calculates and caches letter width for correct kerning");
 	}
 
 	@Override
-	public void render()
+	public void renderBackground()
 	{
 		fillBackground(Color.BLACK);
-
+	}
+	
+	@Override
+	public void renderForeground()
+	{
 		xOffset -= SPEED;
 
 		if (lastCharX < 0)

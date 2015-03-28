@@ -43,8 +43,6 @@ public class Burst extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		itemName = "Images";
-
 		radii = new double[BURSTS];
 		ringX = new double[BURSTS];
 		ringY = new double[BURSTS];
@@ -63,11 +61,15 @@ public class Burst extends AbstractEffect
 	}
 
 	@Override
-	public void render()
+	public void renderBackground()
+	{
+		fillBackground(getCycleColour());
+	}
+	
+	@Override
+	public void renderForeground()
 	{
 		gc.setGlobalAlpha(1);
-
-		fillBackground();
 
 		rotateRings();
 
@@ -146,18 +148,5 @@ public class Burst extends AbstractEffect
 		{
 			gc.setGlobalAlpha(1);
 		}
-	}
-
-	private final void fillBackground()
-	{
-		double redFraction = 2 + precalc.sin(angleClockwise);
-		double greenFraction = 2 + precalc.sin(angleAntiClockwise + 10);
-		double blueFraction = 2 + precalc.cos(angleClockwise);
-
-		int red = (int) (redFraction * 32);
-		int green = (int) (greenFraction * 32);
-		int blue = (int) (blueFraction * 32);
-
-		fillBackground(red, green, blue);
 	}
 }

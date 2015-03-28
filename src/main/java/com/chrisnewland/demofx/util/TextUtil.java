@@ -1,8 +1,11 @@
 package com.chrisnewland.demofx.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javafx.geometry.VPos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -10,27 +13,37 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class TextUtil
 {
 	private static Map<String, Double> widthCache = new HashMap<>();
 
-	public static String[] createBallGrid(String string, GraphicsContext gc)
+	public static BallGrid createBallGridList(String string, GraphicsContext gc)
 	{
-		String[] result = null;
+		List<BallGrid> grids = new ArrayList<>();
 
-		Font font = new Font("Times New Roman", 64);
+		Font font = new Font("Courier New", 64);
 
-		Image stringImage = createImageFromString(font, gc, string);
+		for (int i = 0; i < string.length(); i++)
+		{
+			String charAsString = Character.toString(string.charAt(i));
 
-		Image cropImage = cropImage(stringImage);
+			Image stringImage = createImageFromString(font, gc, charAsString);
+			
+			Image cropImage = cropImage(stringImage, 16, 16);
 
-		result = getGrid(cropImage, 4);
+			BallGrid letterGrid = getGrid(cropImage, 2);
+
+			grids.add(letterGrid);
+		}
+
+		BallGrid result = BallGrid.concatenate(grids);
 
 		return result;
 	}
 
-	private static String[] getGrid(Image image, int square)
+	private static BallGrid getGrid(Image image, int square)
 	{
 		int width = (int) image.getWidth();
 		int height = (int) image.getHeight();
@@ -38,26 +51,17 @@ public class TextUtil
 		int rows = height / square;
 		int cols = width / square;
 
-		String[] result = new String[rows];
+		BallGrid result = new BallGrid(cols, rows);
 
 		for (int row = 0; row < rows; row++)
 		{
-			StringBuilder builder = new StringBuilder();
-
 			for (int col = 0; col < cols; col++)
 			{
 				if (isBall(image, col, row, square))
 				{
-					builder.append("*");
-				}
-				else
-				{
-					builder.append(" ");
+					result.setBall(col, row);
 				}
 			}
-
-			result[row] = builder.toString();
-			builder.setLength(0);
 		}
 
 		return result;
@@ -93,11 +97,11 @@ public class TextUtil
 
 	public static double getStringWidthPixels(Font font, GraphicsContext gc, String str)
 	{
-		double width = 0;
+		double imageWidth = 0;
 
 		if (widthCache.containsKey(str))
 		{
-			width = widthCache.get(str);
+			imageWidth = widthCache.get(str);
 		}
 		else if (str.trim().length() == 0)
 		{
@@ -107,12 +111,12 @@ public class TextUtil
 		{
 			Image image = createImageFromString(font, gc, str);
 
-			width = measureWidth(image);
+			imageWidth = measureWidth(image);
 
-			widthCache.put(str, width);
+			widthCache.put(str, imageWidth);
 		}
 
-		return width;
+		return imageWidth;
 	}
 
 	private static Image createImageFromString(Font font, GraphicsContext gc, String str)
@@ -125,10 +129,13 @@ public class TextUtil
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, canvasWidth, canvasHeight);
 
+		gc.setTextAlign(TextAlignment.LEFT);
+		gc.setTextBaseline(VPos.BOTTOM);
+
 		gc.setFont(font);
 
 		gc.setFill(Color.WHITE);
-		gc.fillText(str, 0, canvasHeight - 4);
+		gc.fillText(str, 0, canvasHeight);
 
 		WritableImage image = new WritableImage((int) canvasWidth, (int) canvasHeight);
 
@@ -148,14 +155,14 @@ public class TextUtil
 
 		PixelReader reader = image.getPixelReader();
 
-		int width = (int) image.getWidth();
-		int height = (int) image.getHeight();
+		int imgWidth = (int) image.getWidth();
+		int imgHeight = (int) image.getHeight();
 
 		// measure columns from right and stop when we get a non-black pixel
 
-		outer: for (int col = width - 1; col >= 0; col--)
+		outer: for (int col = imgWidth - 1; col >= 0; col--)
 		{
-			for (int row = 0; row < height; row++)
+			for (int row = 0; row < imgHeight; row++)
 			{
 				if (isPixelSet(reader, col, row))
 				{
@@ -174,38 +181,39 @@ public class TextUtil
 
 		PixelReader reader = image.getPixelReader();
 
-		int width = (int) image.getWidth();
-		int height = (int) image.getHeight();
+		int imgWidth = (int) image.getWidth();
+		int imgHeight = (int) image.getHeight();
 
-		// measure columns from right and stop when we get a non-black pixel
+		// measure rows from top and stop when we get a non-black pixel
 
-		outer: for (int row = 0; row < height; row++)
+		outer: for (int row = 0; row < imgHeight; row++)
 		{
-			for (int col = 0; col < width; col++)
+			result = row;
+			
+			for (int col = 0; col < imgWidth; col++)
 			{
 				if (isPixelSet(reader, col, row))
 				{
-					result = row;
 					break outer;
 				}
 			}
 		}
 
-		return height - result;
+		return imgHeight - result;
 	}
 
 	/*
 	 * Assumes part to crop is in bottom left
 	 */
-	public static Image cropImage(Image image)
+	public static Image cropImage(Image image, int minWidth, int minHeight)
 	{
-		int width = (int) measureWidth(image);
-		int height = (int) measureHeight(image);
+		int imgWidth = (int) Math.max(minWidth, measureWidth(image));
+		int imgHeight = (int) Math.max(minHeight, measureHeight(image));
 
 		int x = 0;
-		int y = (int) image.getHeight() - height;
+		int y = (int) image.getHeight() - imgHeight;
 
-		WritableImage cropped = new WritableImage(image.getPixelReader(), x, y, width, height);
+		WritableImage cropped = new WritableImage(image.getPixelReader(), x, y, imgWidth, imgHeight);
 
 		return cropped;
 	}

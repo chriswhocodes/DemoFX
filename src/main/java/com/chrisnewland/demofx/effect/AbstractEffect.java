@@ -27,7 +27,6 @@ public abstract class AbstractEffect implements IEffect
 	protected long lastSecond;
 	protected int frameCount = 0;
 	protected int framesPerSecond = 0;
-	protected String itemName = null;
 
 	private long lastRenderNanos = 0;
 	private long averageRenderNanos = 0;
@@ -37,7 +36,10 @@ public abstract class AbstractEffect implements IEffect
 	private StringBuilder builder = new StringBuilder();
 
 	protected PreCalc precalc;
-
+	protected DemoConfig config;
+	
+	private double colourCycleAngle = 0;
+	
 	protected final double getRandomDouble(double min, double max)
 	{
 		Random random = new Random();
@@ -53,6 +55,7 @@ public abstract class AbstractEffect implements IEffect
 	public AbstractEffect(GraphicsContext gc, DemoConfig config)
 	{
 		this.gc = gc;
+		this.config = config;
 
 		precalc = new PreCalc(config);
 
@@ -92,14 +95,16 @@ public abstract class AbstractEffect implements IEffect
 	{
 		builder.setLength(0);
 
-		//builder.append(width).append("x").append(height).append(" | ");
+		builder.append(width).append("x").append(height).append(" | ");
 
 		builder.append(framesPerSecond).append(" fps | ");
 
 		if (itemCount > -1)
 		{
-			builder.append(itemCount).append(' ').append(itemName).append(" | ");
+			builder.append(itemCount).append(" | ");
 		}
+		
+		builder.append(config.getEffect()).append(" | ");
 
 		builder.append("render ");
 
@@ -127,6 +132,11 @@ public abstract class AbstractEffect implements IEffect
 			builder.append(nanos).append("ns");
 		}
 	}
+	
+	@Override
+	public void renderBackground()
+	{
+	}
 
 	protected final void fillBackground(int red, int green, int blue)
 	{
@@ -140,6 +150,27 @@ public abstract class AbstractEffect implements IEffect
 		gc.fillRect(0, 0, width, height);
 	}
 	
+	protected final Color getCycleColour()
+	{
+		colourCycleAngle++;
+
+		if (colourCycleAngle >= 360)
+		{
+			colourCycleAngle -= 360;
+		}
+		
+		double redFraction = 2 + precalc.sin(colourCycleAngle);
+		double greenFraction = 2 + precalc.sin(360-colourCycleAngle);
+		double blueFraction = 2 + precalc.cos(colourCycleAngle);
+
+		int red = (int) (redFraction * 32);
+		int green = (int) (greenFraction * 32);
+		int blue = (int) (blueFraction * 32);
+		
+		return Color.rgb(red, green, blue);
+	}
+	
+	@Override
 	public void stop()
 	{
 		

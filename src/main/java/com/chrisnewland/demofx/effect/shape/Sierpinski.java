@@ -63,12 +63,17 @@ public class Sierpinski extends AbstractEffect
 	protected void initialise()
 	{
 		keep = new ArrayList<>();
-		itemName = "Tri";
 		rootHeight = height;
 	}
 
 	@Override
-	public void render()
+	public void renderBackground()
+	{
+		fillBackground(getCycleColour());
+	}
+	
+	@Override
+	public void renderForeground()
 	{
 		calcTriangles();
 
@@ -79,7 +84,9 @@ public class Sierpinski extends AbstractEffect
 	{
 		keep.clear();
 
-		rootHeight += 8;
+		double acceleration = rootHeight * 0.02;
+		
+		rootHeight += acceleration;
 
 		if (rootHeight >= 2 * height)
 		{
@@ -122,17 +129,13 @@ public class Sierpinski extends AbstractEffect
 
 	private final void drawTriangles()
 	{
-		fillBackground(Color.BLACK);
-
+		gc.setFill(Color.WHITE);
+		
 		int triangleCount = keep.size();
 
 		for (int i = 0; i < triangleCount; i++)
 		{
-			int col = 55 + (int)(200 * (i / (double)triangleCount));
-
-			gc.setFill(Color.rgb(col, col, col));
-
-			Triangle tri = keep.get(i);
+			Triangle tri = keep.get(i);			
 
 			if (tri.getTopY() < height)
 			{
@@ -156,6 +159,6 @@ public class Sierpinski extends AbstractEffect
 		pointsX[2] = topX - h / 2;
 		pointsY[2] = topY + h;
 
-		gc.fillPolygon(pointsX, pointsY, 3);
+		gc.fillPolygon(pointsX, pointsY, 3);		
 	}
 }

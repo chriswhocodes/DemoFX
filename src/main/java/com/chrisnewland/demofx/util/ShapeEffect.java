@@ -70,7 +70,6 @@ public class ShapeEffect extends AbstractEffect
 		super(gc, config);
 
 		this.points = points;
-		itemName = config.getEffect();
 
 		this.mode = config.getPlotMode();
 		this.rotateDegrees = 10;
@@ -150,12 +149,16 @@ public class ShapeEffect extends AbstractEffect
 
 		initialiseShapeRadii();
 	}
-
+	
 	@Override
-	public final void render()
+	public void renderBackground()
 	{
 		fillBackground();
+	}
 
+	@Override
+	public final void renderForeground()
+	{
 		for (int i = 0; i < itemCount; i++)
 		{
 			plotShape(i);

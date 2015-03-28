@@ -16,11 +16,15 @@ public class Grid extends AbstractEffect
 	private double scale = 1.0;
 	private double scaledWidth;
 	private double scaledHeight;
-	private double imgWidth;
-	private double imgHeight;
+	private double maxCellWidth;
+	private double maxCellHeight;
 
 	private double angle = 0;
 	private double scaleAngle = 0;
+
+	private double maxDimension;
+	private double offScreenMargin;
+	private double gridLineThickness;
 
 	public Grid(GraphicsContext gc, DemoConfig config)
 	{
@@ -30,23 +34,30 @@ public class Grid extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		itemName = "Cells";
+		maxDimension = Math.max(width, height);
+		offScreenMargin = maxDimension / 4;
 
-		imgWidth = 160;
-		imgHeight = 160;
+		maxCellWidth = 160;
+		maxCellHeight = 160;
 	}
 
 	@Override
-	public void render()
+	public void renderBackground()
 	{
-		scaleImage();
+		clearScreenForRotation();
+	}
+	
+	@Override
+	public void renderForeground()
+	{
+		scaleEffect();
 
 		rotateCanvas();
 
-		plotTiles();
+		plotGridLines();
 	}
 
-	private final void scaleImage()
+	private final void scaleEffect()
 	{
 		scaleAngle += 0.4;
 
@@ -55,14 +66,21 @@ public class Grid extends AbstractEffect
 			scaleAngle -= 360;
 		}
 
-		// scale the image with a cosine to get smooth turns from zoom in to
-		// zoom out
+		// scale the image with a cosine
+		// to get smooth turns from
+		// zoom in to zoom out
 		scale = Math.abs(precalc.cos(scaleAngle));
-
 		scale = 0.1 + Math.max(scale, 0.01);
 
-		scaledWidth = imgWidth * scale;
-		scaledHeight = imgHeight * scale;
+		scaledWidth = maxCellWidth * scale;
+		scaledHeight = maxCellHeight * scale;
+	}
+	
+	private final void clearScreenForRotation()
+	{
+		gc.setFill(Color.BLACK);
+
+		gc.fillRect(-offScreenMargin, -offScreenMargin, width + offScreenMargin * 2, height + offScreenMargin * 2);
 	}
 
 	private final void rotateCanvas()
@@ -70,7 +88,7 @@ public class Grid extends AbstractEffect
 		Rotate r = new Rotate(angle, halfWidth, halfHeight);
 		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 
-		angle += 2;
+		angle += 3;
 
 		if (angle >= 360)
 		{
@@ -78,30 +96,27 @@ public class Grid extends AbstractEffect
 		}
 	}
 
-	private final void plotTiles()
+	private final void plotGridLines()
 	{
-		int count = 0;
+		gridLineThickness = scaledHeight / 8;
 
-		final double maxDimension = Math.max(width, height);
+		gc.setFill(getCycleColour());
 
-		final double buffer = maxDimension / 4;
+		int rows = 0;
+		int cols = 0;
 
-		gc.setFill(Color.BLACK);
-
-		gc.fillRect(-buffer, -buffer, width + buffer * 2, height + buffer * 2);
-
-		gc.setFill(Color.WHITE);
-
-		for (double y = -buffer; y < maxDimension + buffer; y += scaledHeight)
+		for (double y = -offScreenMargin; y < maxDimension + offScreenMargin; y += scaledHeight)
 		{
-			gc.fillRect(-buffer, y, width + buffer * 2, 20);
+			rows++;
+			gc.fillRect(-offScreenMargin, y, width + offScreenMargin * 2, gridLineThickness);
 		}
 
-		for (double x = -buffer; x < maxDimension + buffer; x += scaledWidth)
+		for (double x = -offScreenMargin; x < maxDimension + offScreenMargin; x += scaledWidth)
 		{
-			gc.fillRect(x, -buffer, 20, height + buffer * 2);
+			cols++;
+			gc.fillRect(x, -offScreenMargin, gridLineThickness, height + offScreenMargin * 2);
 		}
 
-		itemCount = count;
+		itemCount = rows * cols;
 	}
 }

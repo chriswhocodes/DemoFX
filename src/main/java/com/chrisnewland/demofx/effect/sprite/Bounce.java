@@ -33,8 +33,6 @@ public class Bounce extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		itemName = "Balls";
-
 		diameter = 24;
 		radius = diameter / 2;
 
@@ -74,10 +72,14 @@ public class Bounce extends AbstractEffect
 	}
 
 	@Override
-	public void render()
+	public void renderBackground()
 	{
 		fillBackground(Color.rgb(0, 0, 20));
-
+	}
+	
+	@Override
+	public void renderForeground()
+	{
 		for (int i = 0; i < itemCount; i++)
 		{
 			moveBall(i);

@@ -31,7 +31,6 @@ public class Pixels extends AbstractEffect
 	protected void initialise()
 	{
 		itemCount = 1;
-		itemName = "Image";
 		image = new WritableImage(width, height);
 		pixelWriter = image.getPixelWriter();
 
@@ -80,7 +79,7 @@ public class Pixels extends AbstractEffect
 	}
 
 	@Override
-	public void render()
+	public void renderForeground()
 	{
 		pixelWriter.setPixels(0, 0, width, height, pixelFormat, imageData, 0, width * 4);
 		//gc.drawImage(image, 0, 0);

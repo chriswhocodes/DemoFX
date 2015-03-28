@@ -32,16 +32,14 @@ public class Spin extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		itemName = "Images";
-
 		image = new Image(getClass().getResourceAsStream("/wave.png"));
 
 		imgWidth = image.getWidth();
 		imgHeight = image.getHeight();
 	}
-
+	
 	@Override
-	public void render()
+	public void renderForeground()
 	{
 		scaleImage();
 

@@ -42,7 +42,8 @@ public class DemoFXApplication extends Application
 
 	private Label statsLabel;
 	private Label fxLabel;
-	private IEffect effect;
+
+	private List<IEffect> effects;
 
 	@Override
 	public void start(final Stage stage) throws Exception
@@ -66,11 +67,13 @@ public class DemoFXApplication extends Application
 
 		try
 		{
-			effect = EffectFactory.getEffect(gc, config);
+			effects = EffectFactory.getEffects(gc, config);
 		}
 		catch (RuntimeException re)
 		{
+			re.printStackTrace();
 			System.err.println(re.getMessage());
+			System.err.print(DemoConfig.getUsageError());
 			System.exit(-1);
 		}
 
@@ -115,11 +118,14 @@ public class DemoFXApplication extends Application
 			@Override
 			public void handle(WindowEvent arg0)
 			{
-				effect.stop();
+				for (IEffect effect : effects)
+				{
+					effect.stop();
+				}
 			}
 		});
 
-		animate(effect);
+		animate(effects);
 	}
 
 	private String getFXLabelText(DemoConfig config)
@@ -205,24 +211,41 @@ public class DemoFXApplication extends Application
 		return builder.toString();
 	}
 
-	private void animate(final IEffect effect)
+	private final void animate(final List<IEffect> effects)
 	{
 		AnimationTimer timer = new AnimationTimer()
 		{
 			private long lastNanos = 0;
 
+			private int effectCount = effects.size();
+
 			@Override
 			public void handle(long startNanos)
 			{
-				effect.render();
+				IEffect currentEffect = null;
+
+				for (int i = 0; i < effectCount; i++)
+				{
+					gc.save();
+
+					currentEffect = effects.get(i);
+
+					if (i == 0)
+					{
+						currentEffect.renderBackground();
+					}
+
+					currentEffect.renderForeground();
+					gc.restore();
+				}
 
 				long renderNanos = System.nanoTime() - startNanos;
 
-				effect.updateStatistics(renderNanos);
+				currentEffect.updateStatistics(renderNanos);
 
 				if (startNanos - lastNanos > ONE_SECOND_NANOS)
 				{
-					statsLabel.setText(effect.getStatistics());
+					statsLabel.setText(currentEffect.getStatistics());
 					lastNanos = startNanos;
 				}
 			}

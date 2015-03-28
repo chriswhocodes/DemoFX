@@ -4,6 +4,9 @@
  */
 package com.chrisnewland.demofx;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DemoConfig
 {
 	public enum PlotMode
@@ -30,8 +33,41 @@ public class DemoConfig
 	{
 		StringBuilder builder = new StringBuilder();
 
+		List<String> effects = new ArrayList<>();
+
+		effects.add("triangles");
+		effects.add("squares");
+		effects.add("pentagons");
+		effects.add("hexagons");
+		effects.add("stars");
+		effects.add("rings");
+		effects.add("sierpinski");
+
+		effects.add("tiles");
+		effects.add("spin");
+		effects.add("burst");
+		effects.add("bounce");
+		effects.add("concentric");
+
+		effects.add("pixels");
+		effects.add("textwave");
+		effects.add("ballwave");
+		effects.add("grid");
+
 		builder.append("DemoFXApplication [options]").append("\n");
-		builder.append(buildUsageLine("-e <effect>", "triangles,squares,pentagons,hexagons,stars,rings,tiles,spin,burst,bounce, sierpinski"));
+
+		boolean first = true;
+
+		for (String effectName : effects)
+		{
+			builder.append(buildUsageLine(first ? "-e <effects>" : "", effectName));
+			
+			if (first)
+			{
+				first = false;
+			}
+		}
+
 		builder.append(buildUsageLine("-c <count>", "number of items on screen"));
 		builder.append(buildUsageLine("-w <width>", "canvas width"));
 		builder.append(buildUsageLine("-h <height>", "canvas height"));

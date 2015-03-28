@@ -5,6 +5,9 @@
 
 package com.chrisnewland.demofx.effect;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.canvas.GraphicsContext;
 
 import com.chrisnewland.demofx.DemoConfig;
@@ -17,15 +20,31 @@ import com.chrisnewland.demofx.effect.shape.Sierpinski;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
-import com.chrisnewland.demofx.effect.text.BallGrid;
+import com.chrisnewland.demofx.effect.text.BallWave;
 import com.chrisnewland.demofx.effect.text.TextWave;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
 public class EffectFactory
 {
-	public static IEffect getEffect(GraphicsContext gc, DemoConfig config)
+	public static List<IEffect> getEffects(GraphicsContext gc, DemoConfig config)
 	{
-		switch (config.getEffect())
+		List<IEffect> result = new ArrayList<>();
+
+		String effectParam = config.getEffect();
+		
+		String[] parts = effectParam.split(",");
+		
+		for (String part : parts)
+		{
+			result.add(getEffect(part, gc, config));
+		}
+		
+		return result;
+	}
+
+	private static IEffect getEffect(String name, GraphicsContext gc, DemoConfig config)
+	{
+		switch (name)
 		{
 		case "triangles":
 			return new ShapeEffect(gc, config, 3);
@@ -70,10 +89,10 @@ public class EffectFactory
 
 		case "textwave":
 			return new TextWave(gc, config);
-			
-		case "balls":
-			return new BallGrid(gc, config);
-			
+
+		case "ballwave":
+			return new BallWave(gc, config);
+
 		case "grid":
 			return new Grid(gc, config);
 
