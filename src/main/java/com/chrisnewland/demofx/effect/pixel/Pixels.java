@@ -14,6 +14,9 @@ import javafx.scene.image.WritableImage;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 
+//========================
+// UNFINISHED !!!
+//========================
 public class Pixels extends AbstractEffect
 {
 	private WritableImage image;
@@ -31,10 +34,10 @@ public class Pixels extends AbstractEffect
 	protected void initialise()
 	{
 		itemCount = 1;
-		image = new WritableImage(width, height);
+		image = new WritableImage((int)width, (int)height);
 		pixelWriter = image.getPixelWriter();
 
-		imageData = new byte[width * height * 4];
+		imageData = new byte[(int)width * (int)height * 4];
 
 		pixelFormat = PixelFormat.getByteBgraPreInstance();
 
@@ -81,7 +84,7 @@ public class Pixels extends AbstractEffect
 	@Override
 	public void renderForeground()
 	{
-		pixelWriter.setPixels(0, 0, width, height, pixelFormat, imageData, 0, width * 4);
+		pixelWriter.setPixels(0, 0, (int)width, (int)height, pixelFormat, imageData, 0, (int)width * 4);
 		//gc.drawImage(image, 0, 0);
 	}
 

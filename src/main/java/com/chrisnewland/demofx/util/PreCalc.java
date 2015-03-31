@@ -47,8 +47,8 @@ public class PreCalc
 		USE_LOOKUPS_FOR_TRIG = config.isLookupTrig();
 		USE_LOOKUPS_FOR_RANDOM = config.isLookupRandom();
 
-		WIDTH = config.getWidth();
-		HEIGHT = config.getHeight();
+		WIDTH = (int)config.getWidth();
+		HEIGHT = (int)config.getHeight();
 
 		HALF_WIDTH = WIDTH / 2;
 		HALF_HEIGHT = HEIGHT / 2;

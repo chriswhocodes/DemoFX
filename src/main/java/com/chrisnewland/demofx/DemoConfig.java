@@ -16,8 +16,8 @@ public class DemoConfig
 
 	private String effect = "stars";
 	private int count = -1;
-	private int width = 800;
-	private int height = 600;
+	private double width = 800;
+	private double height = 600;
 
 	private boolean lookupSqrt = false;
 	private boolean lookupTrig = true;
@@ -127,10 +127,10 @@ public class DemoConfig
 						config.count = Integer.parseInt(value);
 						break;
 					case "w":
-						config.width = Integer.parseInt(value);
+						config.width = Double.parseDouble(value);
 						break;
 					case "h":
-						config.height = Integer.parseInt(value);
+						config.height = Double.parseDouble(value);
 						break;
 					case "l":
 						checkLookupOptions(config, value);
@@ -213,12 +213,12 @@ public class DemoConfig
 		return count;
 	}
 
-	public int getWidth()
+	public double getWidth()
 	{
 		return width;
 	}
 
-	public int getHeight()
+	public double getHeight()
 	{
 		return height;
 	}

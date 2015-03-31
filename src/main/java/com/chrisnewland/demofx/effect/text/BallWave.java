@@ -48,8 +48,7 @@ public class BallWave extends AbstractEffect
 			sentenceList.add(TextUtil.createBallGridList(sentence, gc));
 		}
 
-		// http://pixabay.com/en/orb-ball-globe-glossy-glow-red-150545/
-		imageBall = new Image(getClass().getResourceAsStream("/glassyball.png"));
+		imageBall = new Image(getClass().getResourceAsStream("/acid.png"));
 	}
 
 	@Override

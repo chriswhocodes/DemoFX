@@ -18,11 +18,11 @@ public abstract class AbstractEffect implements IEffect
 
 	protected int itemCount;
 
-	protected final int width;
-	protected final int height;
+	protected final double width;
+	protected final double height;
 
-	protected final int halfWidth;
-	protected final int halfHeight;
+	protected final double halfWidth;
+	protected final double halfHeight;
 
 	protected long lastSecond;
 	protected int frameCount = 0;
