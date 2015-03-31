@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
-package com.chrisnewland.demofx;
+package com.chrisnewland.demofx.standalone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class SierpinskiStandalone extends Application
+public class Sierpinski extends Application
 {
 	class Triangle
 	{
