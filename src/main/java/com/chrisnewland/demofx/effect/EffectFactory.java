@@ -11,12 +11,13 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 
 import com.chrisnewland.demofx.DemoConfig;
+import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
+import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.pixel.Pixels;
 import com.chrisnewland.demofx.effect.shape.Burst;
 import com.chrisnewland.demofx.effect.shape.Concentric;
 import com.chrisnewland.demofx.effect.shape.Grid;
 import com.chrisnewland.demofx.effect.shape.Rings;
-import com.chrisnewland.demofx.effect.shape.Sierpinski;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
@@ -95,6 +96,9 @@ public class EffectFactory
 
 		case "grid":
 			return new Grid(gc, config);
+			
+		case "mandelbrot":
+			return new Mandelbrot(gc, config);
 
 		default:
 			throw new RuntimeException("No such effect: " + config.getEffect());

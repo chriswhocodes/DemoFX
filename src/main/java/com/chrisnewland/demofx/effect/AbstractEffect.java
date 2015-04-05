@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.util.PreCalc;
@@ -23,6 +24,8 @@ public abstract class AbstractEffect implements IEffect
 
 	protected final double halfWidth;
 	protected final double halfHeight;
+	
+	protected double canvasRotationAngle = 0;
 
 	protected long lastSecond;
 	protected int frameCount = 0;
@@ -168,6 +171,19 @@ public abstract class AbstractEffect implements IEffect
 		int blue = (int) (blueFraction * 32);
 		
 		return Color.rgb(red, green, blue);
+	}
+	
+	protected final void rotateCanvas(double rotation)
+	{
+		Rotate r = new Rotate(canvasRotationAngle, halfWidth, halfHeight);
+		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+
+		canvasRotationAngle += rotation;
+
+		if (canvasRotationAngle >= 360)
+		{
+			canvasRotationAngle -= 360;
+		}
 	}
 	
 	@Override

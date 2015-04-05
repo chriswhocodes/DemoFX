@@ -6,7 +6,6 @@ package com.chrisnewland.demofx.effect.shape;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.transform.Rotate;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
@@ -19,7 +18,6 @@ public class Grid extends AbstractEffect
 	private double maxCellWidth;
 	private double maxCellHeight;
 
-	private double angle = 0;
 	private double scaleAngle = 0;
 
 	private double maxDimension;
@@ -52,7 +50,7 @@ public class Grid extends AbstractEffect
 	{
 		scaleEffect();
 
-		rotateCanvas();
+		rotateCanvas(3);
 
 		plotGridLines();
 	}
@@ -81,19 +79,6 @@ public class Grid extends AbstractEffect
 		gc.setFill(Color.BLACK);
 
 		gc.fillRect(-offScreenMargin, -offScreenMargin, width + offScreenMargin * 2, height + offScreenMargin * 2);
-	}
-
-	private final void rotateCanvas()
-	{
-		Rotate r = new Rotate(angle, halfWidth, halfHeight);
-		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-
-		angle += 3;
-
-		if (angle >= 360)
-		{
-			angle -= 360;
-		}
 	}
 
 	private final void plotGridLines()

@@ -6,7 +6,6 @@ package com.chrisnewland.demofx.effect.sprite;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.transform.Rotate;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
@@ -21,7 +20,6 @@ public class Spin extends AbstractEffect
 	private double scaledWidth;
 	private double scaledHeight;
 
-	private double angle = 0;
 	private double scaleAngle = 0;
 
 	public Spin(GraphicsContext gc, DemoConfig config)
@@ -43,7 +41,7 @@ public class Spin extends AbstractEffect
 	{
 		scaleImage();
 
-		rotateCanvas();
+		rotateCanvas(2);
 
 		plotTiles();
 	}
@@ -64,19 +62,6 @@ public class Spin extends AbstractEffect
 
 		scaledWidth = imgWidth * scale;
 		scaledHeight = imgHeight * scale;
-	}
-
-	private final void rotateCanvas()
-	{
-		Rotate r = new Rotate(angle, halfWidth, halfHeight);
-		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-
-		angle += 2;
-
-		if (angle >= 360)
-		{
-			angle -= 360;
-		}
 	}
 
 	private final void plotTiles()
