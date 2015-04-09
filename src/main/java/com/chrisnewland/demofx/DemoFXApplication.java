@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -29,8 +28,6 @@ import com.sun.prism.impl.PrismSettings;
 public class DemoFXApplication extends Application
 {
 	private static String[] args;
-
-	private static final long ONE_SECOND_NANOS = 1_000_000_000L;
 
 	public static void main(String[] args)
 	{
@@ -67,7 +64,14 @@ public class DemoFXApplication extends Application
 
 		try
 		{
-			effects = EffectFactory.getEffects(gc, config);
+			if (config.isUseScriptedDemoConfig())
+			{
+				effects = ScriptedDemoConfig.getEffects(gc, config);
+			}
+			else
+			{
+				effects = EffectFactory.getEffects(gc, config);
+			}
 		}
 		catch (RuntimeException re)
 		{
@@ -125,7 +129,7 @@ public class DemoFXApplication extends Application
 			}
 		});
 
-		animate(effects);
+		new DemoAnimationTimer(gc, statsLabel, effects).start();
 	}
 
 	private String getFXLabelText(DemoConfig config)
@@ -209,48 +213,5 @@ public class DemoFXApplication extends Application
 		}
 
 		return builder.toString();
-	}
-
-	private final void animate(final List<IEffect> effects)
-	{
-		AnimationTimer timer = new AnimationTimer()
-		{
-			private long lastNanos = 0;
-
-			private int effectCount = effects.size();
-
-			@Override
-			public void handle(long startNanos)
-			{
-				IEffect currentEffect = null;
-
-				for (int i = 0; i < effectCount; i++)
-				{
-					gc.save();
-
-					currentEffect = effects.get(i);
-
-					if (i == 0)
-					{
-						currentEffect.renderBackground();
-					}
-
-					currentEffect.renderForeground();
-					gc.restore();
-				}
-
-				long renderNanos = System.nanoTime() - startNanos;
-
-				currentEffect.updateStatistics(renderNanos);
-
-				if (startNanos - lastNanos > ONE_SECOND_NANOS)
-				{
-					statsLabel.setText(currentEffect.getStatistics());
-					lastNanos = startNanos;
-				}
-			}
-		};
-
-		timer.start();
 	}
 }

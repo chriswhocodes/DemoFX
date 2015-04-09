@@ -16,21 +16,22 @@ import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.util.BallGrid;
 import com.chrisnewland.demofx.util.TextUtil;
 
-public class BallWave extends AbstractEffect
+public class SpriteWave extends AbstractEffect
 {
 	private List<BallGrid> sentenceList;
 	private int sentenceIndex = 0;
 	private int lineWidth;
 
 	private Image imageBall;
-	private double imgSize = 14;
 
 	private double xOffset = 0;
 	private double yOffset = 0;
 
-	private static final int SPEED = 8;
+	private static final double IMAGE_SIZE = 20;
+	private static final double AMPLITUDE = 20;
+	private static final double SPEED = 12;
 
-	public BallWave(GraphicsContext gc, DemoConfig config)
+	public SpriteWave(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
 		xOffset = width;
@@ -39,7 +40,8 @@ public class BallWave extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		String[] sentences = new String[] { "DemoFX by @chriswhocodes", "Hey Chris! The 1990s called and they want their demoscene back!" };
+		String[] sentences = new String[] { "SpriteWave effect - convert text into pixel grids and plot with sprites",
+				"github.com/chriswhocodes/DemoFX" };
 
 		sentenceList = new ArrayList<>();
 
@@ -66,9 +68,9 @@ public class BallWave extends AbstractEffect
 
 		xOffset -= SPEED;
 
-		yOffset = halfHeight - sentenceBallGrid.getHeight() * imgSize / 2;
+		yOffset = halfHeight - sentenceBallGrid.getHeight() * IMAGE_SIZE / 2;
 
-		if (xOffset < -lineWidth * imgSize)
+		if (xOffset < -lineWidth * IMAGE_SIZE)
 		{
 			sentenceIndex++;
 
@@ -79,7 +81,7 @@ public class BallWave extends AbstractEffect
 
 			xOffset = width;
 		}
-		
+
 		plotSentence(sentenceBallGrid);
 	}
 
@@ -87,17 +89,17 @@ public class BallWave extends AbstractEffect
 	{
 		for (int col = 0; col < sentenceBallGrid.getWidth(); col++)
 		{
-			double x = xOffset + col * imgSize;
-		
+			double x = xOffset + col * IMAGE_SIZE;
+
 			if (onScreen(x))
-			{					
+			{
 				for (int row = 0; row < sentenceBallGrid.getHeight(); row++)
 				{
 					if (sentenceBallGrid.isSet(col, row))
 					{
-						double y = yOffset + (row * imgSize) + (precalc.sin(Math.abs(x + imgSize)) * 30);
+						double y = yOffset + (row * IMAGE_SIZE) + (precalc.sin(Math.abs(x + IMAGE_SIZE)) * AMPLITUDE);
 
-						gc.drawImage(imageBall, x, y, imgSize, imgSize);
+						gc.drawImage(imageBall, x, y, IMAGE_SIZE, IMAGE_SIZE);
 					}
 				}
 			}
@@ -106,6 +108,6 @@ public class BallWave extends AbstractEffect
 
 	private final boolean onScreen(double x)
 	{
-		return x > -imgSize && x < width;
+		return x > -IMAGE_SIZE && x < width;
 	}
 }

@@ -11,17 +11,20 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 
 import com.chrisnewland.demofx.DemoConfig;
+import com.chrisnewland.demofx.effect.fake3d.Dots;
+import com.chrisnewland.demofx.effect.fake3d.Starfield;
 import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.pixel.Pixels;
 import com.chrisnewland.demofx.effect.shape.Burst;
+import com.chrisnewland.demofx.effect.shape.Checkerboard;
 import com.chrisnewland.demofx.effect.shape.Concentric;
 import com.chrisnewland.demofx.effect.shape.Grid;
 import com.chrisnewland.demofx.effect.shape.Rings;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
-import com.chrisnewland.demofx.effect.text.BallWave;
+import com.chrisnewland.demofx.effect.text.SpriteWave;
 import com.chrisnewland.demofx.effect.text.TextWave;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
@@ -32,14 +35,14 @@ public class EffectFactory
 		List<IEffect> result = new ArrayList<>();
 
 		String effectParam = config.getEffect();
-		
+
 		String[] parts = effectParam.split(",");
-		
+
 		for (String part : parts)
 		{
 			result.add(getEffect(part, gc, config));
 		}
-		
+
 		return result;
 	}
 
@@ -91,14 +94,23 @@ public class EffectFactory
 		case "textwave":
 			return new TextWave(gc, config);
 
-		case "ballwave":
-			return new BallWave(gc, config);
+		case "spritewave":
+			return new SpriteWave(gc, config);
 
 		case "grid":
 			return new Grid(gc, config);
-			
+
+		case "checkerboard":
+			return new Checkerboard(gc, config);
+
 		case "mandelbrot":
 			return new Mandelbrot(gc, config);
+
+		case "starfield":
+			return new Starfield(gc, config);
+
+		case "dots":
+			return new Dots(gc, config);
 
 		default:
 			throw new RuntimeException("No such effect: " + config.getEffect());

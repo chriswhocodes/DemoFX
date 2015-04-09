@@ -28,7 +28,7 @@ public class Mandelbrot extends AbstractEffect
 	private double xOffsetNext;
 	private double yOffsetNext;
 
-	private static final double PIXEL_SIZE = 2;
+	private static final double PIXEL_SIZE = 3;
 	private static final double ITERATIONS_PER_ZOOM = 0.004;
 
 	private static double MIN_ZOOM = 0;
@@ -67,7 +67,7 @@ public class Mandelbrot extends AbstractEffect
 		setPointOfInterest();
 	}
 
-	public void pixel(double x, double y)
+	public void drawPixel(double x, double y)
 	{
 		gc.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
 	}
@@ -146,22 +146,22 @@ public class Mandelbrot extends AbstractEffect
 
 	private final void plot()
 	{
-		double dx = 1 / zoom;
+		double zoomReciprocal = 1 / zoom;
 
 		double x1 = xOffset - halfWidth / zoom;
 		double x2 = xOffset + halfWidth / zoom;
 
-		double y2 = yOffset + height * dx / 2;
+		double y2 = yOffset + height * zoomReciprocal / 2;
 
 		double iterFraction = Math.max(Math.abs(x1), Math.abs(x2));
 
-		for (double pixelY = 0; pixelY <= height; pixelY += PIXEL_SIZE + 1)
+		for (double pixelY = 0; pixelY <= height; pixelY += PIXEL_SIZE)
 		{
-			yCentre = y2 - pixelY * dx;
+			yCentre = y2 - pixelY * zoomReciprocal;
 
-			for (double pixelX = 0; pixelX <= width; pixelX += PIXEL_SIZE + 1)
+			for (double pixelX = 0; pixelX <= width; pixelX += PIXEL_SIZE)
 			{
-				xCentre = x1 + pixelX * dx;
+				xCentre = x1 + pixelX * zoomReciprocal;
 
 				testPixel(pixelX, pixelY, xCentre, yCentre, iterFraction);
 			}
@@ -195,7 +195,7 @@ public class Mandelbrot extends AbstractEffect
 
 				setColour(iterFraction);
 
-				pixel(pixelX, pixelY);
+				drawPixel(pixelX, pixelY);
 
 				break;
 			}
@@ -203,9 +203,9 @@ public class Mandelbrot extends AbstractEffect
 	}
 
 	private final void setColour(double iterFraction)
-	{
+	{		
 		int red = (int) Math.min(255 * 2 * iterFraction, 255);
-		int green = (int) Math.max(255 * 2 * (iterFraction - 1), 0);
+		int green = (int) Math.max(255 * (2 * iterFraction - 1), 0);
 		int blue = (red + green) / 2;
 
 		Color pixelColour = Color.rgb(red, green, blue).interpolate(cycleColour, 0.7);

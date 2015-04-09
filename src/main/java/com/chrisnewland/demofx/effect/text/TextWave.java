@@ -10,6 +10,7 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
@@ -23,16 +24,22 @@ public class TextWave extends AbstractEffect
 	private List<String> stringList;
 	private Font font;
 
-	private static final double FONT_SIZE = 144;
-	private static final int SPEED = 8;
-	private static final int AMPLITUDE = 50;
-	private static final int OFFSCREEN = 100;
+	private static final double INITIAL_FONT_SIZE = 180;
+	private static final double OFFSCREEN = 100;
+
+	private double speed = 8;
+	private double amplitude = 120;
+	private double waveYPos;
 
 	private int stringIndex = 0;
+
+	private boolean loopStringList = true;
 
 	public TextWave(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
+
+		waveYPos = halfHeight;
 	}
 
 	private String[] explodeString(String str)
@@ -52,41 +59,57 @@ public class TextWave extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		font = Font.font(Font.getDefault().getFamily(), FONT_SIZE);
+		font = Font.font("Krungthep", FontWeight.BOLD, INITIAL_FONT_SIZE);
 		gc.setFont(font);
 		xOffset = width;
 
 		stringList = new ArrayList<>();
 
-		stringList.add("JavaFX Text Effect by @chriswhocodes");
-		stringList.add("Letters plotted individually to allow per-character sine plotting.");
-		stringList.add("TextUtil calculates and caches letter width for correct kerning");
+		stringList.add("TextWave effect - plot letters on a sine wave with automatic kerning");
+	}
+
+	public void customInitialise(List<String> stringList, long startMillis, long stopMillis, boolean loopStringList)
+	{
+		this.stringList = stringList;
+		this.effectStartMillis = startMillis;
+		this.effectStopMillis = stopMillis;
+		this.loopStringList = loopStringList;
 	}
 
 	@Override
 	public void renderBackground()
 	{
-		fillBackground(Color.BLACK);
+		fillBackground(getCycleColour());
 	}
-	
+
 	@Override
 	public void renderForeground()
 	{
-		xOffset -= SPEED;
+		xOffset -= speed;
 
 		if (lastCharX < 0)
 		{
 			xOffset = width;
-			
+
 			stringIndex++;
 
 			if (stringIndex == stringList.size())
 			{
-				stringIndex = 0;
+				if (loopStringList)
+				{
+					stringIndex = 0;
+				}
+				else
+				{
+					effectFinished = true;
+				}
 			}
 		}
 
-		plotText();
+		if (!effectFinished)
+		{
+			plotText();
+		}
 	}
 
 	private final void plotText()
@@ -109,7 +132,7 @@ public class TextWave extends AbstractEffect
 
 			if (isLetterOnScreen(charX))
 			{
-				y = halfHeight + precalc.sin(charX + OFFSCREEN) * AMPLITUDE;
+				y = waveYPos + precalc.sin(charX / 2 + OFFSCREEN) * amplitude;
 
 				gc.fillText(character, charX, y);
 			}

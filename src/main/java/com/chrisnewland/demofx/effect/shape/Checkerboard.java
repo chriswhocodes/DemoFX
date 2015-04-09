@@ -10,21 +10,18 @@ import javafx.scene.paint.Color;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 
-public class Grid extends AbstractEffect
+public class Checkerboard extends AbstractEffect
 {
 	private double scale = 1.0;
-	private double scaledWidth;
-	private double scaledHeight;
-	private double maxCellWidth;
-	private double maxCellHeight;
+	private double checkSize;
+	private double maxCheckSize;
 
 	private double scaleAngle = 0;
 
 	private double maxDimension;
 	private double offScreenMargin;
-	private double gridLineThickness;
 
-	public Grid(GraphicsContext gc, DemoConfig config)
+	public Checkerboard(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
 	}
@@ -35,8 +32,7 @@ public class Grid extends AbstractEffect
 		maxDimension = Math.max(width, height);
 		offScreenMargin = maxDimension / 4;
 
-		maxCellWidth = 160;
-		maxCellHeight = 160;
+		maxCheckSize = 160;
 	}
 
 	@Override
@@ -52,7 +48,7 @@ public class Grid extends AbstractEffect
 
 		rotateCanvas(3);
 
-		plotGridLines();
+		plotCheckerboard();
 	}
 
 	private final void scaleEffect()
@@ -68,8 +64,7 @@ public class Grid extends AbstractEffect
 		scale = Math.abs(precalc.cos(scaleAngle));
 		scale = 0.1 + Math.max(scale, 0.01);
 
-		scaledWidth = maxCellWidth * scale;
-		scaledHeight = maxCellHeight * scale;
+		checkSize = maxCheckSize * scale;
 	}
 
 	private final void clearScreenForRotation()
@@ -79,27 +74,27 @@ public class Grid extends AbstractEffect
 		gc.fillRect(-offScreenMargin, -offScreenMargin, width + offScreenMargin * 2, height + offScreenMargin * 2);
 	}
 
-	private final void plotGridLines()
+	private final void plotCheckerboard()
 	{
-		gridLineThickness = scaledHeight / 8;
+		gc.setFill(Color.WHITE);
 
-		gc.setFill(getCycleColour());
+		boolean oddRow = true;
 
-		int rows = 0;
-		int cols = 0;
-
-		for (double y = -offScreenMargin; y < maxDimension + offScreenMargin; y += scaledHeight)
+		for (double y = -offScreenMargin; y < maxDimension + offScreenMargin; y += checkSize)
 		{
-			rows++;
-			gc.fillRect(-offScreenMargin, y, width + offScreenMargin * 2, gridLineThickness);
-		}
+			double startX = -offScreenMargin;
 
-		for (double x = -offScreenMargin; x < maxDimension + offScreenMargin; x += scaledWidth)
-		{
-			cols++;
-			gc.fillRect(x, -offScreenMargin, gridLineThickness, height + offScreenMargin * 2);
-		}
+			if (oddRow)
+			{
+				startX += checkSize;
+			}
 
-		itemCount = rows * cols;
+			oddRow = !oddRow;
+
+			for (double x = startX; x < maxDimension + offScreenMargin; x += checkSize * 2)
+			{
+				gc.fillRect(x, y, checkSize, checkSize);
+			}
+		}
 	}
 }

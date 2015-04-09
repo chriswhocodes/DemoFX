@@ -43,6 +43,10 @@ public abstract class AbstractEffect implements IEffect
 	
 	private double colourCycleAngle = 0;
 	
+	protected long effectStartMillis = -1;
+	protected long effectStopMillis = -1;
+	protected boolean effectFinished = false;
+	
 	protected final double getRandomDouble(double min, double max)
 	{
 		Random random = new Random();
@@ -188,7 +192,53 @@ public abstract class AbstractEffect implements IEffect
 	
 	@Override
 	public void stop()
+	{	
+	}
+	
+	@Override
+	public void setStartMillis(long start)
 	{
+		this.effectStartMillis = start;
+	}
+
+	@Override
+	public void setStopMillis(long stop)
+	{
+		this.effectStopMillis = stop;
+	}
+	
+	@Override
+	public long getStartMillis()
+	{
+		return effectStartMillis;
+	}
+	
+	@Override
+	public long getStopMillis()
+	{
+		return effectStopMillis;
+	}
+	
+	public boolean isShowEffect(long elapsed)
+	{
+		boolean showEffect = !effectFinished;
 		
+		if (effectStartMillis >= 0)
+		{
+			if (elapsed < effectStartMillis)
+			{
+				showEffect = false;
+			}
+		}
+		
+		if (effectStopMillis >= 0)
+		{
+			if (elapsed > effectStopMillis)
+			{
+				showEffect = false;
+			}
+		}
+		
+		return showEffect;
 	}
 }
