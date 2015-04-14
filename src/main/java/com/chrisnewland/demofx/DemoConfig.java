@@ -57,6 +57,7 @@ public class DemoConfig
 		effects.add("grid");
 		effects.add("checkerboard");
 		effects.add("starfield");
+		effects.add("dots");
 
 		Collections.sort(effects);
 

@@ -10,29 +10,6 @@ import javafx.scene.paint.Color;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 
-/*
- * procedure 3Dto2D (x, y, z, pan, centre, position)
-
- x = x + position.x
- y = y + position.y
- z = z + position.z
-
- new.x = x*cos(pan.x) - z*sin(pan.x)
- new.z = x*sin(pan.x) + z*cos(pan.x)
- new.y = y*cos(pan.y) - new.z*sin(pan.y)
-
- z = new.y*cos(pan.y) - new.z*sin(pan.y)
- x = new.x*cos(pan.z) - new.y*sin(pan.z)
- y = new.x*sin(pan.z) + new.y*cos(pan.z)
-
- if z > 0 then
-
- screen.x = x / z * zoom + centre.x
- screen.y = y / z * zoom + centre.y
-
- end if
- */
-
 public class Starfield extends AbstractEffect
 {
 	private double[] starX;
