@@ -56,7 +56,7 @@ public class Sierpinski extends AbstractEffect
 	public Sierpinski(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
-		SMALLEST = height / 64;
+		SMALLEST = height / 100;
 	}
 
 	@Override

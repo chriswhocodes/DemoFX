@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 
-public class Dots extends AbstractEffect
+public class Sprite3D extends AbstractEffect
 {
 	class Point3D
 	{
@@ -81,7 +81,7 @@ public class Dots extends AbstractEffect
 		}
 	};
 
-	public Dots(GraphicsContext gc, DemoConfig config)
+	public Sprite3D(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
 		

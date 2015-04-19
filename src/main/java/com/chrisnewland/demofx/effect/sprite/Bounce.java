@@ -18,8 +18,8 @@ public class Bounce extends AbstractEffect
 	private double[] dx;
 	private double[] dy;
 
-	private int diameter;
-	private int radius;
+	private double diameter;
+	private double radius;
 
 	private Image imageBall;
 
@@ -71,6 +71,12 @@ public class Bounce extends AbstractEffect
 		}
 	}
 
+	public void customInitialise(double ballSize)
+	{
+		diameter = ballSize;
+		radius = diameter / 2;
+	}
+	
 	@Override
 	public void renderBackground()
 	{
@@ -118,7 +124,7 @@ public class Bounce extends AbstractEffect
 
 	private final void drawBall(int i)
 	{
-		gc.drawImage(imageBall, (int) bx[i] - radius, (int) by[i] - radius);
+		gc.drawImage(imageBall, (int) bx[i] - radius, (int) by[i] - radius, diameter, diameter);
 	}
 
 	private final void checkCollisionWall(int i)

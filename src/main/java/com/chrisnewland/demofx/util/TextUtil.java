@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,7 +18,7 @@ import javafx.scene.text.TextAlignment;
 
 public class TextUtil
 {
-	private static Map<String, Double> widthCache = new HashMap<>();
+	private static Map<String, Point2D> stringDimensionCache = new HashMap<>();
 
 	public static BallGrid createBallGridList(String string, GraphicsContext gc)
 	{
@@ -30,7 +31,7 @@ public class TextUtil
 			String charAsString = Character.toString(string.charAt(i));
 
 			Image stringImage = createImageFromString(font, gc, charAsString);
-			
+
 			Image cropImage = cropImage(stringImage, 16, 16);
 
 			BallGrid letterGrid = getGrid(cropImage, 2);
@@ -95,28 +96,32 @@ public class TextUtil
 		return result;
 	}
 
-	public static double getStringWidthPixels(Font font, GraphicsContext gc, String str)
+	public static Point2D getStringDimensions(Font font, GraphicsContext gc, String str)
 	{
-		double imageWidth = 0;
+		Point2D dimensions = Point2D.ZERO;
 
-		if (widthCache.containsKey(str))
+		String fontKey = font.toString() + str;
+		
+		if (stringDimensionCache.containsKey(fontKey))
 		{
-			imageWidth = widthCache.get(str);
+			dimensions = stringDimensionCache.get(fontKey);
 		}
 		else if (str.trim().length() == 0)
 		{
-			widthCache.put(str, font.getSize() / 2);
+			dimensions = new Point2D(font.getSize() / 2, font.getSize());
+			
+			stringDimensionCache.put(fontKey, dimensions);
 		}
 		else
 		{
 			Image image = createImageFromString(font, gc, str);
 
-			imageWidth = measureWidth(image);
+			dimensions = new Point2D(measureWidth(image), measureHeight(image));
 
-			widthCache.put(str, imageWidth);
+			stringDimensionCache.put(fontKey, dimensions);
 		}
 
-		return imageWidth;
+		return dimensions;
 	}
 
 	private static Image createImageFromString(Font font, GraphicsContext gc, String str)
@@ -189,7 +194,7 @@ public class TextUtil
 		outer: for (int row = 0; row < imgHeight; row++)
 		{
 			result = row;
-			
+
 			for (int col = 0; col < imgWidth; col++)
 			{
 				if (isPixelSet(reader, col, row))

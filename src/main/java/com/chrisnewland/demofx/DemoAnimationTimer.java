@@ -6,6 +6,7 @@ package com.chrisnewland.demofx;
 
 import java.util.List;
 
+import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.effect.IEffect;
 
 import javafx.animation.AnimationTimer;
@@ -33,6 +34,8 @@ public class DemoAnimationTimer extends AnimationTimer
 		this.gc = gc;
 		this.statsLabel = statsLabel;
 		this.effects = effects;
+		
+		AbstractEffect.setScriptStartTimeMillis(startTime+5000);
 	}
 	
 	@Override

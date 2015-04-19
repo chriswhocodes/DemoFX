@@ -57,7 +57,8 @@ public class DemoConfig
 		effects.add("grid");
 		effects.add("checkerboard");
 		effects.add("starfield");
-		effects.add("dots");
+		effects.add("sprite3d");
+		effects.add("credits");
 
 		Collections.sort(effects);
 
@@ -173,6 +174,7 @@ public class DemoConfig
 						if ("true".equals(value.toLowerCase()))
 						{
 							config.useScriptedDemoConfig = true;
+							config.effect = "script mode";
 						}
 						break;
 					// =======================================
@@ -270,5 +272,10 @@ public class DemoConfig
 	public boolean isUseScriptedDemoConfig()
 	{
 		return useScriptedDemoConfig;
+	}
+	
+	public void setItemCount(int count)
+	{
+		this.count = count;
 	}
 }

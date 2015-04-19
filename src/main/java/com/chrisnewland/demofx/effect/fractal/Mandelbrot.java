@@ -28,7 +28,9 @@ public class Mandelbrot extends AbstractEffect
 	private double xOffsetNext;
 	private double yOffsetNext;
 
-	private static final double PIXEL_SIZE = 3;
+	private static final double PIXEL_SIZE = 2;
+	private static final double PIXEL_STEP = PIXEL_SIZE + 2;
+
 	private static final double ITERATIONS_PER_ZOOM = 0.004;
 
 	private static double MIN_ZOOM = 0;
@@ -67,11 +69,6 @@ public class Mandelbrot extends AbstractEffect
 		setPointOfInterest();
 	}
 
-	public void drawPixel(double x, double y)
-	{
-		gc.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
-	}
-
 	@Override
 	public void renderBackground()
 	{
@@ -94,7 +91,7 @@ public class Mandelbrot extends AbstractEffect
 			yOffset += (yOffsetNext - yOffsetCur) / 103;
 		}
 
-		iterations = 16 + (int) (zoom * ITERATIONS_PER_ZOOM);
+		iterations = 4 + (int) (zoom * ITERATIONS_PER_ZOOM);
 
 		if (zoom > MAX_ZOOM)
 		{
@@ -146,20 +143,20 @@ public class Mandelbrot extends AbstractEffect
 
 	private final void plot()
 	{
-		double zoomReciprocal = 1 / zoom;
+		final double zoomReciprocal = 1 / zoom;
 
-		double x1 = xOffset - halfWidth / zoom;
-		double x2 = xOffset + halfWidth / zoom;
+		final double x1 = xOffset - halfWidth / zoom;
+		final double x2 = xOffset + halfWidth / zoom;
 
-		double y2 = yOffset + height * zoomReciprocal / 2;
+		final double y2 = yOffset + height * zoomReciprocal / 2;
 
-		double iterFraction = Math.max(Math.abs(x1), Math.abs(x2));
-
-		for (double pixelY = 0; pixelY <= height; pixelY += PIXEL_SIZE)
+		final double iterFraction = Math.max(Math.abs(x1), Math.abs(x2));
+		
+		for (double pixelY = 0; pixelY <= height; pixelY += PIXEL_STEP)
 		{
 			yCentre = y2 - pixelY * zoomReciprocal;
 
-			for (double pixelX = 0; pixelX <= width; pixelX += PIXEL_SIZE)
+			for (double pixelX = 0; pixelX <= width; pixelX += PIXEL_STEP)
 			{
 				xCentre = x1 + pixelX * zoomReciprocal;
 
@@ -200,6 +197,11 @@ public class Mandelbrot extends AbstractEffect
 				break;
 			}
 		}
+	}
+	
+	public void drawPixel(double x, double y)
+	{
+		gc.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
 	}
 
 	private final void setColour(double iterFraction)

@@ -11,7 +11,7 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 
 import com.chrisnewland.demofx.DemoConfig;
-import com.chrisnewland.demofx.effect.fake3d.Dots;
+import com.chrisnewland.demofx.effect.fake3d.Sprite3D;
 import com.chrisnewland.demofx.effect.fake3d.Starfield;
 import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
@@ -24,6 +24,7 @@ import com.chrisnewland.demofx.effect.shape.Rings;
 import com.chrisnewland.demofx.effect.sprite.Bounce;
 import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
+import com.chrisnewland.demofx.effect.text.Credits;
 import com.chrisnewland.demofx.effect.text.SpriteWave;
 import com.chrisnewland.demofx.effect.text.TextWave;
 import com.chrisnewland.demofx.util.ShapeEffect;
@@ -109,8 +110,11 @@ public class EffectFactory
 		case "starfield":
 			return new Starfield(gc, config);
 
-		case "dots":
-			return new Dots(gc, config);
+		case "sprite3d":
+			return new Sprite3D(gc, config);
+			
+		case "credits":
+			return new Credits(gc, config);
 
 		default:
 			throw new RuntimeException("No such effect: " + config.getEffect());

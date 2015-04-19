@@ -24,7 +24,7 @@ public abstract class AbstractEffect implements IEffect
 
 	protected final double halfWidth;
 	protected final double halfHeight;
-	
+
 	protected double canvasRotationAngle = 0;
 
 	protected long lastSecond;
@@ -40,13 +40,15 @@ public abstract class AbstractEffect implements IEffect
 
 	protected PreCalc precalc;
 	protected DemoConfig config;
-	
+
 	private double colourCycleAngle = 0;
-	
+
 	protected long effectStartMillis = -1;
 	protected long effectStopMillis = -1;
 	protected boolean effectFinished = false;
-	
+
+	private static long scriptStartTimeMillis;
+
 	protected final double getRandomDouble(double min, double max)
 	{
 		Random random = new Random();
@@ -75,6 +77,11 @@ public abstract class AbstractEffect implements IEffect
 		this.halfHeight = height / 2;
 
 		initialise();
+	}
+
+	public static void setScriptStartTimeMillis(long millis)
+	{
+		scriptStartTimeMillis = millis;
 	}
 
 	protected abstract void initialise();
@@ -106,12 +113,21 @@ public abstract class AbstractEffect implements IEffect
 
 		builder.append(framesPerSecond).append(" fps | ");
 
-		if (itemCount > -1)
+		if (config.isUseScriptedDemoConfig())
 		{
-			builder.append(itemCount).append(" | ");
+			long elapsedSeconds = (System.currentTimeMillis() - scriptStartTimeMillis) / 1000;
+			builder.append("Demo mode: ").append(elapsedSeconds).append("s | ");
 		}
-		
-		builder.append(config.getEffect()).append(" | ");
+		else
+		{
+
+			if (itemCount > -1)
+			{
+				builder.append(itemCount).append(" | ");
+			}
+
+			builder.append(config.getEffect()).append(" | ");
+		}
 
 		builder.append("render ");
 
@@ -139,7 +155,7 @@ public abstract class AbstractEffect implements IEffect
 			builder.append(nanos).append("ns");
 		}
 	}
-	
+
 	@Override
 	public void renderBackground()
 	{
@@ -156,7 +172,7 @@ public abstract class AbstractEffect implements IEffect
 
 		gc.fillRect(0, 0, width, height);
 	}
-	
+
 	protected final Color getCycleColour()
 	{
 		colourCycleAngle++;
@@ -165,18 +181,18 @@ public abstract class AbstractEffect implements IEffect
 		{
 			colourCycleAngle -= 360;
 		}
-		
+
 		double redFraction = 2 + precalc.sin(colourCycleAngle);
-		double greenFraction = 2 + precalc.sin(360-colourCycleAngle);
+		double greenFraction = 2 + precalc.sin(360 - colourCycleAngle);
 		double blueFraction = 2 + precalc.cos(colourCycleAngle);
 
 		int red = (int) (redFraction * 32);
 		int green = (int) (greenFraction * 32);
 		int blue = (int) (blueFraction * 32);
-		
+
 		return Color.rgb(red, green, blue);
 	}
-	
+
 	protected final void rotateCanvas(double rotation)
 	{
 		Rotate r = new Rotate(canvasRotationAngle, halfWidth, halfHeight);
@@ -189,12 +205,12 @@ public abstract class AbstractEffect implements IEffect
 			canvasRotationAngle -= 360;
 		}
 	}
-	
+
 	@Override
 	public void stop()
-	{	
+	{
 	}
-	
+
 	@Override
 	public void setStartMillis(long start)
 	{
@@ -206,23 +222,23 @@ public abstract class AbstractEffect implements IEffect
 	{
 		this.effectStopMillis = stop;
 	}
-	
+
 	@Override
 	public long getStartMillis()
 	{
 		return effectStartMillis;
 	}
-	
+
 	@Override
 	public long getStopMillis()
 	{
 		return effectStopMillis;
 	}
-	
+
 	public boolean isShowEffect(long elapsed)
 	{
 		boolean showEffect = !effectFinished;
-		
+
 		if (effectStartMillis >= 0)
 		{
 			if (elapsed < effectStartMillis)
@@ -230,7 +246,7 @@ public abstract class AbstractEffect implements IEffect
 				showEffect = false;
 			}
 		}
-		
+
 		if (effectStopMillis >= 0)
 		{
 			if (elapsed > effectStopMillis)
@@ -238,7 +254,7 @@ public abstract class AbstractEffect implements IEffect
 				showEffect = false;
 			}
 		}
-		
+
 		return showEffect;
 	}
 }

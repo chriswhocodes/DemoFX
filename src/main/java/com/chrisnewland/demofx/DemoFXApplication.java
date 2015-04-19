@@ -129,7 +129,8 @@ public class DemoFXApplication extends Application
 			}
 		});
 
-		new DemoAnimationTimer(gc, statsLabel, effects).start();
+		DemoAnimationTimer timer = new DemoAnimationTimer(gc, statsLabel, effects);
+		timer.start();
 	}
 
 	private String getFXLabelText(DemoConfig config)

@@ -76,7 +76,7 @@ public class Checkerboard extends AbstractEffect
 
 	private final void plotCheckerboard()
 	{
-		gc.setFill(Color.WHITE);
+		gc.setFill(Color.NAVY);
 
 		boolean oddRow = true;
 

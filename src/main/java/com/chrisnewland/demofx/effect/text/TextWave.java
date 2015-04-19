@@ -24,22 +24,24 @@ public class TextWave extends AbstractEffect
 	private List<String> stringList;
 	private Font font;
 
-	private static final double INITIAL_FONT_SIZE = 180;
+	private static final double INITIAL_FONT_SIZE = 200;
 	private static final double OFFSCREEN = 100;
 
-	private double speed = 8;
+	private double speed = 12;
 	private double amplitude = 120;
 	private double waveYPos;
 
 	private int stringIndex = 0;
 
 	private boolean loopStringList = true;
+	
+	private Color fontColour = null;
 
 	public TextWave(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
 
-		waveYPos = halfHeight;
+		waveYPos = halfHeight + 48;
 	}
 
 	private String[] explodeString(String str)
@@ -59,27 +61,65 @@ public class TextWave extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
+		// TODO Apple font, replace later with generic
 		font = Font.font("Krungthep", FontWeight.BOLD, INITIAL_FONT_SIZE);
-		gc.setFont(font);
 		xOffset = width;
 
 		stringList = new ArrayList<>();
 
 		stringList.add("TextWave effect - plot letters on a sine wave with automatic kerning");
+
+		precalculateCharacterWidths();
 	}
 
-	public void customInitialise(List<String> stringList, long startMillis, long stopMillis, boolean loopStringList)
+	public void customInitialise(List<String> stringList, long startMillis, long stopMillis, boolean loopStringList, double yPos, double amplitude, Color colour,
+			Font font, double speed)
 	{
 		this.stringList = stringList;
 		this.effectStartMillis = startMillis;
 		this.effectStopMillis = stopMillis;
 		this.loopStringList = loopStringList;
+		this.waveYPos = yPos;
+		this.amplitude = amplitude;
+		this.fontColour = colour;
+		this.font = font;
+		this.speed = speed;
+
+		precalculateCharacterWidths();
+	}
+
+	public void customInitialise(List<String> stringList, long startMillis, long stopMillis, boolean loopStringList)
+	{
+		customInitialise(stringList, startMillis, stopMillis, loopStringList, waveYPos, amplitude, null, gc.getFont(), speed);
+	}
+
+	
+	public void customInitialise(List<String> stringList, long startMillis, long stopMillis, boolean loopStringList, double yPos, double amplitude, Color colour)
+	{
+		customInitialise(stringList, startMillis, stopMillis, loopStringList, yPos, amplitude, colour, gc.getFont(), speed);
+	}
+
+	private final void precalculateCharacterWidths()
+	{
+		gc.setFont(font);
+		
+		for (String str : stringList)
+		{
+			String[] charStrings = explodeString(str);
+
+			for (int i = 0; i < charStrings.length; i++)
+			{
+				String character = charStrings[i];
+
+				TextUtil.getStringDimensions(font, gc, character);
+			}
+		}
 	}
 
 	@Override
 	public void renderBackground()
 	{
-		fillBackground(getCycleColour());
+		fillBackground(Color.NAVY);
 	}
 
 	@Override
@@ -114,11 +154,20 @@ public class TextWave extends AbstractEffect
 
 	private final void plotText()
 	{
+		gc.setFont(font);
+
 		String currentString = stringList.get(stringIndex);
 
 		String[] chars = explodeString(currentString);
 
-		gc.setFill(Color.WHITE);
+		if (fontColour != null)
+		{
+			gc.setFill(fontColour);
+		}
+		else
+		{
+			gc.setFill(getCycleColour());
+		}
 
 		double y = 0;
 
@@ -128,7 +177,7 @@ public class TextWave extends AbstractEffect
 		{
 			String character = chars[i];
 
-			double charWidth = TextUtil.getStringWidthPixels(font, gc, character);
+			double charWidth = TextUtil.getStringDimensions(font, gc, character).getX();
 
 			if (isLetterOnScreen(charX))
 			{

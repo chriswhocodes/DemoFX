@@ -32,6 +32,20 @@ public class Starfield extends AbstractEffect
 			itemCount = 5000;
 		}
 
+		buildStars();
+	}
+	
+	public void customInitialise(int starCount,long startMillis, long stopMillis)
+	{
+		this.itemCount = starCount;
+		this.effectStartMillis = startMillis;
+		this.effectStopMillis = stopMillis;
+		
+		buildStars();
+	}
+	
+	private void buildStars()
+	{
 		starX = new double[itemCount];
 		starY = new double[itemCount];
 		starZ = new double[itemCount];
