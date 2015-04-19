@@ -15,7 +15,7 @@ import com.chrisnewland.demofx.effect.AbstractEffect;
 
 public class Sierpinski extends AbstractEffect
 {
-	private final double SMALLEST;
+	private double smallestTriangle;
 
 	private final double[] pointsX = new double[3];
 	private final double[] pointsY = new double[3];
@@ -56,7 +56,7 @@ public class Sierpinski extends AbstractEffect
 	public Sierpinski(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
-		SMALLEST = height / 100;
+		smallestTriangle = height / 64;
 	}
 
 	@Override
@@ -64,6 +64,11 @@ public class Sierpinski extends AbstractEffect
 	{
 		keep = new ArrayList<>();
 		rootHeight = height;
+	}
+	
+	public void customInitialise(double smallestTriangle)
+	{
+		this.smallestTriangle = smallestTriangle;
 	}
 
 	@Override
@@ -111,7 +116,7 @@ public class Sierpinski extends AbstractEffect
 			return;
 		}
 
-		if (h < SMALLEST)
+		if (h < smallestTriangle)
 		{
 			keep.add(tri);
 		}

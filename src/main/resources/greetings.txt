@@ -49,6 +49,7 @@ Gregor Koukkoullis
 Guillaume Darmont
 Heather VanCura
 Heinz Kabutz
+Hendrik Ebbers
 Herman Lintvelt
 Higher Frequency Trading
 HotSpot Compiler Team
@@ -145,7 +146,6 @@ Uros Djunisijevic
 Vitaly Davidovich
 Vladimir Ivanov
 Vladimir Koslov
-Vladimir Kozlov
 Xerxes Rånby
 Yakov Fain
 Zoran Sevarac
