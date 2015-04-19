@@ -42,7 +42,7 @@ public class ScriptedDemoConfig
 		// ================================================
 
 		// get ready for screen capture
-		long startDelay = 5000;
+		long startDelay = 0;
 
 		long startIntro = startDelay;
 		long stopIntro = startIntro + 21_000;

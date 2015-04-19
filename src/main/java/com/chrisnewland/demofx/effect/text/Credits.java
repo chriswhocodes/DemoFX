@@ -4,11 +4,9 @@
  */
 package com.chrisnewland.demofx.effect.text;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,14 +106,15 @@ public class Credits extends AbstractEffect
 
 		try
 		{
-			Path greetingsPath = Paths.get(getClass().getResource("/greetings.txt").toURI());
-
-			List<String> greetLines = Files.readAllLines(greetingsPath);
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/greetings.txt")));
 
 			int pos = 1;
+						
 			StringBuilder builder = new StringBuilder();
+			
+			String line;
 
-			for (String line : greetLines)
+			while ((line = bufferedReader.readLine()) != null)
 			{
 				if (pos % 3 == 0)
 				{
@@ -130,8 +129,10 @@ public class Credits extends AbstractEffect
 
 				pos++;
 			}
+			
+			bufferedReader.close();
 		}
-		catch (IOException | URISyntaxException ioe)
+		catch (IOException ioe)
 		{
 			stringList.add("Couldn't load greetings file!");
 		}

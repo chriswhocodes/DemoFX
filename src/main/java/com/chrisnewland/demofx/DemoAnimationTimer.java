@@ -35,7 +35,7 @@ public class DemoAnimationTimer extends AnimationTimer
 		this.statsLabel = statsLabel;
 		this.effects = effects;
 		
-		AbstractEffect.setScriptStartTimeMillis(startTime+5000);
+		AbstractEffect.setScriptStartTimeMillis(startTime);
 	}
 	
 	@Override
