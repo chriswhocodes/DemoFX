@@ -12,28 +12,35 @@ ant
 ```
 Run with:
 ./run.sh [options]
--e <effects>               triangles
-                           squares
-                           pentagons
+DemoFXApplication [options]
+-e <effects>               bounce
+                           burst
+                           checkerboard
+                           concentric
+                           credits
+                           grid
                            hexagons
-                           stars
+                           mandelbrot
+                           pentagons
+                           pixels
                            rings
                            sierpinski
-                           tiles
                            spin
-                           burst
-                           bounce
-                           concentric
-                           pixels
+                           sprite3d
+                           spritewave
+                           squares
+                           starfield
+                           stars
                            textwave
-                           ballwave
-                           grid
+                           tiles
+                           triangles
+
 -c <count>                 number of items on screen
 -w <width>                 canvas width
 -h <height>                canvas height
 -l [sqrt,trig,rand,none]   use lookup tables for Math.sqrt, Math.{sin|cos}, Math.Random
--a <true|false>            antialias canvas
 -m <line|poly|fill>        canvas plot mode
+-s <true>                  use ScriptedDemoConfig
 
 ```
 Examples:
@@ -56,6 +63,9 @@ Examples:
 # Burst effect
 ./run.sh -e burst
 
-#Layered effects: grid,ballwave
-./run -e grid,ballwave
+# Layered effects: grid,ballwave
+./run.sh -e grid,ballwave
+
+# Scripted demo mode:
+./run.sh -s true
 ```
