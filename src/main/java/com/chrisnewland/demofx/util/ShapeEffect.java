@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
-package com.chrisnewland.demofx.effect.shape;
+package com.chrisnewland.demofx.util;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -57,10 +57,10 @@ public class ShapeEffect extends AbstractEffect
 
 	private static final int OFFSCREEN = 16;
 
-	private final int OFFSCREEN_LEFT;
-	private final int OFFSCREEN_RIGHT;
-	private final int OFFSCREEN_TOP;
-	private final int OFFSCREEN_BOTTOM;
+	private final double OFFSCREEN_LEFT;
+	private final double OFFSCREEN_RIGHT;
+	private final double OFFSCREEN_TOP;
+	private final double OFFSCREEN_BOTTOM;
 
 	private final PlotMode mode;
 	private final int rotateDegrees;
@@ -70,7 +70,6 @@ public class ShapeEffect extends AbstractEffect
 		super(gc, config);
 
 		this.points = points;
-		itemName = config.getEffect();
 
 		this.mode = config.getPlotMode();
 		this.rotateDegrees = 10;
@@ -104,8 +103,8 @@ public class ShapeEffect extends AbstractEffect
 
 		for (int i = 0; i < itemCount; i++)
 		{
-			int x = getRandomIntInclusive(0, width);
-			int y = getRandomIntInclusive(0, height);
+			int x = getRandomIntInclusive(0, (int)width);
+			int y = getRandomIntInclusive(0, (int)height);
 
 			int dx = getRandomIntInclusive(2, 12);
 			int dy = getRandomIntInclusive(2, 12);
@@ -150,12 +149,16 @@ public class ShapeEffect extends AbstractEffect
 
 		initialiseShapeRadii();
 	}
-
+	
 	@Override
-	public final void render()
+	public void renderBackground()
 	{
 		fillBackground();
+	}
 
+	@Override
+	public final void renderForeground()
+	{
 		for (int i = 0; i < itemCount; i++)
 		{
 			plotShape(i);

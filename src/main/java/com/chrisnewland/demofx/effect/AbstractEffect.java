@@ -8,9 +8,10 @@ import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 import com.chrisnewland.demofx.DemoConfig;
-import com.chrisnewland.demofx.PreCalc;
+import com.chrisnewland.demofx.util.PreCalc;
 
 public abstract class AbstractEffect implements IEffect
 {
@@ -18,16 +19,17 @@ public abstract class AbstractEffect implements IEffect
 
 	protected int itemCount;
 
-	protected final int width;
-	protected final int height;
+	protected final double width;
+	protected final double height;
 
-	protected final int halfWidth;
-	protected final int halfHeight;
+	protected final double halfWidth;
+	protected final double halfHeight;
+
+	protected double canvasRotationAngle = 0;
 
 	protected long lastSecond;
 	protected int frameCount = 0;
 	protected int framesPerSecond = 0;
-	protected String itemName = null;
 
 	private long lastRenderNanos = 0;
 	private long averageRenderNanos = 0;
@@ -37,6 +39,15 @@ public abstract class AbstractEffect implements IEffect
 	private StringBuilder builder = new StringBuilder();
 
 	protected PreCalc precalc;
+	protected DemoConfig config;
+
+	private double colourCycleAngle = 0;
+
+	protected long effectStartMillis = -1;
+	protected long effectStopMillis = -1;
+	protected boolean effectFinished = false;
+
+	private static long scriptStartTimeMillis;
 
 	protected final double getRandomDouble(double min, double max)
 	{
@@ -53,6 +64,7 @@ public abstract class AbstractEffect implements IEffect
 	public AbstractEffect(GraphicsContext gc, DemoConfig config)
 	{
 		this.gc = gc;
+		this.config = config;
 
 		precalc = new PreCalc(config);
 
@@ -65,6 +77,11 @@ public abstract class AbstractEffect implements IEffect
 		this.halfHeight = height / 2;
 
 		initialise();
+	}
+
+	public static void setScriptStartTimeMillis(long millis)
+	{
+		scriptStartTimeMillis = millis;
 	}
 
 	protected abstract void initialise();
@@ -92,13 +109,24 @@ public abstract class AbstractEffect implements IEffect
 	{
 		builder.setLength(0);
 
-		//builder.append(width).append("x").append(height).append(" | ");
+		builder.append(width).append("x").append(height).append(" | ");
 
 		builder.append(framesPerSecond).append(" fps | ");
 
-		if (itemCount > -1)
+		if (config.isUseScriptedDemoConfig())
 		{
-			builder.append(itemCount).append(' ').append(itemName).append(" | ");
+			long elapsedSeconds = (System.currentTimeMillis() - scriptStartTimeMillis) / 1000;
+			builder.append("Demo mode: ").append(elapsedSeconds).append("s | ");
+		}
+		else
+		{
+
+			if (itemCount > -1)
+			{
+				builder.append(itemCount).append(" | ");
+			}
+
+			builder.append(config.getEffect()).append(" | ");
 		}
 
 		builder.append("render ");
@@ -128,6 +156,11 @@ public abstract class AbstractEffect implements IEffect
 		}
 	}
 
+	@Override
+	public void renderBackground()
+	{
+	}
+
 	protected final void fillBackground(int red, int green, int blue)
 	{
 		fillBackground(Color.rgb(red, green, blue));
@@ -138,5 +171,90 @@ public abstract class AbstractEffect implements IEffect
 		gc.setFill(colour);
 
 		gc.fillRect(0, 0, width, height);
+	}
+
+	protected final Color getCycleColour()
+	{
+		colourCycleAngle++;
+
+		if (colourCycleAngle >= 360)
+		{
+			colourCycleAngle -= 360;
+		}
+
+		double redFraction = 2 + precalc.sin(colourCycleAngle);
+		double greenFraction = 2 + precalc.sin(360 - colourCycleAngle);
+		double blueFraction = 2 + precalc.cos(colourCycleAngle);
+
+		int red = (int) (redFraction * 32);
+		int green = (int) (greenFraction * 32);
+		int blue = (int) (blueFraction * 32);
+
+		return Color.rgb(red, green, blue);
+	}
+
+	protected final void rotateCanvas(double rotation)
+	{
+		Rotate r = new Rotate(canvasRotationAngle, halfWidth, halfHeight);
+		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+
+		canvasRotationAngle += rotation;
+
+		if (canvasRotationAngle >= 360)
+		{
+			canvasRotationAngle -= 360;
+		}
+	}
+
+	@Override
+	public void stop()
+	{
+	}
+
+	@Override
+	public void setStartMillis(long start)
+	{
+		this.effectStartMillis = start;
+	}
+
+	@Override
+	public void setStopMillis(long stop)
+	{
+		this.effectStopMillis = stop;
+	}
+
+	@Override
+	public long getStartMillis()
+	{
+		return effectStartMillis;
+	}
+
+	@Override
+	public long getStopMillis()
+	{
+		return effectStopMillis;
+	}
+
+	public boolean isShowEffect(long elapsed)
+	{
+		boolean showEffect = !effectFinished;
+
+		if (effectStartMillis >= 0)
+		{
+			if (elapsed < effectStartMillis)
+			{
+				showEffect = false;
+			}
+		}
+
+		if (effectStopMillis >= 0)
+		{
+			if (elapsed > effectStopMillis)
+			{
+				showEffect = false;
+			}
+		}
+
+		return showEffect;
 	}
 }

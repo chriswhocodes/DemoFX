@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
-package com.chrisnewland.demofx.effect.shape;
+package com.chrisnewland.demofx.effect.fractal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import com.chrisnewland.demofx.effect.AbstractEffect;
 
 public class Sierpinski extends AbstractEffect
 {
-	private final double SMALLEST;
+	private double smallestTriangle;
 
 	private final double[] pointsX = new double[3];
 	private final double[] pointsY = new double[3];
@@ -56,19 +56,29 @@ public class Sierpinski extends AbstractEffect
 	public Sierpinski(GraphicsContext gc, DemoConfig config)
 	{
 		super(gc, config);
-		SMALLEST = height / 64;
+		smallestTriangle = height / 64;
 	}
 
 	@Override
 	protected void initialise()
 	{
 		keep = new ArrayList<>();
-		itemName = "Tri";
 		rootHeight = height;
+	}
+	
+	public void customInitialise(double smallestTriangle)
+	{
+		this.smallestTriangle = smallestTriangle;
 	}
 
 	@Override
-	public void render()
+	public void renderBackground()
+	{
+		fillBackground(getCycleColour());
+	}
+	
+	@Override
+	public void renderForeground()
 	{
 		calcTriangles();
 
@@ -79,7 +89,9 @@ public class Sierpinski extends AbstractEffect
 	{
 		keep.clear();
 
-		rootHeight += 8;
+		double acceleration = rootHeight * 0.02;
+		
+		rootHeight += acceleration;
 
 		if (rootHeight >= 2 * height)
 		{
@@ -104,7 +116,7 @@ public class Sierpinski extends AbstractEffect
 			return;
 		}
 
-		if (h < SMALLEST)
+		if (h < smallestTriangle)
 		{
 			keep.add(tri);
 		}
@@ -122,17 +134,13 @@ public class Sierpinski extends AbstractEffect
 
 	private final void drawTriangles()
 	{
-		fillBackground(Color.BLACK);
-
+		gc.setFill(Color.WHITE);
+		
 		int triangleCount = keep.size();
 
 		for (int i = 0; i < triangleCount; i++)
 		{
-			int col = 55 + (int)(200 * (i / (double)triangleCount));
-
-			gc.setFill(Color.rgb(col, col, col));
-
-			Triangle tri = keep.get(i);
+			Triangle tri = keep.get(i);			
 
 			if (tri.getTopY() < height)
 			{
@@ -156,6 +164,6 @@ public class Sierpinski extends AbstractEffect
 		pointsX[2] = topX - h / 2;
 		pointsY[2] = topY + h;
 
-		gc.fillPolygon(pointsX, pointsY, 3);
+		gc.fillPolygon(pointsX, pointsY, 3);		
 	}
 }

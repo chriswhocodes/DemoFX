@@ -4,6 +4,10 @@
  */
 package com.chrisnewland.demofx;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class DemoConfig
 {
 	public enum PlotMode
@@ -13,14 +17,16 @@ public class DemoConfig
 
 	private String effect = "stars";
 	private int count = -1;
-	private int width = 800;
-	private int height = 600;
+	private double width = 800;
+	private double height = 600;
 
 	private boolean lookupSqrt = false;
 	private boolean lookupTrig = true;
 	private boolean lookupRandom = true;
 
 	private PlotMode plotMode = PlotMode.PLOT_MODE_FILL_POLYGON;
+
+	private boolean useScriptedDemoConfig = false;
 
 	private DemoConfig()
 	{
@@ -30,14 +36,54 @@ public class DemoConfig
 	{
 		StringBuilder builder = new StringBuilder();
 
+		List<String> effects = new ArrayList<>();
+
+		effects.add("triangles");
+		effects.add("squares");
+		effects.add("pentagons");
+		effects.add("hexagons");
+		effects.add("stars");
+		effects.add("rings");
+		effects.add("sierpinski");
+		effects.add("mandelbrot");
+		effects.add("tiles");
+		effects.add("spin");
+		effects.add("burst");
+		effects.add("bounce");
+		effects.add("concentric");
+		effects.add("pixels");
+		effects.add("textwave");
+		effects.add("spritewave");
+		effects.add("grid");
+		effects.add("checkerboard");
+		effects.add("starfield");
+		effects.add("sprite3d");
+		effects.add("credits");
+
+		Collections.sort(effects);
+
 		builder.append("DemoFXApplication [options]").append("\n");
-		builder.append(buildUsageLine("-e <effect>", "triangles,squares,pentagons,hexagons,stars,rings,tiles,spin,burst,bounce, sierpinski"));
+
+		boolean first = true;
+
+		for (String effectName : effects)
+		{
+			builder.append(buildUsageLine(first ? "-e <effects>" : "", effectName));
+
+			if (first)
+			{
+				first = false;
+			}
+		}
+
+		builder.append("\n");
+
 		builder.append(buildUsageLine("-c <count>", "number of items on screen"));
 		builder.append(buildUsageLine("-w <width>", "canvas width"));
 		builder.append(buildUsageLine("-h <height>", "canvas height"));
 		builder.append(buildUsageLine("-l [sqrt,trig,rand,none]", "use lookup tables for Math.sqrt, Math.{sin|cos}, Math.Random"));
-		builder.append(buildUsageLine("-a <true|false>", "antialias canvas"));
 		builder.append(buildUsageLine("-m <line|poly|fill>", "canvas plot mode"));
+		builder.append(buildUsageLine("-s <true>", "use ScriptedDemoConfig"));
 
 		return builder.toString();
 	}
@@ -84,21 +130,27 @@ public class DemoConfig
 				{
 					switch (arg.substring(1))
 					{
+					// =======================================
 					case "e":
 						config.effect = value;
 						break;
+					// =======================================
 					case "c":
 						config.count = Integer.parseInt(value);
 						break;
+					// =======================================
 					case "w":
-						config.width = Integer.parseInt(value);
+						config.width = Double.parseDouble(value);
 						break;
+					// =======================================
 					case "h":
-						config.height = Integer.parseInt(value);
+						config.height = Double.parseDouble(value);
 						break;
+					// =======================================
 					case "l":
 						checkLookupOptions(config, value);
 						break;
+					// =======================================
 					case "m":
 						if ("line".equals(value.toLowerCase()))
 						{
@@ -117,10 +169,20 @@ public class DemoConfig
 							argError = true;
 						}
 						break;
+					// =======================================
+					case "s":
+						if ("true".equals(value.toLowerCase()))
+						{
+							config.useScriptedDemoConfig = true;
+							config.effect = "script mode";
+						}
+						break;
+					// =======================================
 					default:
 						argError = true;
 						break;
 					}
+					// =======================================
 				}
 				catch (Exception e)
 				{
@@ -169,7 +231,7 @@ public class DemoConfig
 
 	public String getEffect()
 	{
-		return effect.substring(0, 1).toUpperCase() + effect.substring(1).toLowerCase();
+		return effect.toLowerCase();
 	}
 
 	public int getCount()
@@ -177,12 +239,12 @@ public class DemoConfig
 		return count;
 	}
 
-	public int getWidth()
+	public double getWidth()
 	{
 		return width;
 	}
 
-	public int getHeight()
+	public double getHeight()
 	{
 		return height;
 	}
@@ -205,5 +267,15 @@ public class DemoConfig
 	public boolean isLookupRandom()
 	{
 		return lookupRandom;
+	}
+
+	public boolean isUseScriptedDemoConfig()
+	{
+		return useScriptedDemoConfig;
+	}
+	
+	public void setItemCount(int count)
+	{
+		this.count = count;
 	}
 }

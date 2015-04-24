@@ -33,16 +33,14 @@ public class Tiles extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		itemName = "Tiles";
-
 		image = new Image(getClass().getResourceAsStream("/javafx.png"));
 
 		imgWidth = image.getWidth();
 		imgHeight = image.getHeight();
 	}
-
+	
 	@Override
-	public void render()
+	public void renderForeground()
 	{
 		scaleImage();
 

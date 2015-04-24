@@ -6,7 +6,17 @@ package com.chrisnewland.demofx.effect;
 
 public interface IEffect
 {
-	public void render();
+	public void renderForeground();
+	public void renderBackground();
+	public void stop();
 	public void updateStatistics(long renderNanos);
 	public String getStatistics();
+	
+	public void setStartMillis(long start);
+	public void setStopMillis(long stop);
+	
+	public long getStartMillis();
+	public long getStopMillis();
+	
+	public boolean isShowEffect(long elapsed);	
 }

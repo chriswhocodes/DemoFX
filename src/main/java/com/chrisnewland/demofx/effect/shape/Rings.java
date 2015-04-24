@@ -100,15 +100,19 @@ public class Rings extends AbstractEffect
 
 		master = new Ring(ring2, 300, 30, 3, Color.BLUEVIOLET);
 
-		itemName = "Rings";
 		itemCount = 8;
 	}
 
+	
 	@Override
-	public void render()
+	public void renderBackground()
 	{
 		fillBackground(Color.MIDNIGHTBLUE);
-
+	}	
+	
+	@Override
+	public void renderForeground()
+	{
 		master.incAngle();
 
 		double rx = halfWidth + 150 * precalc.sin(master.getAngle());

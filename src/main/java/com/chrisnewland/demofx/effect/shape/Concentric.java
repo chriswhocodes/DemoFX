@@ -40,7 +40,6 @@ public class Concentric extends AbstractEffect
 	@Override
 	protected void initialise()
 	{
-		itemName = "Images";
 		space = width / RINGS / 1.7;
 
 		radii = new double[RINGS];
@@ -71,10 +70,14 @@ public class Concentric extends AbstractEffect
 	}
 
 	@Override
-	public void render()
+	public void renderBackground()
 	{
-		fillBackground();
-
+		fillBackground(getCycleColour());
+	}
+	
+	@Override
+	public void renderForeground()
+	{
 		rotateRings();
 
 		plotRings();
@@ -141,20 +144,5 @@ public class Concentric extends AbstractEffect
 
 			gc.drawImage(images[imageIndex[ringIndex]], x, y);
 		}
-	}
-	
-	private final void fillBackground()
-	{
-		double redFraction = 2 + precalc.sin(angleClockwise);
-		double greenFraction = 2 + precalc.sin(angleAntiClockwise + 10);
-		double blueFraction = 2 + precalc.cos(angleClockwise);
-
-		int lightness = 16;
-		
-		int red = (int) (redFraction * lightness);
-		int green = (int) (greenFraction * lightness);
-		int blue = (int) (blueFraction * lightness);
-
-		fillBackground(red, green, blue);
 	}
 }
