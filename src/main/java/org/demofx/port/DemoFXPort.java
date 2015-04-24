@@ -24,7 +24,7 @@ public class DemoFXPort extends Application {
     @Override
     public void start(final Stage stage) throws Exception {
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-        DemoConfig config = DemoConfig.parseArgs(new String[]{});
+        DemoConfig config = getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight()-50);
 
         if (config == null) {
             System.err.print(DemoConfig.getUsageError());
@@ -35,20 +35,18 @@ public class DemoFXPort extends Application {
         
         DemoFX demoFX = new DemoFX();
 
-        scene = new Scene(demoFX.runDemo(getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight(), shapes[shape])), visualBounds.getWidth(), visualBounds.getHeight());
-                
-        scene.setOnMouseClicked((MouseEvent event) -> {
-            shape = shape==shapes.length-1? 0:shape+1;
-            scene.setRoot(demoFX.runDemo(getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight(), shapes[shape])));
-        });
-
-        stage.setScene(scene);
-        stage.show();
+//        scene = new Scene(demoFX.runDemo(getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight(), shapes[shape])), visualBounds.getWidth(), visualBounds.getHeight());
+//                
+//        scene.setOnMouseClicked((MouseEvent event) -> {
+//            shape = shape==shapes.length-1? 0:shape+1;
+//            scene.setRoot(demoFX.runDemo(getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight(), shapes[shape])));
+//        });
+        demoFX.runDemo(stage, config);
 
     }
     
-    private DemoConfig getConfig(int numberItems, int canvasWidth, int canvasHeight, String fx){
-        return DemoConfig.parseArgs(new String[]{"-c", numberItems+"", "-e", fx, "-h", canvasHeight+"","-w", canvasWidth+""});
+    private static DemoConfig getConfig(int numberItems, int canvasWidth, int canvasHeight){
+        return DemoConfig.parseArgs(new String[]{"-c", numberItems+"", "-e", "bounce", "-h", canvasHeight+"","-w", canvasWidth+""});
     }
 
 
