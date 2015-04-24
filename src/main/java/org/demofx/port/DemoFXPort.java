@@ -46,7 +46,10 @@ public class DemoFXPort extends Application {
     @Override
     public void start(final Stage stage) throws Exception {
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-        DemoConfig config = getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight()-50, shapes[shape]);
+
+        int topHeight = 50;
+        
+        DemoConfig config = getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight()-topHeight, shapes[shape]);
 
         if (config == null) {
             System.err.print(DemoConfig.getUsageError());
@@ -59,9 +62,7 @@ public class DemoFXPort extends Application {
 
         final Scene scene;
 
-        int topHeight = 50;
-
-        scene = new Scene(demoFX.runDemo(getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight(), shapes[shape])), visualBounds.getWidth(), visualBounds.getHeight());
+        scene = new Scene(root, visualBounds.getWidth(), visualBounds.getHeight());
                 
         scene.setOnMouseClicked((MouseEvent event) -> {
             demoFX.stopDemo();
