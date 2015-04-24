@@ -15,6 +15,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -38,12 +39,15 @@ public class DemoFX {
     }
 
     public void stopDemo() {
+        for (IEffect effect : effects) {
+            effect.stop();
+        }
         if (timer != null) {
             timer.stop();
         }
     }
 
-    public void runDemo(final Stage stage, final DemoConfig config) {
+    public Pane runDemo(final DemoConfig config) {
         Canvas canvas = new Canvas(config.getWidth(), config.getHeight());
 
         gc = canvas.getGraphicsContext2D();
@@ -63,11 +67,7 @@ public class DemoFX {
 
         BorderPane root = new BorderPane();
 
-        Scene scene;
-
         int topHeight = 50;
-
-        scene = new Scene(root, config.getWidth(), config.getHeight() + topHeight);
 
         final String BLACK_BG_STYLE = "-fx-background-color:black;";
         final String FONT_STYLE = "-fx-font-family:monospace; -fx-font-size:16px; -fx-text-fill:white;";
@@ -93,21 +93,9 @@ public class DemoFX {
         root.setTop(vbox);
         root.setCenter(canvas);
 
-        stage.setTitle("DemoFX performance test platform by @chriswhocodes");
-        stage.setScene(scene);
-        stage.show();
-
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent arg0) {
-                for (IEffect effect : effects) {
-                    effect.stop();
-                }
-            }
-        });
-
         timer = new DemoAnimationTimer(gc, statsLabel, effects);
         timer.start();
+        return root;
     }
 
     private String getFXLabelText(DemoConfig config) {
@@ -154,7 +142,7 @@ public class DemoFX {
 
     @SuppressWarnings("unchecked")
     private String getPrismTryOrder() {
-		// Java 7 returns String[]
+        // Java 7 returns String[]
         // Java 8 returns List<String>
         Object result = PrismSettings.tryOrder;
 

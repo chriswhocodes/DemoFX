@@ -24,31 +24,41 @@ import com.chrisnewland.demofx.effect.EffectFactory;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.sun.prism.GraphicsPipeline;
 import com.sun.prism.impl.PrismSettings;
+import javafx.scene.layout.Pane;
 
-public class DemoFXApplication extends Application
-{
-	private static String[] args;
+public class DemoFXApplication extends Application {
 
-	public static void main(String[] args)
-	{
-		DemoFXApplication.args = args;
-		Application.launch(args);
-	}
+    private static String[] args;
 
-	@Override
-	public void start(final Stage stage) throws Exception
-	{
-		DemoConfig config = DemoConfig.parseArgs(args);
+    public static void main(String[] args) {
+        DemoFXApplication.args = args;
+        Application.launch(args);
+    }
 
-		if (config == null)
-		{
-			System.err.print(DemoConfig.getUsageError());
-			System.exit(-1);
-		}
-                
-                DemoFX demoFX = new DemoFX();
+    @Override
+    public void start(final Stage stage) throws Exception {
+        DemoConfig config = DemoConfig.parseArgs(args);
 
-		demoFX.runDemo(stage, config);
-	}
+        if (config == null) {
+            System.err.print(DemoConfig.getUsageError());
+            System.exit(-1);
+        }
+
+        int topHeight = 50;
+        DemoFX demoFX = new DemoFX();
+        Pane root = demoFX.runDemo(config);
+        Scene scene = new Scene(root, config.getWidth(), config.getHeight() + topHeight);
+
+        stage.setTitle("DemoFX performance test platform by @chriswhocodes");
+        stage.setScene(scene);
+        stage.show();
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent arg0) {
+            }
+        });
+
+    }
 
 }
