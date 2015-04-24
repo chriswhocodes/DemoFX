@@ -69,7 +69,6 @@ public class DemoFXPort extends Application {
             scene.setRoot(demoFX.runDemo(getConfig(numberItems, (int)visualBounds.getWidth(), (int)visualBounds.getHeight(), shapes[shape])));
         });
 
-        stage.setTitle("DemoFX performance test platform");
         stage.setScene(scene);
         stage.show();
 
