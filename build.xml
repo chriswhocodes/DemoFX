@@ -1,0 +1,37 @@
+<project name="DemoFX" default="all" basedir=".">
+	<property name="src" value="src/main/java" />
+	<property name="target" value="target" />
+	<property name="resources" value="src/main/resources" />
+	<property name="classes" value="${target}/classes" />
+	<property environment="env" />
+
+	<target name="clean">
+		<delete quiet="true" dir="${classes}" />
+		<mkdir dir="${classes}" />
+	</target>
+
+	<path id="classpath">
+		<filelist>
+			<file name="${env.JAVA_HOME}/jre/lib/jfxrt.jar" />
+			<file name="${env.JAVA_HOME}/jre/lib/ext/jfxrt.jar" />
+		</filelist>
+	</path>
+
+	<target name="compile">
+		<mkdir dir="${classes}" />
+		<javac srcdir="${src}" destdir="${classes}" classpathref="classpath" includeantruntime="false" debug="true" debuglevel="lines,vars,source"/>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="${target}/DemoFX.jar">
+			<fileset dir="${classes}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${resources}">
+				<include name="**/*" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="all" depends="jar" />
+</project>
