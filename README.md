@@ -9,7 +9,7 @@ Part I : https://www.youtube.com/watch?v=N1rihYA8c2M
 
 Part II: https://www.youtube.com/watch?v=WZf0j4GUFYM
 
-I'll be using this to discover the best techniques for optimising JavaFX performance on the Raspberry Pi and Desktop.
+Used to discover the best techniques for optimising JavaFX performance on the Raspberry Pi, Desktop iOS and Android.
 
 Compile in your IDE or with ant:
 ```
