@@ -2,8 +2,6 @@ package com.chrisnewland.demofx;
 
 import com.chrisnewland.demofx.effect.EffectFactory;
 import com.chrisnewland.demofx.effect.IEffect;
-import com.sun.prism.GraphicsPipeline;
-import com.sun.prism.impl.PrismSettings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -132,15 +130,26 @@ public class DemoFX {
     }
 
     private String getUsedPipeline() {
-        GraphicsPipeline pipeline = GraphicsPipeline.getPipeline();
-        return pipeline.getClass().getName();
+        try {
+            // JDK9 forbidden:
+            return com.sun.prism.GraphicsPipeline.getPipeline().getClass().getName();
+        } catch (Throwable th) {
+            System.out.println("Ignored exception while getting PrismSettings.tryOrder");
+        }
+        return "Unknown";
     }
 
     @SuppressWarnings("unchecked")
     private String getPrismTryOrder() {
+        Object result = null;
         // Java 7 returns String[]
         // Java 8 returns List<String>
-        Object result = PrismSettings.tryOrder;
+        try {
+            // JDK9 forbidden:
+            result = com.sun.prism.impl.PrismSettings.tryOrder;
+        } catch (Throwable th) {
+            System.out.println("Ignored exception while getting PrismSettings.tryOrder");
+        }
 
         List<String> tryOrderList = new ArrayList<>();
 
