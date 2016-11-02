@@ -94,13 +94,15 @@ public abstract class AbstractEffect implements IEffect
 
 		now = System.currentTimeMillis();
 
-		if (now - lastSecond > 1000)
+		if (now - lastSecond > 1000L)
 		{
 			framesPerSecond = frameCount;
 			frameCount = 0;
 			lastSecond = now;
 
 			averageRenderNanos += (renderNanos - averageRenderNanos) / ++count;
+            
+                        System.out.println(config.getEffect() + " = " + framesPerSecond + " fps");
 		}
 	}
 
