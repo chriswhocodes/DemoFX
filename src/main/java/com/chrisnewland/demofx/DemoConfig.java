@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx;
@@ -7,6 +7,11 @@ package com.chrisnewland.demofx;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.chrisnewland.demofx.util.PreCalc;
+
+import javafx.scene.Group;
+import javafx.scene.canvas.GraphicsContext;
 
 public class DemoConfig
 {
@@ -16,10 +21,12 @@ public class DemoConfig
 	}
 
 	private String effect = "stars";
+	private String audioFileName = null; 
 	private int count = -1;
 	private double width = 800;
 	private double height = 600;
 
+	private boolean fullScreen = false;
 	private boolean lookupSqrt = false;
 	private boolean lookupTrig = true;
 	private boolean lookupRandom = true;
@@ -27,6 +34,16 @@ public class DemoConfig
 	private PlotMode plotMode = PlotMode.PLOT_MODE_FILL_POLYGON;
 
 	private boolean useScriptedDemoConfig = false;
+	
+	private Group groupNode;
+	private GraphicsContext onScreenCanvasGC;
+	private GraphicsContext offScreenCanvasGC;
+	
+	private boolean offScreen = false;
+	private double offScreenWidth;
+	private double offScreenHeight;
+	
+	private PreCalc precalc;
 
 	private DemoConfig()
 	{
@@ -51,7 +68,8 @@ public class DemoConfig
 		effects.add("burst");
 		effects.add("bounce");
 		effects.add("concentric");
-		effects.add("pixels");
+		effects.add("rain");
+		effects.add("blur");
 		effects.add("textwave");
 		effects.add("spritewave");
 		effects.add("grid");
@@ -79,10 +97,12 @@ public class DemoConfig
 		builder.append("\n");
 
 		builder.append(buildUsageLine("-c <count>", "number of items on screen"));
+		builder.append(buildUsageLine("-f <true>", "fullscreen mode (no stats pane)"));
 		builder.append(buildUsageLine("-w <width>", "canvas width"));
 		builder.append(buildUsageLine("-h <height>", "canvas height"));
 		builder.append(buildUsageLine("-l [sqrt,trig,rand,none]", "use lookup tables for Math.sqrt, Math.{sin|cos}, Math.Random"));
 		builder.append(buildUsageLine("-m <line|poly|fill>", "canvas plot mode"));
+		builder.append(buildUsageLine("-a <audio filename>", "Play audio file"));
 		builder.append(buildUsageLine("-s <true>", "use ScriptedDemoConfig"));
 
 		return builder.toString();
@@ -108,10 +128,19 @@ public class DemoConfig
 		return builder.toString();
 	}
 
-	public static DemoConfig parseArgs(String[] args)
+	public void setLayers(GraphicsContext onscreenGC, GraphicsContext offscreenGC, Group foreground) 
+	{
+		this.onScreenCanvasGC = onscreenGC;
+		
+		this.offScreenCanvasGC = offscreenGC;
+
+		this.groupNode = foreground;
+	}
+	
+	public static DemoConfig buildConfig(String[] args)
 	{
 		DemoConfig config = new DemoConfig();
-
+		
 		boolean argError = false;
 
 		int argc = args.length;
@@ -133,6 +162,10 @@ public class DemoConfig
 					// =======================================
 					case "e":
 						config.effect = value;
+						break;
+					// =======================================
+					case "a":
+						config.audioFileName = value;
 						break;
 					// =======================================
 					case "c":
@@ -177,6 +210,12 @@ public class DemoConfig
 							config.effect = "script mode";
 						}
 						break;
+					case "f":
+						if ("true".equals(value.toLowerCase()))
+						{
+							config.fullScreen = true;
+						}
+						break;
 					// =======================================
 					default:
 						argError = true;
@@ -200,8 +239,18 @@ public class DemoConfig
 		{
 			config = null;
 		}
+		
+		if (config != null)
+		{
+			config.precalc = new PreCalc(config);
+		}
 
 		return config;
+	}
+	
+	public PreCalc getPreCalc()
+	{
+		return precalc;
 	}
 
 	private static void checkLookupOptions(DemoConfig config, String value)
@@ -232,6 +281,16 @@ public class DemoConfig
 	public String getEffect()
 	{
 		return effect.toLowerCase();
+	}
+	
+	public void setAudioFilename(String filename)
+	{
+		this.audioFileName = filename;
+	}
+	
+	public String getAudioFilename()
+	{
+		return audioFileName;
 	}
 
 	public int getCount()
@@ -274,8 +333,57 @@ public class DemoConfig
 		return useScriptedDemoConfig;
 	}
 	
+	public boolean isFullScreen()
+	{
+		return fullScreen;
+	}
+	
 	public void setItemCount(int count)
 	{
 		this.count = count;
+	}
+
+	public Group getGroupNode()
+	{
+		return groupNode;
+	}
+
+	public GraphicsContext getOnScreenCanvasGC()
+	{
+		return onScreenCanvasGC;
+	}
+	
+	public GraphicsContext getOffScreenCanvasGC()
+	{
+		return offScreenCanvasGC;
+	}
+	
+	public boolean isOffScreen()
+	{
+		return offScreen;
+	}
+	
+	public void clearOffScreen()
+	{
+		offScreen = false;
+		offScreenWidth = -1;
+		offScreenHeight = -1;
+	}
+	
+	public void setOffScreen(double newWidth, double newHeight)
+	{
+		offScreen = true;
+		offScreenWidth = newWidth;
+		offScreenHeight = newHeight;
+	}
+	
+	public double getOffScreenWidth()
+	{
+		return offScreenWidth;
+	}
+	
+	public double getOffScreenHeight()
+	{
+		return offScreenHeight;
 	}
 }

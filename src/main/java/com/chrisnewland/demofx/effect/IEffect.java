@@ -1,22 +1,24 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect;
 
 public interface IEffect
 {
-	public void renderForeground();
-	public void renderBackground();
-	public void stop();
-	public void updateStatistics(long renderNanos);
-	public String getStatistics();
+	void renderForeground();
+
+	void start();
 	
-	public void setStartMillis(long start);
-	public void setStopMillis(long stop);
-	
-	public long getStartMillis();
-	public long getStopMillis();
-	
-	public boolean isShowEffect(long elapsed);	
+	void stop();
+
+	void setStartMillis(long start);
+
+	void setStopMillis(long stop);
+
+	long getStartMillis();
+
+	long getStopMillis();
+
+	boolean isVisible(long elapsed);
 }

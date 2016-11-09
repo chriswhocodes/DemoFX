@@ -1,0 +1,198 @@
+[Entry Point]
+  # {method} {0x00000001190302c8} 'plotText' '()V' in 'com/chrisnewland/demofx/effect/text/TextLayers'
+  #           [sp+0x100]  (sp of caller)
+  0x0000000105259260: mov    r10d,DWORD PTR [rsi+0x8]  ;   {no_reloc}
+  0x0000000105259264: shl    r10,0x3
+  0x0000000105259268: cmp    r10,rax
+  0x000000010525926b: jne    0x0000000104bdce20  ;   {runtime_call}
+  0x0000000105259271: data16 data16 nop WORD PTR [rax+rax*1+0x0]
+  0x000000010525927c: data16 data16 xchg ax,ax
+[Verified Entry Point]
+  0x0000000105259280: mov    DWORD PTR [rsp-0x14000],eax
+  0x0000000105259287: push   rbp
+  0x0000000105259288: sub    rsp,0xf0
+  0x000000010525928f: mov    QWORD PTR [rsp+0xc0],rsi
+  0x0000000105259297: movabs rdi,0x119161a68    ;   {metadata(method data for {method} {0x00000001190302c8} 'plotText' '()V' in 'com/chrisnewland/demofx/effect/text/TextLayers')}
+  0x00000001052592a1: mov    ebx,DWORD PTR [rdi+0xdc]
+  0x00000001052592a7: add    ebx,0x8
+  0x00000001052592aa: mov    DWORD PTR [rdi+0xdc],ebx
+  0x00000001052592b0: movabs rdi,0x1190302c8    ;   {metadata({method} {0x00000001190302c8} 'plotText' '()V' in 'com/chrisnewland/demofx/effect/text/TextLayers')}
+  0x00000001052592ba: and    ebx,0x1ff8
+  0x00000001052592c0: cmp    ebx,0x0
+  0x00000001052592c3: je     0x0000000105259fb7  ;*iconst_0
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@0 (line 159)
+
+  0x00000001052592c9: movabs rdi,0x119161a68    ;   {metadata(method data for {method} {0x00000001190302c8} 'plotText' '()V' in 'com/chrisnewland/demofx/effect/text/TextLayers')}
+  0x00000001052592d3: inc    DWORD PTR [rdi+0x108]
+  0x00000001052592d9: mov    edi,0x0            ;*goto
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@2 (line 159)
+
+  0x00000001052592de: xchg   ax,ax
+  0x00000001052592e0: mov    ebx,DWORD PTR [rsi+0x78]
+  0x00000001052592e3: shl    rbx,0x3            ;*getfield layers
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@149 (line 159)
+
+  0x00000001052592e7: mov    eax,DWORD PTR [rbx+0xc]  ;*arraylength
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@152 (line 159)
+                                                ; implicit exception: dispatches to 0x0000000105259fce
+  0x00000001052592ea: movabs rdx,0x119161a68    ;   {metadata(method data for {method} {0x00000001190302c8} 'plotText' '()V' in 'com/chrisnewland/demofx/effect/text/TextLayers')}
+  0x00000001052592f4: mov    ecx,DWORD PTR [rdx+0xe0]
+  0x00000001052592fa: add    ecx,0x8
+  0x00000001052592fd: mov    DWORD PTR [rdx+0xe0],ecx
+  0x0000000105259303: movabs rdx,0x1190302c8    ;   {metadata({method} {0x00000001190302c8} 'plotText' '()V' in 'com/chrisnewland/demofx/effect/text/TextLayers')}
+  0x000000010525930d: and    ecx,0xfff8
+  0x0000000105259313: cmp    ecx,0x0
+  0x0000000105259316: je     0x0000000105259fd3  ; OopMap{rsi=Oop [192]=Oop rbx=Oop off=188}
+                                                ;*if_icmplt
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@153 (line 159)
+
+  0x000000010525931c: test   DWORD PTR [rip+0xfffffffffd8ffdde],eax        # 0x0000000102b59100
+                                                ;   {poll}
+  0x0000000105259322: cmp    edi,eax
+  0x0000000105259324: movabs rdx,0x119161a68    ;   {metadata(method data for {method} {0x00000001190302c8} 'plotText' '()V' in 'com/chrisnewland/demofx/effect/text/TextLayers')}
+  0x000000010525932e: movabs rcx,0x250
+  0x0000000105259338: jl     0x0000000105259348
+  0x000000010525933e: movabs rcx,0x260
+  0x0000000105259348: mov    r8,QWORD PTR [rdx+rcx*1]
+  0x000000010525934c: lea    r8,[r8+0x1]
+  0x0000000105259350: mov    QWORD PTR [rdx+rcx*1],r8
+  0x0000000105259354: jge    0x0000000105259fa8  ;*if_icmplt
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@153 (line 159)
+
+  0x000000010525935a: movsxd rdx,edi
+  0x000000010525935d: mov    ebx,DWORD PTR [rbx+rdx*4+0x10]
+  0x0000000105259361: shl    rbx,0x3            ;*aaload
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@10 (line 161)
+
+  0x0000000105259365: mov    QWORD PTR [rsp+0xc8],rbx
+  0x000000010525936d: vcvtsi2sd xmm1,xmm1,eax
+  0x0000000105259371: mov    eax,DWORD PTR [rsi+0x64]
+  0x0000000105259374: shl    rax,0x3            ;*getfield precalc
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@19 (line 163)
+
+  0x0000000105259378: vmovsd xmm0,QWORD PTR [rsi+0x70]
+                                                ;*getfield angle
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@23 (line 163)
+
+  0x000000010525937d: cmp    rax,QWORD PTR [rax]  ;*invokevirtual sin
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@26 (line 163)
+                                                ; implicit exception: dispatches to 0x0000000105259fea
+  0x0000000105259380: mov    rdx,rax
+  0x0000000105259383: movabs rcx,0x119161a68    ;   {metadata(method data for {method} {0x00000001190302c8} 'plotText' '()V' in 'com/chrisnewland/demofx/effect/text/TextLayers')}
+  0x000000010525938d: mov    edx,DWORD PTR [rdx+0x8]
+  0x0000000105259390: shl    rdx,0x3
+  0x0000000105259394: cmp    rdx,QWORD PTR [rcx+0x128]
+  0x000000010525939b: jne    0x00000001052593aa
+  0x000000010525939d: add    QWORD PTR [rcx+0x130],0x1
+  0x00000001052593a5: jmp    0x0000000105259410
+  0x00000001052593aa: cmp    rdx,QWORD PTR [rcx+0x138]
+  0x00000001052593b1: jne    0x00000001052593c0
+  0x00000001052593b3: add    QWORD PTR [rcx+0x140],0x1
+  0x00000001052593bb: jmp    0x0000000105259410
+  0x00000001052593c0: cmp    QWORD PTR [rcx+0x128],0x0
+  0x00000001052593cb: jne    0x00000001052593e4
+  0x00000001052593cd: mov    QWORD PTR [rcx+0x128],rdx
+  0x00000001052593d4: mov    QWORD PTR [rcx+0x130],0x1
+  0x00000001052593df: jmp    0x0000000105259410
+  0x00000001052593e4: cmp    QWORD PTR [rcx+0x138],0x0
+  0x00000001052593ef: jne    0x0000000105259408
+  0x00000001052593f1: mov    QWORD PTR [rcx+0x138],rdx
+  0x00000001052593f8: mov    QWORD PTR [rcx+0x140],0x1
+  0x0000000105259403: jmp    0x0000000105259410
+  0x0000000105259408: add    QWORD PTR [rcx+0x120],0x1
+  0x0000000105259410: movabs rdx,0x11902e9d0    ;   {metadata(method data for {method} {0x0000000119021f28} 'sin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x000000010525941a: mov    ecx,DWORD PTR [rdx+0xdc]
+  0x0000000105259420: add    ecx,0x8
+  0x0000000105259423: mov    DWORD PTR [rdx+0xdc],ecx
+  0x0000000105259429: movabs rdx,0x119021f28    ;   {metadata({method} {0x0000000119021f28} 'sin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x0000000105259433: and    ecx,0x7ffff8
+  0x0000000105259439: cmp    ecx,0x0
+  0x000000010525943c: je     0x0000000105259fef
+  0x0000000105259442: movsx  edx,BYTE PTR [rax+0x2d]  ;*getfield USE_LOOKUPS_FOR_TRIG
+                                                ; - com.chrisnewland.demofx.util.PreCalc::sin@1 (line 223)
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@26 (line 163)
+
+  0x0000000105259446: cmp    edx,0x0
+  0x0000000105259449: movabs rdx,0x11902e9d0    ;   {metadata(method data for {method} {0x0000000119021f28} 'sin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x0000000105259453: movabs rcx,0x108
+  0x000000010525945d: je     0x000000010525946d
+  0x0000000105259463: movabs rcx,0x118
+  0x000000010525946d: mov    r8,QWORD PTR [rdx+rcx*1]
+  0x0000000105259471: lea    r8,[r8+0x1]
+  0x0000000105259475: mov    QWORD PTR [rdx+rcx*1],r8
+  0x0000000105259479: vmovsd QWORD PTR [rsp+0xd0],xmm1
+  0x0000000105259482: mov    DWORD PTR [rsp+0xb8],edi
+  0x0000000105259489: je     0x000000010525953a  ;*ifeq
+                                                ; - com.chrisnewland.demofx.util.PreCalc::sin@4 (line 223)
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@26 (line 163)
+
+  0x000000010525948f: mov    rdx,rax
+  0x0000000105259492: movabs rcx,0x11902e9d0    ;   {metadata(method data for {method} {0x0000000119021f28} 'sin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x000000010525949c: add    QWORD PTR [rcx+0x128],0x1
+  0x00000001052594a4: movabs rdx,0x11902eb78    ;   {metadata(method data for {method} {0x00000001190222b0} 'lookupSin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x00000001052594ae: mov    ecx,DWORD PTR [rdx+0xdc]
+  0x00000001052594b4: add    ecx,0x8
+  0x00000001052594b7: mov    DWORD PTR [rdx+0xdc],ecx
+  0x00000001052594bd: movabs rdx,0x1190222b0    ;   {metadata({method} {0x00000001190222b0} 'lookupSin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x00000001052594c7: and    ecx,0x7ffff8
+  0x00000001052594cd: cmp    ecx,0x0
+  0x00000001052594d0: je     0x000000010525a006
+  0x00000001052594d6: mov    rdx,rax
+  0x00000001052594d9: movabs rcx,0x11902eb78    ;   {metadata(method data for {method} {0x00000001190222b0} 'lookupSin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x00000001052594e3: add    QWORD PTR [rcx+0x108],0x1
+  0x00000001052594eb: mov    rsi,rax            ;*invokespecial clampAngle
+                                                ; - com.chrisnewland.demofx.util.PreCalc::lookupSin@2 (line 270)
+                                                ; - com.chrisnewland.demofx.util.PreCalc::sin@9 (line 225)
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@26 (line 163)
+
+  0x00000001052594ee: mov    QWORD PTR [rsp+0xb0],rax
+  0x00000001052594f6: nop
+  0x00000001052594f7: call   0x0000000104bdd020  ; OopMap{[176]=Oop [192]=Oop [200]=Oop off=668}
+                                                ;*invokespecial clampAngle
+                                                ; - com.chrisnewland.demofx.util.PreCalc::lookupSin@2 (line 270)
+                                                ; - com.chrisnewland.demofx.util.PreCalc::sin@9 (line 225)
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@26 (line 163)
+                                                ;   {optimized virtual_call}
+  0x00000001052594fc: mov    rax,QWORD PTR [rsp+0xb0]
+  0x0000000105259504: mov    esi,DWORD PTR [rax+0x30]
+  0x0000000105259507: shl    rsi,0x3            ;*getfield SINE
+                                                ; - com.chrisnewland.demofx.util.PreCalc::lookupSin@12 (line 272)
+                                                ; - com.chrisnewland.demofx.util.PreCalc::sin@9 (line 225)
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@26 (line 163)
+
+  0x000000010525950b: vmulsd xmm0,xmm0,QWORD PTR [rip+0xfffffffffffffced]        # 0x0000000105259200
+                                                ;   {section_word}
+  0x0000000105259513: vcvttsd2si edi,xmm0
+  0x0000000105259517: cmp    edi,0x80000000
+  0x000000010525951d: je     0x000000010525a01d
+  0x0000000105259523: movsxd rbx,edi
+  0x0000000105259526: cmp    edi,DWORD PTR [rsi+0xc]  ; implicit exception: dispatches to 0x000000010525a036
+  0x0000000105259529: jae    0x000000010525a040
+  0x000000010525952f: vmovsd xmm0,QWORD PTR [rsi+rbx*8+0x10]
+                                                ;*daload
+                                                ; - com.chrisnewland.demofx.util.PreCalc::lookupSin@16 (line 272)
+                                                ; - com.chrisnewland.demofx.util.PreCalc::sin@9 (line 225)
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@26 (line 163)
+
+  0x0000000105259535: jmp    0x00000001052598e7  ;*invokestatic abs
+                                                ; - com.chrisnewland.demofx.effect.text.TextLayers::plotText@29 (line 163)
+
+  0x000000010525953a: movabs rsi,0x11902e9d0    ;   {metadata(method data for {method} {0x0000000119021f28} 'sin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x0000000105259544: add    QWORD PTR [rsi+0x138],0x1
+  0x000000010525954c: movabs rsi,0x118db3c50    ;   {metadata(method data for {method} {0x0000000118af5340} 'toRadians' '(D)D' in 'java/lang/Math')}
+  0x0000000105259556: mov    edi,DWORD PTR [rsi+0xdc]
+  0x000000010525955c: add    edi,0x8
+  0x000000010525955f: mov    DWORD PTR [rsi+0xdc],edi
+  0x0000000105259565: movabs rsi,0x118af5340    ;   {metadata({method} {0x0000000118af5340} 'toRadians' '(D)D' in 'java/lang/Math')}
+  0x000000010525956f: and    edi,0x7ffff8
+  0x0000000105259575: cmp    edi,0x0
+  0x0000000105259578: je     0x000000010525a049
+  0x000000010525957e: movabs rsi,0x11902e9d0    ;   {metadata(method data for {method} {0x0000000119021f28} 'sin' '(D)D' in 'com/chrisnewland/demofx/util/PreCalc')}
+  0x0000000105259588: add    QWORD PTR [rsi+0x148],0x1
+  0x0000000105259590: vdivsd xmm0,xmm0,QWORD PTR [rip+0xfffffffffffffc70]        # 0x0000000105259208
+                                                ;   {section_word}
+  0x0000000105259598: vmulsd xmm0,xmm0,QWORD PTR [rip+0xfffffffffffffc70]        # 0x0000000105259210
+                                                ;   {section_word}
+  0x00000001052595a0: vmovsd QWORD PTR [rsp],xmm0
+  0x00000001052595a5: fld    QWORD PTR [rsp]
+  0x00000001052595a8: fld    QWORD PTR [rip+0xfffffffffefd0232]        # 0x00000001042297e0

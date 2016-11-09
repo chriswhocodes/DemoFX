@@ -1,14 +1,13 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.sprite;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.image.Image;
 
 public class Tiles extends AbstractEffect
 {
@@ -25,20 +24,28 @@ public class Tiles extends AbstractEffect
 	private double angle = 0;
 	private double scaleAngle = 0;
 
-	public Tiles(GraphicsContext gc, DemoConfig config)
+	public Tiles(DemoConfig config)
 	{
-		super(gc, config);
+		super(config);
+
+		init("/javafx.png");
 	}
 
-	@Override
-	protected void initialise()
+	public Tiles(DemoConfig config, String filename)
 	{
-		image = new Image(getClass().getResourceAsStream("/javafx.png"));
+		super(config);
+
+		init(filename);
+	}
+
+	private void init(String imageName)
+	{
+		image = new Image(getClass().getResourceAsStream(imageName));
 
 		imgWidth = image.getWidth();
 		imgHeight = image.getHeight();
 	}
-	
+
 	@Override
 	public void renderForeground()
 	{

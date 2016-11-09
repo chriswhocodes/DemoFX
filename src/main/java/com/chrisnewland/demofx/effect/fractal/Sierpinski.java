@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.fractal;
@@ -7,11 +7,10 @@ package com.chrisnewland.demofx.effect.fractal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.paint.Color;
 
 public class Sierpinski extends AbstractEffect
 {
@@ -53,28 +52,28 @@ public class Sierpinski extends AbstractEffect
 
 	private List<Triangle> keep;
 
-	public Sierpinski(GraphicsContext gc, DemoConfig config)
+	public Sierpinski(DemoConfig config)
 	{
-		super(gc, config);
-		smallestTriangle = height / 64;
-	}
-
-	@Override
-	protected void initialise()
-	{
-		keep = new ArrayList<>();
-		rootHeight = height;
+		super(config);
+		
+		init(height / 64);
 	}
 	
-	public void customInitialise(double smallestTriangle)
+	public Sierpinski(DemoConfig config, double smallestTriangle)
+	{
+		super(config);
+		
+		init(smallestTriangle);
+	}
+	
+	private void init(double smallestTriangle)
 	{
 		this.smallestTriangle = smallestTriangle;
-	}
+		
+		smallestTriangle = height / 64;
 
-	@Override
-	public void renderBackground()
-	{
-		fillBackground(getCycleColour());
+		keep = new ArrayList<>();
+		rootHeight = height;
 	}
 	
 	@Override

@@ -1,0 +1,14 @@
+.chart-title {
+  -fx-text-fill: white;
+}
+ 
+.axis {   
+    -fx-tick-label-fill: white;
+    -fx-font-family: Tahoma;
+    -fx-tick-length: 20;
+    -fx-minor-tick-length: 10;
+}
+ 
+.axis-label {
+   -fx-text-fill: white; 
+}
