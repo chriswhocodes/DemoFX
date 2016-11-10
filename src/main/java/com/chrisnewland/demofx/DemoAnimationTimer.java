@@ -12,6 +12,7 @@ import com.chrisnewland.demofx.measurement.Measurements;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 public class DemoAnimationTimer extends AnimationTimer
 {
@@ -76,6 +77,10 @@ public class DemoAnimationTimer extends AnimationTimer
 		final long elapsed = now - startTime;
 
 		int effectsUsed = 0;
+		
+		// TODO - disable blanking with a flag if another fullscreen background in use?
+		onScreenGC.setFill(Color.BLACK);
+		onScreenGC.fillRect(0, 0, config.getWidth(), config.getHeight());
 
 		for (int i = 0; i < effectCount; i++)
 		{
