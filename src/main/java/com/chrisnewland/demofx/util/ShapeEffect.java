@@ -65,12 +65,17 @@ public class ShapeEffect extends AbstractEffect
 
 	private final PlotMode mode;
 	private final int rotateDegrees;
+    
+	private final double[] pointsX;
+	private final double[] pointsY;
 
 	public ShapeEffect(DemoConfig config, int points)
 	{
 		super(config);
 
 		this.points = points;
+		pointsX = new double[points];
+		pointsY = new double[points];
 
 		this.mode = config.getPlotMode();
 		this.rotateDegrees = 10;
@@ -395,9 +400,6 @@ public class ShapeEffect extends AbstractEffect
 		double y = shapePosY[index];
 
 		double outer = radius[index];
-
-		double[] pointsX = new double[points];
-		double[] pointsY = new double[points];
 
 		double pointAngle = 360.0 / points;
 

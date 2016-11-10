@@ -4,14 +4,17 @@
  */
 package com.chrisnewland.demofx.measurement;
 
+import com.chrisnewland.demofx.DemoAnimationTimer;
+
 public class Measurements
 {
-	private final int INITIAL_SIZE = 300 * 4; // 300s for demoFX3
+	// 300s for demoFX3
+	private final static int INITIAL_SIZE = 300 * DemoAnimationTimer.SAMPLE_PER_SECOND;
 	private final Runtime RUNTIME = Runtime.getRuntime();
 
-	private Series heapSize = new Series(INITIAL_SIZE);
-	private Series heapUsed = new Series(INITIAL_SIZE);
-	private Series fps = new Series(INITIAL_SIZE);
+	private final Series heapSize = new Series(INITIAL_SIZE);
+	private final Series heapUsed = new Series(INITIAL_SIZE);
+	private final Series fps = new Series(INITIAL_SIZE);
 
 	private boolean isMeasuring = true;
 
@@ -74,10 +77,12 @@ public class Measurements
 		double duration = getDurationMillis();
 
 		double averageFPS = 0.0;
+        
+		final double frameDuration = DemoAnimationTimer.UPDATE_STATS_MILLIS;
 
 		if (duration > 0L)
 		{
-			averageFPS = totalFrames / duration * 1000.0;
+			averageFPS = totalFrames / duration * frameDuration;
 		}
 
 		return averageFPS;
