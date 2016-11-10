@@ -94,8 +94,13 @@ public class DemoAnimationTimer extends AnimationTimer
 		if (effectsUsed == 0)
 		{
 			stop();
-			parent.timerCompleted(measurements);
 		}
+	}
+    
+	@Override
+	public void stop() {
+        	parent.timerCompleted(measurements);
+        	super.stop();
 	}
 
 	private final void plotEffect(IEffect effect)

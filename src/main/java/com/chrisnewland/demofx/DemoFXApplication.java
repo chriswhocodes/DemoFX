@@ -6,6 +6,7 @@ package com.chrisnewland.demofx;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -39,7 +40,14 @@ public class DemoFXApplication extends Application
 		stage.show();
 
 		stage.setOnCloseRequest((WindowEvent arg0) -> demoFX.stopDemo());
-		
+
+		// Double-click to interrupt the demo and show the result panel:
+		scene.setOnMouseClicked((MouseEvent me) -> {
+				if (me.getClickCount() == 2) {
+				demoFX.stopDemo();
+			}
+        	});
+
 		demoFX.runDemo();
 	}
 }
