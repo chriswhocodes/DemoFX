@@ -15,7 +15,8 @@ import javafx.scene.control.Label;
 
 public class DemoAnimationTimer extends AnimationTimer
 {
-	private static final long UPDATE_STATS_MILLIS = 1000L; // 250L for higher sampling rate
+	public static final int SAMPLE_PER_SECOND = 4;
+	public static final long UPDATE_STATS_MILLIS = 1000L / SAMPLE_PER_SECOND;
     
 	private long startTime = 0;
 
@@ -29,7 +30,6 @@ public class DemoAnimationTimer extends AnimationTimer
 
 	private long lastSecond;
 	private int frameCount = 0;
-	private int framesPerSecond = 0;
 
 	private long lastNanos = 0;
 	private long lastRenderNanos = 0;
@@ -116,7 +116,7 @@ public class DemoAnimationTimer extends AnimationTimer
 
 		if (now - lastSecond > UPDATE_STATS_MILLIS)
 		{
-			framesPerSecond = frameCount;
+			final int framesPerSecond = frameCount * SAMPLE_PER_SECOND;
 			frameCount = 0;
 			lastSecond = now;
 
@@ -131,7 +131,7 @@ public class DemoAnimationTimer extends AnimationTimer
 
 			if (!config.isFullScreen())
 			{
-				statsLabel.setText(getStatsString(now));
+				statsLabel.setText(getStatsString(now, framesPerSecond));
 			}
 
 			measurements.measure(now - startTime, framesPerSecond);
@@ -140,7 +140,7 @@ public class DemoAnimationTimer extends AnimationTimer
 		}
 	}
 
-	public String getStatsString(long now)
+	public String getStatsString(long now, int framesPerSecond)
 	{
 		builder.setLength(0);
 

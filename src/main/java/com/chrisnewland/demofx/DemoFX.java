@@ -216,7 +216,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 		NumberFormat numberFormat = new DecimalFormat("0.00");
 
-		double maxFrames = 60.0 * measurements.getDurationMillis() / 1000.0;
+		double maxFrames = 60.0 * measurements.getDurationMillis() / DemoAnimationTimer.UPDATE_STATS_MILLIS;
 		double percentPerfect = totalFrames / maxFrames * 100;
 
 		Label lblBenchmarkComplete = new Label("DemoFX Benchmark Complete!");
