@@ -6,7 +6,7 @@ package com.chrisnewland.demofx.measurement;
 
 public class Measurements
 {
-	private final int INITIAL_SIZE = 60 * 10;
+	private final int INITIAL_SIZE = 300 * 4; // 300s for demoFX3
 	private final Runtime RUNTIME = Runtime.getRuntime();
 
 	private Series heapSize = new Series(INITIAL_SIZE);
@@ -48,6 +48,10 @@ public class Measurements
 	{
 		isMeasuring = false;
 
+		if (fps.size() < INITIAL_SIZE) {
+			System.out.println("Warning: too small initial size: " + INITIAL_SIZE + ", needed: " + fps.size());
+		}
+
 		long totalFPS = 0;
 
 		for (long currentFPS : fps.getValues())
@@ -69,11 +73,11 @@ public class Measurements
 
 		double duration = getDurationMillis();
 
-		double averageFPS = 0;
+		double averageFPS = 0.0;
 
-		if (duration > 0)
+		if (duration > 0L)
 		{
-			averageFPS = totalFrames / duration * 1000;
+			averageFPS = totalFrames / duration * 1000.0;
 		}
 
 		return averageFPS;

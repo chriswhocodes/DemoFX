@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 
 public class DemoAnimationTimer extends AnimationTimer
 {
+	private static final long UPDATE_STATS_MILLIS = 1000L; // 250L for higher sampling rate
+    
 	private long startTime = 0;
 
 	private GraphicsContext onScreenGC;
@@ -112,7 +114,7 @@ public class DemoAnimationTimer extends AnimationTimer
 		lastRenderNanos = nanoStamp - lastNanos;
 		lastNanos = nanoStamp;
 
-		if (now - lastSecond > 1000L)
+		if (now - lastSecond > UPDATE_STATS_MILLIS)
 		{
 			framesPerSecond = frameCount;
 			frameCount = 0;
@@ -133,6 +135,8 @@ public class DemoAnimationTimer extends AnimationTimer
 			}
 
 			measurements.measure(now - startTime, framesPerSecond);
+            
+//			System.out.println(config.getEffect() + " = " + framesPerSecond + " fps");
 		}
 	}
 

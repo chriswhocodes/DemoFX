@@ -25,6 +25,7 @@ public class MeasurementChartBuilder
 		Axis<Number> yAxis = createAxis("MB");
 		
 		LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
+		chart.setCreateSymbols(false);
 		
 		chart.getData().add(seriesHeapSize);
 		chart.getData().add(seriesHeapUsed);
@@ -42,6 +43,7 @@ public class MeasurementChartBuilder
 		NumberAxis yAxis = createAxis("FPS");		
 		
 		LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
+		chart.setCreateSymbols(false);
 
 		chart.getData().add(seriesFPS);
 		
