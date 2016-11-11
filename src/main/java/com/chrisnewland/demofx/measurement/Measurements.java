@@ -51,7 +51,7 @@ public class Measurements
 	{
 		isMeasuring = false;
 
-		if (fps.size() < INITIAL_SIZE) {
+		if (fps.size() > INITIAL_SIZE) {
 			System.out.println("Warning: too small initial size: " + INITIAL_SIZE + ", needed: " + fps.size());
 		}
 

@@ -87,12 +87,12 @@ public class MeasurementChartBuilder
 		
 		for (int i = 0; i < size; i++)
 		{
-			long time = series.getTimes().get(i);
+			float time = series.getTimes().get(i);
 			long value = series.getValues().get(i);
 			
-			time /= 1000;
+			time /= 1000f;
 			value /= valueDivisor;
-			
+
 			result.getData().add(new XYChart.Data<Number, Number>(time, value));
 		}
 		
