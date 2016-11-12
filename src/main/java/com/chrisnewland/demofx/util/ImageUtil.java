@@ -4,9 +4,10 @@
  */
 package com.chrisnewland.demofx.util;
 
+import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 
 import javax.imageio.ImageIO;
@@ -49,15 +50,19 @@ public class ImageUtil
 
 	public static void saveImage(Image image, File file)
 	{
-		RenderedImage ri = javafx.embed.swing.SwingFXUtils.fromFXImage(image, null);
-
 		try
 		{
+			Class<?> classSwingFXUtils = Class.forName("javafx.embed.swing.SwingFXUtils");
+
+			Method methodFromFXImage = classSwingFXUtils.getMethod("fromFXImage", new Class[] { Image.class, BufferedImage.class });
+
+			RenderedImage ri = (RenderedImage) methodFromFXImage.invoke(null, new Object[] { image, null });
+
 			ImageIO.write(ri, "PNG", file);
 		}
-		catch (IOException e)
+		catch (Throwable t)
 		{
-			e.printStackTrace();
+			t.printStackTrace();
 		}
 	}
 
@@ -270,80 +275,20 @@ public class ImageUtil
 		gc.setLineCap(StrokeLineCap.ROUND);
 
 		gc.setFill(Color.rgb(200, 200, 200));
-		gc.fillPolygon(new double[] {
-				x0,
-				x1,
-				x2,
-				x1 },
-				new double[] {
-						y1,
-						y0,
-						y1,
-						y2 },
-				4);
+		gc.fillPolygon(new double[] { x0, x1, x2, x1 }, new double[] { y1, y0, y1, y2 }, 4);
 
 		gc.setFill(Color.rgb(100, 100, 100));
-		gc.fillPolygon(new double[] {
-				x0,
-				x1,
-				x1,
-				x0 },
-				new double[] {
-						y1,
-						y2,
-						y4,
-						y3 },
-				4);
+		gc.fillPolygon(new double[] { x0, x1, x1, x0 }, new double[] { y1, y2, y4, y3 }, 4);
 
 		gc.setFill(Color.rgb(150, 150, 150));
-		gc.fillPolygon(new double[] {
-				x1,
-				x2,
-				x2,
-				x1 },
-				new double[] {
-						y2,
-						y1,
-						y3,
-						y4 },
-				4);
+		gc.fillPolygon(new double[] { x1, x2, x2, x1 }, new double[] { y2, y1, y3, y4 }, 4);
 
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(4);
 		gc.setLineJoin(StrokeLineJoin.ROUND);
-		gc.strokePolygon(new double[] {
-				x0,
-				x1,
-				x2,
-				x1 },
-				new double[] {
-						y1,
-						y0,
-						y1,
-						y2 },
-				4);
-		gc.strokePolygon(new double[] {
-				x0,
-				x1,
-				x1,
-				x0 },
-				new double[] {
-						y1,
-						y2,
-						y4,
-						y3 },
-				4);
-		gc.strokePolygon(new double[] {
-				x1,
-				x2,
-				x2,
-				x1 },
-				new double[] {
-						y2,
-						y1,
-						y3,
-						y4 },
-				4);
+		gc.strokePolygon(new double[] { x0, x1, x2, x1 }, new double[] { y1, y0, y1, y2 }, 4);
+		gc.strokePolygon(new double[] { x0, x1, x1, x0 }, new double[] { y1, y2, y4, y3 }, 4);
+		gc.strokePolygon(new double[] { x1, x2, x2, x1 }, new double[] { y2, y1, y3, y4 }, 4);
 
 		return ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true);
 	}
@@ -352,7 +297,7 @@ public class ImageUtil
 	{
 		Canvas canvas = new Canvas(imgWidth * 8, imgWidth * 8);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
+
 		double heartSize = imgWidth / Math.sqrt(2) * 1.14;
 
 		double halfWidth = heartSize / 2;
@@ -370,17 +315,7 @@ public class ImageUtil
 		double y2 = y0 + heartSize;
 
 		gc.setFill(Color.BLACK);
-		gc.fillPolygon(new double[] {
-				x0,
-				x1,
-				x2,
-				x1 },
-				new double[] {
-						y1,
-						y0,
-						y1,
-						y2 },
-				4);
+		gc.fillPolygon(new double[] { x0, x1, x2, x1 }, new double[] { y1, y0, y1, y2 }, 4);
 		gc.fillOval(offset + heartSize * .25 - diameterX / 2, offset + heartSize / 4 - diameterY / 2, diameterX, diameterY);
 		gc.fillOval(offset + heartSize * .75 - diameterX / 2, offset + heartSize / 4 - diameterY / 2, diameterX, diameterY);
 
@@ -401,17 +336,7 @@ public class ImageUtil
 		y2 = y0 + heartSize;
 
 		gc.setFill(Color.RED);
-		gc.fillPolygon(new double[] {
-				x0,
-				x1,
-				x2,
-				x1 },
-				new double[] {
-						y1,
-						y0,
-						y1,
-						y2 },
-				4);
+		gc.fillPolygon(new double[] { x0, x1, x2, x1 }, new double[] { y1, y0, y1, y2 }, 4);
 		gc.fillOval(offset + heartSize * .25 - diameterX / 2, offset + heartSize / 4 - diameterY / 2, diameterX, diameterY);
 		gc.fillOval(offset + heartSize * .75 - diameterX / 2, offset + heartSize / 4 - diameterY / 2, diameterX, diameterY);
 
