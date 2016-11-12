@@ -10,7 +10,6 @@ import java.util.List;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.IPixelSource;
-import com.chrisnewland.demofx.effect.background.ColourBackground;
 import com.chrisnewland.demofx.effect.fake3d.Fake3DShapeFactory;
 import com.chrisnewland.demofx.effect.fake3d.Object3D;
 import com.chrisnewland.demofx.effect.fake3d.Sheet;
@@ -131,9 +130,7 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 		long duration2D = 2 * D;
 		long duration3D = 2 * D;
 		long totalDuration = duration2D + duration3D;
-
-		addEffect(time, totalDuration, new ColourBackground(config));
-
+		
 		addEffect(time, totalDuration, new Glowboard(config, 16, Direction.N, Color.DARKORCHID));
 
 		Image quaver = ImageUtil.loadImageFromResources("quaver2.png");
@@ -166,7 +163,6 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 	{
 		long spaceDuration = 12 * D;
 
-		addEffect(time, spaceDuration, new ColourBackground(config));
 		addEffect(time, spaceDuration, new StarfieldSprite(config));
 
 		textRingSpace(); // 1
@@ -296,7 +292,6 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 
 	private void maskStack()
 	{
-		addEffect(time, D * 4, new ColourBackground(config));
 		int glowSize = 16;
 
 		addEffect(time, 2 * D, new Glowboard(config, glowSize, Direction.NW, Color.BLUE));
@@ -312,8 +307,6 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 
 	private void wordsearch()
 	{
-		addEffect(time, 4 * D, new ColourBackground(config));
-
 		addEffect(time, D, new WordSearch(config, "Presenting\n\n\nDemoFX III"));
 		time += D;
 
@@ -329,8 +322,6 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 
 	private void honeycombTubestack()
 	{
-		addEffect(time, 2 * D, new ColourBackground(config));
-
 		addEffect(time, 2 * D, new Honeycomb(config));
 		addEffect(time, 2 * D, new TubeStack(config));
 		addEffect(time, 2 * D, new TextBounce(config, "Tubestack"));
@@ -340,8 +331,6 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 
 	private void cogsAndGlowBoard()
 	{
-		addEffect(time, D * 4, new ColourBackground(config));
-
 		int glowSize = 16;
 
 		long origTime = time;
@@ -394,7 +383,6 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 
 	private void creditsAndEnding()
 	{
-		addEffect(time, 10 * D, new ColourBackground(config));
 		addEffect(time, 10 * D, new StarfieldSprite(config));
 
 		credits();
@@ -421,7 +409,6 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 		double renderX = (config.getWidth() - mediaWidth) / 2;
 		double renderY = config.getHeight() - mediaHeight;
 
-		addEffect(time, D * 4, new ColourBackground(config));
 		addEffect(time, D * 4, new Honeycomb(config));
 		addEffect(time, D * 2, new ChromaKey(config, "/video/dancing.mp4", mediaWidth, mediaHeight, renderX, renderY));
 		addEffect(time, D * 2, new TextBounce(config, "chroma keying"));
@@ -504,7 +491,6 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 	{
 		long duration = 2 * D;
 
-		addEffect(time, duration, new ColourBackground(config));
 		addEffect(time, duration, new Diamonds(config));
 		addEffect(time, duration, new Mask(config));
 		addEffect(time, duration, new TextBounce(config, "Irregular mask"));
