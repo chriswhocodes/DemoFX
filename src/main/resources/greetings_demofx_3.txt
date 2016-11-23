@@ -1,0 +1,115 @@
+David greets
+
+Chris Biggin / Arjan Boes AKA Boosh
+Karl Whitworth / Ian Botwright / Stephen Jubb
+Chris Huelsbeck / Jochen Hippel / Dan Panke AKA Sparky
+Daddo Oreskovich / Slabbi and the Stalks
+Dylan Furr / Steve Vai / Peter Gates
+Joey Lawrence / Kypros Tymvios
+Steinberg Nuendo and Eastwest VSTs
+Canon cameras / Ibanez guitars / Fractal Audio
+Vinai Trinateepakdee / The NIB / Status Graphite
+My Parents / brothers / and family
+Those who have tried my music over the years.
+
+
+Chris greets
+
+Aggelos Biboudis / Aleksey Shipilev / Alex Blewitt
+Alex Snaps / Alexey Abashev / Alice Maz
+Alvaro Hernandez / Andrei Pangin / Andres Almiray
+Andrew Haley / Angela Caicedo / Anton Arhipov
+Anton Epple / Attila Szegedi / Azeem Jiva
+Ben Evans / Brendan Gregg / Carl Dea
+Cedric Champeau / Charles Nutter / Charlie Hunt
+Chen Fishbein / Chris Richardson / Chris Thalinger
+Chris Vest / Christoph Engelbert / Christos Manios
+Colin Vipurs / Dalibor Topic / Daniel Bryant
+Daniel Shaya / Darach Ennis / David Gomez
+David Hill / Diego Cirujano / Dierk Konig
+Dirk Lemmermann / Dmitry Vyazelenko / Donald Smith
+Fabian Giesen / Fabian Lange / Felix Bembrick
+Fiora Aeterna / Fran Buontempo / Francesco Nigro
+Freddy Guime / Geertjan Wielenga / Gerrit Grunwald
+Giannis Ledakis / Giannis Skitsas / Gil Tene
+Giorgos Saslis / Gleb Smirnov / Graham Allan
+Gregor Koukkoullis / Guillaume Darmont / Heather Vancura
+Heinz Kabutz / Hendrik Ebbers / Herman Lintvelt
+Ian Phillips / Ignasi Marimon-Clos / Ivan Krylov
+Ivan Valeriani / James Weaver / Jan Kotek
+Jaroslav Tulach / Jasper Potts / Javafx Hulk
+Jean-Philippe Bempel / Jeanette Winzenburg / Jeff Maxwell
+Jens Deters / Jesper Udby / Jessica Paquette
+Jim Graham / Jim Laskey / Johan Vos
+John Davies / John Kostaras / John Patrick
+John Rose / John Stevenson / Jon Davey
+Jonathan Giles / Jose Pereda / Josh Long
+Joshua Newland / Kaushik Srenevasan / Kelly Sommers
+Ken Fogel / Kevin Rushforth / Kirk Pepperdine
+Kostas Tzonas / Kris Mok / Kyle Kingsbury
+Lamine Bourib / Laurent Borges / Mani Sarkar
+Marc Hoffmann / Marcus Eisele / Marcus Hirt
+Marcus Lagergren / Marek Nowicki / Marine Corbelin
+Mario Fusco / Mario Torre / Mark Heckler
+Mark Stoodley / Martijn Verburg / Martin Thompson
+Masimo Calderoni / Matt Godbolt / Matt Schuetze
+Mattias Karlsson / Maurice Naftalin / Maxi Kabutz
+Maz Rashid / Melissa Mckay / Michael Heinrichs
+Miguel Angel Pastor / Mike Tallent / Nicolas Lorain
+Nitsan Wakart / Norman Maurer / Oleg Selajev
+Patricia Dugan / Pedro Duque Vieira / Peter Lawrey
+Peter Pilgrim / Philip Aston / Pierre Laporte
+Rabea Gransberger / Rafael Winterhalter / Remi Forax
+Reena Newland / Richard Bair / Richard Warburton
+Rob Austin / Rob Barr / Robert Kruger
+Roland Westrelin / Roman Kennke / Roman Leventov
+Rory O'Donnell / Ruben Badaro / Serkan Ozal
+Simon Maple / Stefan Ferstl / Stephen Chin
+Stephen Northover / Steve Gury / Steven Schaefer
+Sven Reimers / Sven Ruppert / Talip Ozturk
+Thomas Darimont / Thomas Wuerthinger / Trask Stalnaker
+Trisha Gee / Trustin Lee / Uberto Barbini
+Uros Djunisijevic / Vitaly Davidovich / Vlad Cealicu
+Vladimir Ivanov / Vladimir Koslov / Volker Simonis
+Whitequark / Xerxes Ranby / Yakov Fain / Zoran Sevarac
+
+HotSpot Teams / Graal Team / JCrete Family
+JavaFX and OpenJFX Teams / JITWatch Users
+
+Azul Systems / Canoo / GluonHQ
+Hazelcast / Higher Frequency Trading / jClarity
+London Java Community / Oracle / Pivotal
+Real Logic / Red Hat / Twitter
+
+Brenda / Cleber / Carlos / Paolo
+Mario / Matt / Mitesh / Robertas / Warren
+
+Demoscene Community
+
+Assembly / Breakpoint / Revision
+nectarine demoscene radio
+scenesat / Pouet / scene.org
+
+Demoscene Musicians
+
+4mat / Chris Huelsbeck / Daxx
+Echo / Hoffman / Jesper Kyd
+Jochen Hippel / Little Bitchard / Mel Funktion
+Purple Motion / Romeo Knight / Sparky
+Travolta / Ultrasyd / Walkman
+
+Demoscene Crews
+
+A N Cool / Aggression / Anarchy
+Andromeda / CNCD / Conspiracy
+Equinox / Fairlight / Farbrausch
+Future Crew / Halcyon / Loonies
+Melon Dezign / Mercury / Red Sector Inc
+Reservoir Gods / RGBA / Scoopex
+Silents / Spaceballs / TCB
+The Black Lotus / The Lost Boys / TRSI
+
+You have been watching DemoFX III
+Copyright 2016 Chris Newland
+
+github.com/chriswhocodes/DemoFX

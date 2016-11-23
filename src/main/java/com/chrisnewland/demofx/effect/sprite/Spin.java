@@ -1,14 +1,14 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.sprite;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import com.chrisnewland.demofx.util.ImageUtil;
+
+import javafx.scene.image.Image;
 
 public class Spin extends AbstractEffect
 {
@@ -19,21 +19,25 @@ public class Spin extends AbstractEffect
 	private double scale = 1.0;
 	private double scaledWidth;
 	private double scaledHeight;
+	private double spinAngle;
 
 	private double scaleAngle = 0;
 
-	public Spin(GraphicsContext gc, DemoConfig config)
+	public Spin(DemoConfig config)
 	{
-		super(gc, config);
+		super(config);
+		
+		init("wave.png", 0.4);
 	}
 
-	@Override
-	protected void initialise()
+	private void init(String imageName, double spinAngle)
 	{
-		image = new Image(getClass().getResourceAsStream("/wave.png"));
+		image = ImageUtil.loadImageFromResources(imageName);
 
 		imgWidth = image.getWidth();
 		imgHeight = image.getHeight();
+		
+		this.spinAngle = spinAngle;
 	}
 	
 	@Override
@@ -41,14 +45,14 @@ public class Spin extends AbstractEffect
 	{
 		scaleImage();
 
-		rotateCanvas(2);
+		rotateCanvasAroundCentre(2);
 
 		plotTiles();
 	}
 
 	private final void scaleImage()
 	{
-		scaleAngle += 0.4;
+		scaleAngle += spinAngle;
 
 		if (scaleAngle >= 360)
 		{

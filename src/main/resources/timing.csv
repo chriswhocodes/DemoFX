@@ -1,0 +1,68 @@
+Elapsed,Background,Foreground,Detail,Music,Method,y
+0,Black,wordsearch,Presenting-DemoFX III,High strings,wordsearch,y
+4,,,JavaFX-Demoscene-Engine,,,y
+8,,,Coding-chriswhocodes,Low strings,,y
+12,,,Music-davidnewland,,,y
+16,glowboard NW blue,cogs1,Glowboard + Cogs,Chiptune start,cogsAndGlowboard,y
+20,glowboard NE green,cogs2,,,,y
+24,glowboard SE red,cogs3,,,,y
+28,glowboard SW purple,cogs4,,,,y
+32,falling music notes,equaliser2d,,Bassline start,equaliser,y
+36,,,,,,y
+40,,Equaliser3d + vumeter,,,,y
+44,,,,,,y
+48,None,bobs1,8 shadebobs,,shadebobs,y
+52,,bobs2,16 shadebobs,,,y
+56,,bobs3,32 shadebobs,,,y
+60,,bobs4,64 shadebobs,,,y
+64,honeycomb clockwise,tubestack,,1st Chorus,tubestackAndHoneycomb,y
+68,,,,,,y
+72,None,rain fullscreen,,,rain,y
+76,,,,,,y
+80,,reflection shift,,,shift,y
+84,,,,,,y
+88,diamonds,mask,Face + skull,,,y
+92,,,,,,y
+96,starfieldsprite,textring,,2nd Verse Heavy,starfield,y
+100,,equaliser3d+vumeters,,,,y
+104,,,,,,y
+108,,Videocube + mandala,,,,y
+112,,,,,,y
+116,,3d text DemoFX III,,,,y
+120,,3d Face,,,,y
+124,,,,,,y
+128,,spring and spike,,,,y
+132,,sphere and solid cube,,,,y
+136,,,,,,y
+140,,,,,,y
+144,glowboard left,maskstack circle,tiger,,maskStack,y
+148,,,,,,y
+152,glowboard down,maskstack border,chameleon,,,y
+156,,,,,,y
+160,rainbow,moire,,2nd Chorus  Heavy,rainbowMoire,y
+164,,,,,,y
+168,,sheet flag,,,rainbowSheet,y
+172,,sheet sheet,,,,y
+176,,sheet sprite,,,,y
+180,,twister,,,,y
+184,,,,,,y
+188,,sea cubes,,,,y
+192,honeycomb clockwise,chromakey dancing,,Middle 8,chroma,y
+196,,,,,,y
+200,,inverse chroma,,,,y
+204,,,,,,y
+208,rainbow,code dive,,,textLayers,y
+212,,,,,,y
+216,starfieldsprite,fireworks and credits sprite,,,,y
+220,,,,,,y
+224,,,CREDITS,3rd Chorus,credits,
+228,,,CREDITS,,,
+232,,,CREDITS,,,
+236,,,CREDITS,,,
+240,,,CREDITS,,,
+244,,,CREDITS,,,
+248,,chromakey josh + world,,,worldsphere,
+252,,chromakey josh + world,,,,
+256,None,DemoFX stats,,Outro,,
+260,,DemoFX stats,,,,
+264,END,END,END,END,,

@@ -1,14 +1,13 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.shape;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.paint.Color;
 
 public class Checkerboard extends AbstractEffect
 {
@@ -21,14 +20,10 @@ public class Checkerboard extends AbstractEffect
 	private double maxDimension;
 	private double offScreenMargin;
 
-	public Checkerboard(GraphicsContext gc, DemoConfig config)
+	public Checkerboard(DemoConfig config)
 	{
-		super(gc, config);
-	}
+		super(config);
 
-	@Override
-	protected void initialise()
-	{
 		maxDimension = Math.max(width, height);
 		offScreenMargin = maxDimension / 4;
 
@@ -36,17 +31,13 @@ public class Checkerboard extends AbstractEffect
 	}
 
 	@Override
-	public void renderBackground()
-	{
-		clearScreenForRotation();
-	}
-
-	@Override
 	public void renderForeground()
 	{
+		clearScreenForRotation();
+
 		scaleEffect();
 
-		rotateCanvas(3);
+		rotateCanvasAroundCentre(3);
 
 		plotCheckerboard();
 	}

@@ -1,15 +1,16 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.util;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import java.util.Random;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.DemoConfig.PlotMode;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.paint.Color;
 
 public class ShapeEffect extends AbstractEffect
 {
@@ -64,12 +65,17 @@ public class ShapeEffect extends AbstractEffect
 
 	private final PlotMode mode;
 	private final int rotateDegrees;
+    
+	private final double[] pointsX;
+	private final double[] pointsY;
 
-	public ShapeEffect(GraphicsContext gc, DemoConfig config, int points)
+	public ShapeEffect(DemoConfig config, int points)
 	{
-		super(gc, config);
+		super(config);
 
 		this.points = points;
+		pointsX = new double[points];
+		pointsY = new double[points];
 
 		this.mode = config.getPlotMode();
 		this.rotateDegrees = 10;
@@ -78,11 +84,6 @@ public class ShapeEffect extends AbstractEffect
 		OFFSCREEN_RIGHT = width + OFFSCREEN;
 		OFFSCREEN_TOP = -OFFSCREEN;
 		OFFSCREEN_BOTTOM = height + OFFSCREEN;
-	}
-
-	@Override
-	protected void initialise()
-	{
 
 		if (itemCount == -1)
 		{
@@ -150,10 +151,16 @@ public class ShapeEffect extends AbstractEffect
 		initialiseShapeRadii();
 	}
 	
-	@Override
-	public void renderBackground()
+	private final double getRandomDouble(double min, double max)
 	{
-		fillBackground();
+		Random random = new Random();
+		return min + (max - min) * random.nextDouble();
+	}
+
+	private final int getRandomIntInclusive(int min, int max)
+	{
+		Random random = new Random();
+		return random.nextInt(max - min + 1) + min;
 	}
 
 	@Override
@@ -166,7 +173,6 @@ public class ShapeEffect extends AbstractEffect
 			rotateShape(i);
 
 			moveShape(i);
-
 		}
 
 		adjustRespawnPoint();
@@ -394,9 +400,6 @@ public class ShapeEffect extends AbstractEffect
 		double y = shapePosY[index];
 
 		double outer = radius[index];
-
-		double[] pointsX = new double[points];
-		double[] pointsY = new double[points];
 
 		double pointAngle = 360.0 / points;
 

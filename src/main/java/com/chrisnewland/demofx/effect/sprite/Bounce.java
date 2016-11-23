@@ -1,15 +1,13 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.sprite;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.image.Image;
 
 public class Bounce extends AbstractEffect
 {
@@ -25,20 +23,28 @@ public class Bounce extends AbstractEffect
 
 	private static final double MAX_SPEED = 6;
 
-	public Bounce(GraphicsContext gc, DemoConfig config)
+	public Bounce(DemoConfig config)
 	{
-		super(gc, config);
+		super(config);
+		
+		init(24);
 	}
 
-	@Override
-	protected void initialise()
+	public Bounce(DemoConfig config, double ballSize)
 	{
-		diameter = 24;
+		super(config);
+
+		init(ballSize);
+	}
+
+	private void init(double ballSize)
+	{
+		diameter = ballSize;
 		radius = diameter / 2;
 
 		if (itemCount == -1)
 		{
-			itemCount = 50;
+			itemCount = 100;
 		}
 
 		bx = new double[itemCount];
@@ -66,23 +72,12 @@ public class Bounce extends AbstractEffect
 			dx[i] = sin * speed + precalc.getSignedRandom();
 			dy[i] = cos * speed + precalc.getSignedRandom();
 
-			// http://pixabay.com/en/orb-ball-globe-glossy-glow-red-150545/
-			imageBall = new Image(getClass().getResourceAsStream("/glassyball.png"));
 		}
+
+		// http://pixabay.com/en/orb-ball-globe-glossy-glow-red-150545/
+		imageBall = new Image(getClass().getResourceAsStream("/glassyball.png"));
 	}
 
-	public void customInitialise(double ballSize)
-	{
-		diameter = ballSize;
-		radius = diameter / 2;
-	}
-	
-	@Override
-	public void renderBackground()
-	{
-		fillBackground(Color.rgb(0, 0, 20));
-	}
-	
 	@Override
 	public void renderForeground()
 	{

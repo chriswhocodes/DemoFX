@@ -1,42 +1,36 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect;
 
-import java.util.Random;
-
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.transform.Rotate;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.util.PreCalc;
 
+import javafx.scene.Group;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
+
 public abstract class AbstractEffect implements IEffect
 {
-	protected final GraphicsContext gc;
+	protected GraphicsContext gc;
+	protected Group group;
 
 	protected int itemCount;
 
-	protected final double width;
-	protected final double height;
+	protected double width;
+	protected double height;
 
-	protected final double halfWidth;
-	protected final double halfHeight;
+	protected int intWidth;
+	protected int intHeight;
+
+	protected double halfWidth;
+	protected double halfHeight;
 
 	protected double canvasRotationAngle = 0;
-
-	protected long lastSecond;
-	protected int frameCount = 0;
-	protected int framesPerSecond = 0;
-
-	private long lastRenderNanos = 0;
-	private long averageRenderNanos = 0;
-	private long count = 0;
-
-	private long now;
-	private StringBuilder builder = new StringBuilder();
 
 	protected PreCalc precalc;
 	protected DemoConfig config;
@@ -45,120 +39,55 @@ public abstract class AbstractEffect implements IEffect
 
 	protected long effectStartMillis = -1;
 	protected long effectStopMillis = -1;
+	
+	protected boolean effectStarted = false;
 	protected boolean effectFinished = false;
 
-	private static long scriptStartTimeMillis;
+	protected boolean renderOffScreen = false;
 
-	protected final double getRandomDouble(double min, double max)
+	private Rotate rotate;
+	
+	public AbstractEffect(DemoConfig config)
 	{
-		Random random = new Random();
-		return min + (max - min) * random.nextDouble();
-	}
-
-	protected final int getRandomIntInclusive(int min, int max)
-	{
-		Random random = new Random();
-		return random.nextInt(max - min + 1) + min;
-	}
-
-	public AbstractEffect(GraphicsContext gc, DemoConfig config)
-	{
-		this.gc = gc;
 		this.config = config;
+		this.gc = config.getOnScreenCanvasGC();
+		this.group = config.getGroupNode();
 
-		precalc = new PreCalc(config);
+		precalc = config.getPreCalc();
 
 		this.itemCount = config.getCount();
 
 		this.width = config.getWidth();
 		this.height = config.getHeight();
 
+		this.intWidth = (int) width;
+		this.intHeight = (int) height;
+
 		this.halfWidth = width / 2;
 		this.halfHeight = height / 2;
 
-		initialise();
-	}
+		rotate = new Rotate();
 
-	public static void setScriptStartTimeMillis(long millis)
-	{
-		scriptStartTimeMillis = millis;
-	}
-
-	protected abstract void initialise();
-
-	@Override
-	public void updateStatistics(long renderNanos)
-	{
-		frameCount++;
-		lastRenderNanos = renderNanos;
-
-		now = System.currentTimeMillis();
-
-		if (now - lastSecond > 1000)
+		if (config.isOffScreen())
 		{
-			framesPerSecond = frameCount;
-			frameCount = 0;
-			lastSecond = now;
-
-			averageRenderNanos += (renderNanos - averageRenderNanos) / ++count;
+			setupOffScreen(config.getOffScreenWidth(), config.getOffScreenHeight());
 		}
 	}
 
-	@Override
-	public String getStatistics()
+	private void setupOffScreen(double newWidth, double newHeight)
 	{
-		builder.setLength(0);
+		renderOffScreen = true;
 
-		builder.append(width).append("x").append(height).append(" | ");
+		gc = config.getOffScreenCanvasGC();
 
-		builder.append(framesPerSecond).append(" fps | ");
+		width = newWidth;
+		height = newHeight;
 
-		if (config.isUseScriptedDemoConfig())
-		{
-			long elapsedSeconds = (System.currentTimeMillis() - scriptStartTimeMillis) / 1000;
-			builder.append("Demo mode: ").append(elapsedSeconds).append("s | ");
-		}
-		else
-		{
+		this.intWidth = (int) width;
+		this.intHeight = (int) height;
 
-			if (itemCount > -1)
-			{
-				builder.append(itemCount).append(" | ");
-			}
-
-			builder.append(config.getEffect()).append(" | ");
-		}
-
-		builder.append("render ");
-
-		formatNanos(builder, lastRenderNanos);
-
-		builder.append(" | avg render ");
-
-		formatNanos(builder, averageRenderNanos);
-
-		return builder.toString();
-	}
-
-	private void formatNanos(StringBuilder builder, long nanos)
-	{
-		if (nanos > 5_000_000)
-		{
-			builder.append(nanos / 1_000_000).append("ms");
-		}
-		else if (nanos > 5_000)
-		{
-			builder.append(nanos / 1_000).append("us");
-		}
-		else
-		{
-			builder.append(nanos).append("ns");
-		}
-	}
-
-	@Override
-	public void renderBackground()
-	{
+		this.halfWidth = width / 2;
+		this.halfHeight = height / 2;
 	}
 
 	protected final void fillBackground(int red, int green, int blue)
@@ -193,10 +122,29 @@ public abstract class AbstractEffect implements IEffect
 		return Color.rgb(red, green, blue);
 	}
 
-	protected final void rotateCanvas(double rotation)
+	protected final Color getRandomColour(int start, int end)
 	{
-		Rotate r = new Rotate(canvasRotationAngle, halfWidth, halfHeight);
-		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+		int range = end - start;
+
+		int red = start + (int) (range * precalc.getUnsignedRandom());
+		int green = start + (int) (range * precalc.getUnsignedRandom());
+		int blue = start + (int) (range * precalc.getUnsignedRandom());
+
+		return Color.rgb(red, green, blue);
+	}
+
+	protected final Color getRandomGreen(int start, int end)
+	{
+		int range = end - start;
+
+		int green = start + (int) (range * precalc.getUnsignedRandom());
+
+		return Color.rgb(0, green, 0);
+	}
+
+	protected final void rotateCanvasAroundCentre(double rotation)
+	{
+		rotateCanvasAroundPoint(halfWidth, halfHeight, canvasRotationAngle);
 
 		canvasRotationAngle += rotation;
 
@@ -206,8 +154,34 @@ public abstract class AbstractEffect implements IEffect
 		}
 	}
 
+	protected final void rotateCanvasAroundOrigin(double rotation)
+	{
+		rotateCanvasAroundPoint(0, 0, rotation);
+
+		canvasRotationAngle += rotation;
+
+		if (canvasRotationAngle >= 360)
+		{
+			canvasRotationAngle -= 360;
+		}
+	}
+
+	protected final void rotateCanvasAroundPoint(double x, double y, double rotation)
+	{
+		rotate.setAngle(rotation);
+		rotate.setPivotX(x);
+		rotate.setPivotY(y);
+
+		gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
+	}
+
 	@Override
 	public void stop()
+	{
+	}
+	
+	@Override
+	public void start()
 	{
 	}
 
@@ -235,26 +209,62 @@ public abstract class AbstractEffect implements IEffect
 		return effectStopMillis;
 	}
 
-	public boolean isShowEffect(long elapsed)
+	@Override
+	public boolean isVisible(long elapsed)
 	{
-		boolean showEffect = !effectFinished;
+		if (effectFinished)
+		{
+			return false;
+		}
+		
+		boolean showEffect = true;
 
-		if (effectStartMillis >= 0)
+		if (effectStartMillis != -1)
 		{
 			if (elapsed < effectStartMillis)
 			{
 				showEffect = false;
 			}
+			else if (!effectStarted)
+			{
+				effectStarted = true;
+				System.out.println("started " + getClass().getSimpleName() + " at " + elapsed);
+				start();
+			}
+		}
+		else if (!effectStarted)
+		{
+			effectStarted = true;
+			System.out.println("started " + getClass().getSimpleName() + " at " + elapsed);
+			start();
 		}
 
-		if (effectStopMillis >= 0)
+		if (effectStopMillis != -1)
 		{
 			if (elapsed > effectStopMillis)
 			{
 				showEffect = false;
+				effectFinished = true;
+				System.out.println("stopped " + getClass().getSimpleName() + " at " + elapsed);
+				stop();
 			}
 		}
 
 		return showEffect;
+	}
+
+	protected void writeImageToIntArray(Image image, int[] dest, int imageWidth, int imageHeight)
+	{
+		int pixel = 0;
+
+		PixelReader reader = image.getPixelReader();
+
+		for (int y = 0; y < imageHeight; y++)
+		{
+			for (int x = 0; x < imageWidth; x++)
+			{
+				dest[pixel++] = reader.getArgb(x, y);
+			}
+		}
 	}
 }

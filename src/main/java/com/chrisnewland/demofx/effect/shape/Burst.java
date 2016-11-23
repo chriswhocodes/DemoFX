@@ -1,14 +1,13 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.shape;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.image.Image;
 
 public class Burst extends AbstractEffect
 {
@@ -32,17 +31,13 @@ public class Burst extends AbstractEffect
 
 	private Image image;
 
-	public Burst(GraphicsContext gc, DemoConfig config)
+	public Burst(DemoConfig config)
 	{
-		super(gc, config);
+		super(config);
 
 		MAX_RADIUS = width / 4;
 		FADE_RADIUS = MAX_RADIUS - FADE_STEPS;
-	}
 
-	@Override
-	protected void initialise()
-	{
 		radii = new double[BURSTS];
 		ringX = new double[BURSTS];
 		ringY = new double[BURSTS];
@@ -58,12 +53,6 @@ public class Burst extends AbstractEffect
 		image = new Image(getClass().getResourceAsStream("/star.png"));
 
 		itemCount = BURSTS * BURST_SECTORS;
-	}
-
-	@Override
-	public void renderBackground()
-	{
-		fillBackground(getCycleColour());
 	}
 	
 	@Override

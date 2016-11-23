@@ -1,14 +1,13 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.fractal;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.paint.Color;
 
 public class Mandelbrot extends AbstractEffect
 {
@@ -43,16 +42,12 @@ public class Mandelbrot extends AbstractEffect
 
 	private Color cycleColour;
 
-	public Mandelbrot(GraphicsContext gc, DemoConfig config)
+	public Mandelbrot(DemoConfig config)
 	{
-		super(gc, config);
+		super(config);
 
 		MIN_ZOOM = width;
-	}
 
-	@Override
-	protected void initialise()
-	{
 		pointsOfInterest = new String[] {
 				" 0.00,-0.80",
 				" 0.35,-0.40",
@@ -69,12 +64,6 @@ public class Mandelbrot extends AbstractEffect
 		setPointOfInterest();
 	}
 
-	@Override
-	public void renderBackground()
-	{
-		fillBackground(Color.BLACK);
-	}
-	
 	private final void zoom()
 	{
 		double zoomStep = zoom * 0.03;

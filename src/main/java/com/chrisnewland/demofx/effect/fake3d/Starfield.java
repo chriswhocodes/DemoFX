@@ -1,14 +1,13 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.fake3d;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.paint.Color;
 
 public class Starfield extends AbstractEffect
 {
@@ -19,28 +18,33 @@ public class Starfield extends AbstractEffect
 	private static final double SPEED = 0.05;
 	private static final double MAX_DEPTH = 5;
 
-	public Starfield(GraphicsContext gc, DemoConfig config)
-	{
-		super(gc, config);
-	}
+	private boolean spin = true;
 
-	@Override
-	protected void initialise()
+	public Starfield(DemoConfig config)
 	{
+		super(config);
+
 		if (itemCount == -1)
 		{
 			itemCount = 5000;
 		}
 
-		buildStars();
+		init();
 	}
 	
-	public void customInitialise(int starCount,long startMillis, long stopMillis)
+	public Starfield(DemoConfig config, int starCount, long startMillis, long stopMillis)
 	{
+		super(config);
+
 		this.itemCount = starCount;
 		this.effectStartMillis = startMillis;
 		this.effectStopMillis = stopMillis;
-		
+
+		init();
+	}
+
+	private void init()
+	{
 		buildStars();
 	}
 	
@@ -54,20 +58,19 @@ public class Starfield extends AbstractEffect
 		{
 			starX[i] = precalc.getSignedRandom() * halfWidth;
 			starY[i] = precalc.getSignedRandom() * halfHeight;
-			starZ[i] = precalc.getUnsignedRandom() * MAX_DEPTH;
+			respawn(i);
 		}
-	}
-
-	@Override
-	public void renderBackground()
-	{
-		fillBackground(Color.BLACK);
 	}
 
 	@Override
 	public void renderForeground()
 	{
 		gc.setStroke(Color.WHITE);
+
+		if (spin)
+		{
+			rotateCanvasAroundCentre(0.5);
+		}
 
 		for (int i = 0; i < itemCount; i++)
 		{
@@ -84,7 +87,7 @@ public class Starfield extends AbstractEffect
 
 	private final void respawn(int i)
 	{
-		starZ[i] = precalc.getUnsignedRandom() * MAX_DEPTH;
+		starZ[i] = precalc.getUnsignedRandom() * MAX_DEPTH / 2;
 	}
 
 	private double translateX(int i)
@@ -102,7 +105,7 @@ public class Starfield extends AbstractEffect
 		double x = halfWidth + translateX(i);
 		double y = halfHeight + translateY(i);
 
-		if (onScreen(x, y))
+		if (isOnScreen(x, y))
 		{
 			gc.strokeLine(x, y, x + 1, y + 1);
 		}
@@ -112,8 +115,17 @@ public class Starfield extends AbstractEffect
 		}
 	}
 
-	private final boolean onScreen(double x, double y)
+	private final boolean isOnScreen(double x, double y)
 	{
-		return x >= 0 && y >= 0 && x < width && y < height;
+		if (spin)
+		{
+			double max = 1.4 * Math.max(width, height);
+
+			return x > -max && y > -max && x < max && y < max;
+		}
+		else
+		{
+			return x > 0 && y > 0 && x < width && y < height;
+		}
 	}
 }

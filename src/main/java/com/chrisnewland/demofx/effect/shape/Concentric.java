@@ -1,14 +1,14 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.shape;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import com.chrisnewland.demofx.util.ImageUtil;
+
+import javafx.scene.image.Image;
 
 public class Concentric extends AbstractEffect
 {
@@ -31,15 +31,11 @@ public class Concentric extends AbstractEffect
 	private static final double EACH_ANGLE = 360 / (double) PER_RING;
 	private final double OFFSCREEN;
 
-	public Concentric(GraphicsContext gc, DemoConfig config)
+	public Concentric(DemoConfig config)
 	{
-		super(gc, config);
+		super(config);
 		OFFSCREEN = Math.max(halfWidth, halfHeight) * 1.2;
-	}
 
-	@Override
-	protected void initialise()
-	{
 		space = width / RINGS / 1.7;
 
 		radii = new double[RINGS];
@@ -48,14 +44,15 @@ public class Concentric extends AbstractEffect
 		ringX = new double[RINGS];
 		ringY = new double[RINGS];
 
-		images = new Image[] { new Image(getClass().getResourceAsStream("/tomato.png")),
-				new Image(getClass().getResourceAsStream("/satsuma.png")),
-				new Image(getClass().getResourceAsStream("/pear.png")),
-				new Image(getClass().getResourceAsStream("/apple.png")),
-				new Image(getClass().getResourceAsStream("/orange.png")),
-				new Image(getClass().getResourceAsStream("/pineapple.png")),
-				new Image(getClass().getResourceAsStream("/banana.png")),
-				new Image(getClass().getResourceAsStream("/strawberry.png")) };
+		images = new Image[] {
+				ImageUtil.loadImageFromResources("tomato.png"),
+				ImageUtil.loadImageFromResources("/satsuma.png"),
+				ImageUtil.loadImageFromResources("/pear.png"),
+				ImageUtil.loadImageFromResources("/apple.png"),
+				ImageUtil.loadImageFromResources("/orange.png"),
+				ImageUtil.loadImageFromResources("/pineapple.png"),
+				ImageUtil.loadImageFromResources("/banana.png"),
+				ImageUtil.loadImageFromResources("/strawberry.png") };
 
 		imageIndex = new int[RINGS];
 
@@ -69,12 +66,6 @@ public class Concentric extends AbstractEffect
 		itemCount = RINGS * PER_RING;
 	}
 
-	@Override
-	public void renderBackground()
-	{
-		fillBackground(getCycleColour());
-	}
-	
 	@Override
 	public void renderForeground()
 	{

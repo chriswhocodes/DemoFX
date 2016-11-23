@@ -1,0 +1,25 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.javafxports:jfxmobile-plugin:1.0.0-b4'
+    }
+}
+
+apply plugin: 'org.javafxports.jfxmobile'
+
+repositories {
+    jcenter()
+}
+
+mainClassName = 'org.demofx.port.DemoFXPort'
+
+jfxmobile {
+    ios {
+        forceLinkClasses = [ 'org.demofx.port.**.*' ]
+    }
+    android{
+        androidSdk = '/opt/android-sdk-linux'
+    }
+}

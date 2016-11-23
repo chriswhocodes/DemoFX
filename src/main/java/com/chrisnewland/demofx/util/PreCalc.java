@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.util;
@@ -160,7 +160,7 @@ public class PreCalc
 	/*
 	 * 0 <= x <= 255
 	 */
-	public final int getRandomColour()
+	public final int getRandomColour255()
 	{
 		if (USE_LOOKUPS_FOR_RANDOM)
 		{
@@ -229,8 +229,8 @@ public class PreCalc
 			return Math.sin(Math.toRadians(degrees));
 		}
 	}
-
-	private final double lookupSin(double degrees)
+	
+	private final double clampAngle(double degrees)
 	{
 		if (degrees >= 360)
 		{
@@ -239,8 +239,35 @@ public class PreCalc
 				degrees -= 360;
 			} while (degrees >= 360);
 		}
+		else if (degrees < 0)
+		{
+			do
+			{
+				degrees += 360;
+			} while (degrees < 0);
+		}
 
-		int index = (int) (degrees * INDEX_MULTIPLIER);
+		if (degrees == 360)
+		{
+			degrees = 0;
+		}
+		
+		return degrees;
+	}
+	
+	public double clampDouble(double value, double min, double max)
+	{
+		return Math.max(Math.min(value,  max), min);
+	}
+	
+	public int clampInt(int value, int min, int max)
+	{
+		return Math.max(Math.min(value,  max), min);
+	}
+
+	private final double lookupSin(double degrees)
+	{
+		int index = (int) (clampAngle(degrees) * INDEX_MULTIPLIER);
 
 		return SINE[index];
 	}
@@ -259,15 +286,7 @@ public class PreCalc
 
 	private final double lookupCos(double degrees)
 	{
-		if (degrees >= 360)
-		{
-			do
-			{
-				degrees -= 360;
-			} while (degrees >= 360);
-		}
-
-		int index = (int) (degrees * INDEX_MULTIPLIER);
+		int index = (int) (clampAngle(degrees) * INDEX_MULTIPLIER);
 
 		return COSINE[index];
 	}

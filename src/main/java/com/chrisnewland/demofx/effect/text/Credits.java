@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.text;
@@ -10,13 +10,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.util.TextUtil;
+
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class Credits extends AbstractEffect
 {
@@ -37,14 +36,10 @@ public class Credits extends AbstractEffect
 	private Font currentFont;
 	private double currentSpacing = INITIAL_LINE_SPACE;
 
-	public Credits(GraphicsContext gc, DemoConfig config)
+	public Credits(DemoConfig config)
 	{
-		super(gc, config);
-	}
+		super(config);
 
-	@Override
-	protected void initialise()
-	{
 		currentFont = Font.font("Arial", INITIAL_FONT_SIZE);
 		yOffset = height;
 
@@ -175,12 +170,6 @@ public class Credits extends AbstractEffect
 		{
 			TextUtil.getStringDimensions(currentFont, gc, str);
 		}
-	}
-
-	@Override
-	public void renderBackground()
-	{
-		fillBackground(Color.BLACK);
 	}
 
 	@Override

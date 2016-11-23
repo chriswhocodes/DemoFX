@@ -1,0 +1,362 @@
+Classfile /home/chris/workspace/DemoFXProject/bin/com/chrisnewland/demofx/effect/text/TextLayers.class
+  Last modified 28-Oct-2016; size 4308 bytes
+  MD5 checksum a10cafb6bd4c57f11ed79bb6cd563c4d
+  Compiled from "TextLayers.java"
+public class com.chrisnewland.demofx.effect.text.TextLayers extends com.chrisnewland.demofx.effect.AbstractEffect
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+    #1 = Class              #2            // com/chrisnewland/demofx/effect/text/TextLayers
+    #2 = Utf8               com/chrisnewland/demofx/effect/text/TextLayers
+    #3 = Class              #4            // com/chrisnewland/demofx/effect/AbstractEffect
+    #4 = Utf8               com/chrisnewland/demofx/effect/AbstractEffect
+    #5 = Utf8               layers
+    #6 = Utf8               [Ljavafx/scene/image/Image;
+    #7 = Utf8               depth
+    #8 = Utf8               [D
+    #9 = Utf8               angle
+   #10 = Utf8               D
+   #11 = Utf8               <init>
+   #12 = Utf8               (Lcom/chrisnewland/demofx/DemoConfig;)V
+   #13 = Utf8               Code
+   #14 = Methodref          #3.#15        // com/chrisnewland/demofx/effect/AbstractEffect."<init>":(Lcom/chrisnewland/demofx/DemoConfig;)V
+   #15 = NameAndType        #11:#12       // "<init>":(Lcom/chrisnewland/demofx/DemoConfig;)V
+   #16 = Class              #17           // java/util/ArrayList
+   #17 = Utf8               java/util/ArrayList
+   #18 = Methodref          #16.#19       // java/util/ArrayList."<init>":()V
+   #19 = NameAndType        #11:#20       // "<init>":()V
+   #20 = Utf8               ()V
+   #21 = String             #22           // source code
+   #22 = Utf8               source code
+   #23 = Methodref          #1.#24        // com/chrisnewland/demofx/effect/text/TextLayers.repeat:(Ljava/lang/String;II)Ljava/lang/String;
+   #24 = NameAndType        #25:#26       // repeat:(Ljava/lang/String;II)Ljava/lang/String;
+   #25 = Utf8               repeat
+   #26 = Utf8               (Ljava/lang/String;II)Ljava/lang/String;
+   #27 = InterfaceMethodref #28.#30       // java/util/List.add:(Ljava/lang/Object;)Z
+   #28 = Class              #29           // java/util/List
+   #29 = Utf8               java/util/List
+   #30 = NameAndType        #31:#32       // add:(Ljava/lang/Object;)Z
+   #31 = Utf8               add
+   #32 = Utf8               (Ljava/lang/Object;)Z
+   #33 = String             #34           // bytecode
+   #34 = Utf8               bytecode
+   #35 = String             #36           // assembly
+   #36 = Utf8               assembly
+   #37 = String             #38           // binary
+   #38 = Utf8               binary
+   #39 = Methodref          #1.#40        // com/chrisnewland/demofx/effect/text/TextLayers.init:(Ljava/util/List;)V
+   #40 = NameAndType        #41:#42       // init:(Ljava/util/List;)V
+   #41 = Utf8               init
+   #42 = Utf8               (Ljava/util/List;)V
+   #43 = Utf8               LineNumberTable
+   #44 = Utf8               LocalVariableTable
+   #45 = Utf8               this
+   #46 = Utf8               Lcom/chrisnewland/demofx/effect/text/TextLayers;
+   #47 = Utf8               config
+   #48 = Utf8               Lcom/chrisnewland/demofx/DemoConfig;
+   #49 = Utf8               Ljava/util/List;
+   #50 = Utf8               rows
+   #51 = Utf8               I
+   #52 = Utf8               cols
+   #53 = Utf8               LocalVariableTypeTable
+   #54 = Utf8               Ljava/util/List<Ljava/lang/String;>;
+   #55 = Class              #56           // java/lang/StringBuilder
+   #56 = Utf8               java/lang/StringBuilder
+   #57 = Methodref          #55.#19       // java/lang/StringBuilder."<init>":()V
+   #58 = Methodref          #59.#61       // java/lang/String.length:()I
+   #59 = Class              #60           // java/lang/String
+   #60 = Utf8               java/lang/String
+   #61 = NameAndType        #62:#63       // length:()I
+   #62 = Utf8               length
+   #63 = Utf8               ()I
+   #64 = Methodref          #55.#65       // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   #65 = NameAndType        #66:#67       // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   #66 = Utf8               append
+   #67 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
+   #68 = Methodref          #59.#69       // java/lang/String.substring:(II)Ljava/lang/String;
+   #69 = NameAndType        #70:#71       // substring:(II)Ljava/lang/String;
+   #70 = Utf8               substring
+   #71 = Utf8               (II)Ljava/lang/String;
+   #72 = String             #73           // \n
+   #73 = Utf8               \n
+   #74 = Methodref          #59.#75       // java/lang/String.substring:(I)Ljava/lang/String;
+   #75 = NameAndType        #70:#76       // substring:(I)Ljava/lang/String;
+   #76 = Utf8               (I)Ljava/lang/String;
+   #77 = Fieldref           #78.#80       // java/lang/System.out:Ljava/io/PrintStream;
+   #78 = Class              #79           // java/lang/System
+   #79 = Utf8               java/lang/System
+   #80 = NameAndType        #81:#82       // out:Ljava/io/PrintStream;
+   #81 = Utf8               out
+   #82 = Utf8               Ljava/io/PrintStream;
+   #83 = Methodref          #55.#84       // java/lang/StringBuilder.toString:()Ljava/lang/String;
+   #84 = NameAndType        #85:#86       // toString:()Ljava/lang/String;
+   #85 = Utf8               toString
+   #86 = Utf8               ()Ljava/lang/String;
+   #87 = Methodref          #88.#90       // java/io/PrintStream.println:(Ljava/lang/String;)V
+   #88 = Class              #89           // java/io/PrintStream
+   #89 = Utf8               java/io/PrintStream
+   #90 = NameAndType        #91:#92       // println:(Ljava/lang/String;)V
+   #91 = Utf8               println
+   #92 = Utf8               (Ljava/lang/String;)V
+   #93 = Utf8               text
+   #94 = Utf8               Ljava/lang/String;
+   #95 = Utf8               builder
+   #96 = Utf8               Ljava/lang/StringBuilder;
+   #97 = Utf8               finished
+   #98 = Utf8               Z
+   #99 = Utf8               textLength
+  #100 = Utf8               currentRowWidth
+  #101 = Utf8               currentRow
+  #102 = Utf8               spillover
+  #103 = Utf8               StackMapTable
+  #104 = Utf8               (Lcom/chrisnewland/demofx/DemoConfig;Ljava/util/List;)V
+  #105 = Utf8               Signature
+  #106 = Utf8               (Lcom/chrisnewland/demofx/DemoConfig;Ljava/util/List<Ljava/lang/String;>;)V
+  #107 = Utf8               (Ljava/util/List<Ljava/lang/String;>;)V
+  #108 = InterfaceMethodref #28.#109      // java/util/List.size:()I
+  #109 = NameAndType        #110:#63      // size:()I
+  #110 = Utf8               size
+  #111 = Class              #112          // javafx/scene/image/Image
+  #112 = Utf8               javafx/scene/image/Image
+  #113 = Fieldref           #1.#114       // com/chrisnewland/demofx/effect/text/TextLayers.layers:[Ljavafx/scene/image/Image;
+  #114 = NameAndType        #5:#6         // layers:[Ljavafx/scene/image/Image;
+  #115 = Fieldref           #1.#116       // com/chrisnewland/demofx/effect/text/TextLayers.depth:[D
+  #116 = NameAndType        #7:#8         // depth:[D
+  #117 = InterfaceMethodref #28.#118      // java/util/List.iterator:()Ljava/util/Iterator;
+  #118 = NameAndType        #119:#120     // iterator:()Ljava/util/Iterator;
+  #119 = Utf8               iterator
+  #120 = Utf8               ()Ljava/util/Iterator;
+  #121 = InterfaceMethodref #122.#124     // java/util/Iterator.next:()Ljava/lang/Object;
+  #122 = Class              #123          // java/util/Iterator
+  #123 = Utf8               java/util/Iterator
+  #124 = NameAndType        #125:#126     // next:()Ljava/lang/Object;
+  #125 = Utf8               next
+  #126 = Utf8               ()Ljava/lang/Object;
+  #127 = String             #128          // monospace
+  #128 = Utf8               monospace
+  #129 = Methodref          #130.#132     // javafx/scene/text/Font.font:(Ljava/lang/String;)Ljavafx/scene/text/Font;
+  #130 = Class              #131          // javafx/scene/text/Font
+  #131 = Utf8               javafx/scene/text/Font
+  #132 = NameAndType        #133:#134     // font:(Ljava/lang/String;)Ljavafx/scene/text/Font;
+  #133 = Utf8               font
+  #134 = Utf8               (Ljava/lang/String;)Ljavafx/scene/text/Font;
+  #135 = Methodref          #136.#138     // com/chrisnewland/demofx/util/TextUtil.createImageFromString:(Ljavafx/scene/text/Font;Ljava/lang/String;)Ljavafx/scene/image/Image;
+  #136 = Class              #137          // com/chrisnewland/demofx/util/TextUtil
+  #137 = Utf8               com/chrisnewland/demofx/util/TextUtil
+  #138 = NameAndType        #139:#140     // createImageFromString:(Ljavafx/scene/text/Font;Ljava/lang/String;)Ljavafx/scene/image/Image;
+  #139 = Utf8               createImageFromString
+  #140 = Utf8               (Ljavafx/scene/text/Font;Ljava/lang/String;)Ljavafx/scene/image/Image;
+  #141 = Methodref          #136.#142     // com/chrisnewland/demofx/util/TextUtil.cropImage:(Ljavafx/scene/image/Image;II)Ljavafx/scene/image/Image;
+  #142 = NameAndType        #143:#144     // cropImage:(Ljavafx/scene/image/Image;II)Ljavafx/scene/image/Image;
+  #143 = Utf8               cropImage
+  #144 = Utf8               (Ljavafx/scene/image/Image;II)Ljavafx/scene/image/Image;
+  #145 = InterfaceMethodref #122.#146     // java/util/Iterator.hasNext:()Z
+  #146 = NameAndType        #147:#148     // hasNext:()Z
+  #147 = Utf8               hasNext
+  #148 = Utf8               ()Z
+  #149 = Utf8               textLayers
+  #150 = Utf8               count
+  #151 = Utf8               pos
+  #152 = Utf8               image
+  #153 = Utf8               Ljavafx/scene/image/Image;
+  #154 = Utf8               renderForeground
+  #155 = Fieldref           #1.#156       // com/chrisnewland/demofx/effect/text/TextLayers.angle:D
+  #156 = NameAndType        #9:#10        // angle:D
+  #157 = Double             0.36d
+  #159 = Double             360.0d
+  #161 = Methodref          #1.#162       // com/chrisnewland/demofx/effect/text/TextLayers.plotText:()V
+  #162 = NameAndType        #163:#20      // plotText:()V
+  #163 = Utf8               plotText
+  #164 = Fieldref           #1.#165       // com/chrisnewland/demofx/effect/text/TextLayers.precalc:Lcom/chrisnewland/demofx/util/PreCalc;
+  #165 = NameAndType        #166:#167     // precalc:Lcom/chrisnewland/demofx/util/PreCalc;
+  #166 = Utf8               precalc
+  #167 = Utf8               Lcom/chrisnewland/demofx/util/PreCalc;
+  #168 = Methodref          #169.#171     // com/chrisnewland/demofx/util/PreCalc.sin:(D)D
+  #169 = Class              #170          // com/chrisnewland/demofx/util/PreCalc
+  #170 = Utf8               com/chrisnewland/demofx/util/PreCalc
+  #171 = NameAndType        #172:#173     // sin:(D)D
+  #172 = Utf8               sin
+  #173 = Utf8               (D)D
+  #174 = Methodref          #175.#177     // java/lang/Math.abs:(D)D
+  #175 = Class              #176          // java/lang/Math
+  #176 = Utf8               java/lang/Math
+  #177 = NameAndType        #178:#173     // abs:(D)D
+  #178 = Utf8               abs
+  #179 = Double             4.0d
+  #181 = Methodref          #111.#182     // javafx/scene/image/Image.getWidth:()D
+  #182 = NameAndType        #183:#184     // getWidth:()D
+  #183 = Utf8               getWidth
+  #184 = Utf8               ()D
+  #185 = Methodref          #111.#186     // javafx/scene/image/Image.getHeight:()D
+  #186 = NameAndType        #187:#184     // getHeight:()D
+  #187 = Utf8               getHeight
+  #188 = Double             3.33d
+  #190 = Fieldref           #1.#191       // com/chrisnewland/demofx/effect/text/TextLayers.gc:Ljavafx/scene/canvas/GraphicsContext;
+  #191 = NameAndType        #192:#193     // gc:Ljavafx/scene/canvas/GraphicsContext;
+  #192 = Utf8               gc
+  #193 = Utf8               Ljavafx/scene/canvas/GraphicsContext;
+  #194 = Methodref          #195.#197     // javafx/scene/canvas/GraphicsContext.setGlobalAlpha:(D)V
+  #195 = Class              #196          // javafx/scene/canvas/GraphicsContext
+  #196 = Utf8               javafx/scene/canvas/GraphicsContext
+  #197 = NameAndType        #198:#199     // setGlobalAlpha:(D)V
+  #198 = Utf8               setGlobalAlpha
+  #199 = Utf8               (D)V
+  #200 = Fieldref           #1.#201       // com/chrisnewland/demofx/effect/text/TextLayers.width:D
+  #201 = NameAndType        #202:#10      // width:D
+  #202 = Utf8               width
+  #203 = Double             2.0d
+  #205 = Fieldref           #1.#206       // com/chrisnewland/demofx/effect/text/TextLayers.height:D
+  #206 = NameAndType        #207:#10      // height:D
+  #207 = Utf8               height
+  #208 = Methodref          #195.#209     // javafx/scene/canvas/GraphicsContext.drawImage:(Ljavafx/scene/image/Image;DDDD)V
+  #209 = NameAndType        #210:#211     // drawImage:(Ljavafx/scene/image/Image;DDDD)V
+  #210 = Utf8               drawImage
+  #211 = Utf8               (Ljavafx/scene/image/Image;DDDD)V
+  #212 = Utf8               i
+  #213 = Utf8               a
+  #214 = Utf8               d
+  #215 = Utf8               plotWidth
+  #216 = Utf8               plotHeight
+  #217 = Utf8               alpha
+  #218 = Utf8               SourceFile
+  #219 = Utf8               TextLayers.java
+{
+  public com.chrisnewland.demofx.effect.text.TextLayers(com.chrisnewland.demofx.DemoConfig);
+    descriptor: (Lcom/chrisnewland/demofx/DemoConfig;)V
+    flags: ACC_PUBLIC
+    Code:
+      stack=5, locals=5, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokespecial #14                 // Method com/chrisnewland/demofx/effect/AbstractEffect."<init>":(Lcom/chrisnewland/demofx/DemoConfig;)V
+         5: new           #16                 // class java/util/ArrayList
+         8: dup
+         9: invokespecial #18                 // Method java/util/ArrayList."<init>":()V
+        12: astore_2
+        13: bipush        48
+        15: istore_3
+        16: bipush        64
+        18: istore        4
+        20: aload_2
+        21: aload_0
+        22: ldc           #21                 // String source code
+        24: iload_3
+        25: iload         4
+        27: invokespecial #23                 // Method repeat:(Ljava/lang/String;II)Ljava/lang/String;
+        30: invokeinterface #27,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+        35: pop
+        36: aload_2
+        37: aload_0
+        38: ldc           #33                 // String bytecode
+        40: iload_3
+        41: iload         4
+        43: invokespecial #23                 // Method repeat:(Ljava/lang/String;II)Ljava/lang/String;
+        46: invokeinterface #27,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+        51: pop
+        52: aload_2
+        53: aload_0
+        54: ldc           #35                 // String assembly
+        56: iload_3
+        57: iload         4
+        59: invokespecial #23                 // Method repeat:(Ljava/lang/String;II)Ljava/lang/String;
+        62: invokeinterface #27,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+        67: pop
+        68: aload_2
+        69: aload_0
+        70: ldc           #37                 // String binary
+        72: iload_3
+        73: iload         4
+        75: invokespecial #23                 // Method repeat:(Ljava/lang/String;II)Ljava/lang/String;
+        78: invokeinterface #27,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+        83: pop
+        84: aload_0
+        85: aload_2
+        86: invokespecial #39                 // Method init:(Ljava/util/List;)V
+        89: return
+      LineNumberTable:
+        line 25: 0
+        line 27: 5
+        line 29: 13
+        line 30: 16
+        line 32: 20
+        line 33: 36
+        line 34: 52
+        line 35: 68
+        line 37: 84
+        line 38: 89
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      90     0  this   Lcom/chrisnewland/demofx/effect/text/TextLayers;
+            0      90     1 config   Lcom/chrisnewland/demofx/DemoConfig;
+           13      77     2 layers   Ljava/util/List;
+           16      74     3  rows   I
+           20      70     4  cols   I
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+           13      77     2 layers   Ljava/util/List<Ljava/lang/String;>;
+
+  public com.chrisnewland.demofx.effect.text.TextLayers(com.chrisnewland.demofx.DemoConfig, java.util.List<java.lang.String>);
+    descriptor: (Lcom/chrisnewland/demofx/DemoConfig;Ljava/util/List;)V
+    flags: ACC_PUBLIC
+    Signature: #106                         // (Lcom/chrisnewland/demofx/DemoConfig;Ljava/util/List<Ljava/lang/String;>;)V
+    Code:
+      stack=2, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: invokespecial #14                 // Method com/chrisnewland/demofx/effect/AbstractEffect."<init>":(Lcom/chrisnewland/demofx/DemoConfig;)V
+         5: aload_0
+         6: aload_2
+         7: invokespecial #39                 // Method init:(Ljava/util/List;)V
+        10: return
+      LineNumberTable:
+        line 92: 0
+        line 94: 5
+        line 95: 10
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Lcom/chrisnewland/demofx/effect/text/TextLayers;
+            0      11     1 config   Lcom/chrisnewland/demofx/DemoConfig;
+            0      11     2 layers   Ljava/util/List;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      11     2 layers   Ljava/util/List<Ljava/lang/String;>;
+
+  public void renderForeground();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=5, locals=1, args_size=1
+         0: aload_0
+         1: dup
+         2: getfield      #155                // Field angle:D
+         5: ldc2_w        #157                // double 0.36d
+         8: dadd
+         9: putfield      #155                // Field angle:D
+        12: aload_0
+        13: getfield      #155                // Field angle:D
+        16: ldc2_w        #159                // double 360.0d
+        19: dcmpl
+        20: ifle          35
+        23: aload_0
+        24: dup
+        25: getfield      #155                // Field angle:D
+        28: ldc2_w        #159                // double 360.0d
+        31: dsub
+        32: putfield      #155                // Field angle:D
+        35: aload_0
+        36: invokespecial #161                // Method plotText:()V
+        39: return
+      LineNumberTable:
+        line 119: 0
+        line 121: 12
+        line 123: 23
+        line 126: 35
+        line 127: 39
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      40     0  this   Lcom/chrisnewland/demofx/effect/text/TextLayers;
+      StackMapTable: number_of_entries = 1
+        frame_type = 35 /* same */
+}
+SourceFile: "TextLayers.java"

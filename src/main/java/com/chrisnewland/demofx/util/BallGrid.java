@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015-2016 Chris Newland.
+ * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
+ */
 package com.chrisnewland.demofx.util;
 
 import java.util.List;
@@ -109,5 +113,31 @@ public class BallGrid
 		}
 
 		return builder.toString();
+	}
+
+	public String[] toStringArray()
+	{
+		String[] result = new String[rows];
+
+		for (int row = 0; row < rows; row++)
+		{
+			StringBuilder rowBuidler = new StringBuilder();
+
+			for (int col = 0; col < cols; col++)
+			{
+				if (isSet(col, row))
+				{
+					rowBuidler.append('*');
+				}
+				else
+				{
+					rowBuidler.append(' ');
+				}
+			}
+
+			result[row] = rowBuidler.toString();
+		}
+
+		return result;
 	}
 }

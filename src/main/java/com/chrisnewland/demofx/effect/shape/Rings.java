@@ -1,14 +1,13 @@
 /*
- * Copyright (c) 2015 Chris Newland.
+ * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.shape;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+
+import javafx.scene.paint.Color;
 
 public class Rings extends AbstractEffect
 {
@@ -76,14 +75,10 @@ public class Rings extends AbstractEffect
 
 	private Ring master;
 
-	public Rings(GraphicsContext gc, DemoConfig config)
+	public Rings(DemoConfig config)
 	{
-		super(gc, config);
-	}
+		super(config);
 
-	@Override
-	protected void initialise()
-	{
 		Ring ring8 = new Ring(null, 40, 10, 10, Color.DODGERBLUE);
 
 		Ring ring7 = new Ring(ring8, 70, 10, 9, Color.INDIGO);
@@ -102,13 +97,6 @@ public class Rings extends AbstractEffect
 
 		itemCount = 8;
 	}
-
-	
-	@Override
-	public void renderBackground()
-	{
-		fillBackground(Color.MIDNIGHTBLUE);
-	}	
 	
 	@Override
 	public void renderForeground()
