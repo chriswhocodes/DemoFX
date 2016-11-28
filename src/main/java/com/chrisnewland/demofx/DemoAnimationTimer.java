@@ -18,7 +18,7 @@ public class DemoAnimationTimer extends AnimationTimer
 {
 	public static final int SAMPLE_PER_SECOND = 4;
 	public static final long UPDATE_STATS_MILLIS = 1000L / SAMPLE_PER_SECOND;
-    
+
 	private long startTime = 0;
 
 	private GraphicsContext onScreenGC;
@@ -27,12 +27,9 @@ public class DemoAnimationTimer extends AnimationTimer
 
 	private Label statsLabel;
 
-	private List<IEffect> effects;
-
-	private long lastSecond;
+	private long lastStatsUpdate;
 	private int frameCount = 0;
 
-	private long lastNanos = 0;
 	private long lastRenderNanos = 0;
 	private long averageRenderNanos = 0;
 
@@ -43,6 +40,9 @@ public class DemoAnimationTimer extends AnimationTimer
 
 	private DemoFX parent;
 	private DemoConfig config;
+	
+	private IEffect[] effectArray;
+	private final int effectCount;
 
 	public DemoAnimationTimer(DemoFX parent, DemoConfig config, Label statsLabel, List<IEffect> effects)
 	{
@@ -52,12 +52,14 @@ public class DemoAnimationTimer extends AnimationTimer
 		this.config = config;
 		this.onScreenGC = config.getOnScreenCanvasGC();
 		this.statsLabel = statsLabel;
-		this.effects = effects;
+		this.effectArray = effects.toArray(new IEffect[effects.size()]);
+
+		effectCount = effectArray.length;
 	}
 
 	@Override
 	public void start()
-	{		
+	{
 		super.start();
 		startTime = System.currentTimeMillis();
 		scriptStartTimeMillis = startTime;
@@ -66,46 +68,49 @@ public class DemoAnimationTimer extends AnimationTimer
 	}
 
 	@Override
-	public void handle(long nanos)
+	public void handle(long renderStartNanos)
 	{
-		IEffect currentEffect = null;
+		long now = System.currentTimeMillis();
 
-		final int effectCount = effects.size();
+		long elapsed = now - startTime;
 
-		final long now = System.currentTimeMillis();
-
-		final long elapsed = now - startTime;
-
-		int effectsUsed = 0;
+		boolean effectsUsed = false;
 		
-		// TODO - disable blanking with a flag if another fullscreen background in use?
-		onScreenGC.setFill(Color.BLACK);
-		onScreenGC.fillRect(0, 0, config.getWidth(), config.getHeight());
+		blackBackground();
 
 		for (int i = 0; i < effectCount; i++)
 		{
-			currentEffect = effects.get(i);
+			IEffect currentEffect = effectArray[i];
 
 			if (currentEffect.isVisible(elapsed))
 			{
 				plotEffect(currentEffect);
 
-				effectsUsed++;				
+				effectsUsed = true;
 			}
 		}
-		
-		updateStatistics(now, nanos);
 
-		if (effectsUsed == 0)
+		long renderEndNanos = System.nanoTime();
+
+		updateStatistics(now, renderEndNanos - renderStartNanos);
+
+		if (!effectsUsed)
 		{
 			stop();
 		}
 	}
-    
+
+	private void blackBackground()
+	{
+		onScreenGC.setFill(Color.BLACK);
+		onScreenGC.fillRect(0, 0, config.getWidth(), config.getHeight());
+	}
+	
 	@Override
-	public void stop() {
-        	parent.timerCompleted(measurements);
-        	super.stop();
+	public void stop()
+	{
+		parent.timerCompleted(measurements);
+		super.stop();
 	}
 
 	private final void plotEffect(IEffect effect)
@@ -117,26 +122,27 @@ public class DemoAnimationTimer extends AnimationTimer
 		onScreenGC.restore();
 	}
 
-	public void updateStatistics(long now, long nanoStamp)
+	private void updateStatistics(long now, long renderNanos)
 	{
 		frameCount++;
 
-		lastRenderNanos = nanoStamp - lastNanos;
-		lastNanos = nanoStamp;
-
-		if (now - lastSecond > UPDATE_STATS_MILLIS)
+		if (now - lastStatsUpdate > UPDATE_STATS_MILLIS)
 		{
-			final int framesPerSecond = frameCount * SAMPLE_PER_SECOND;
+			int framesPerSecond = frameCount * SAMPLE_PER_SECOND;
+			
 			frameCount = 0;
-			lastSecond = now;
+			
+			lastStatsUpdate = now;
+
+			lastRenderNanos = renderNanos;
 
 			if (averageRenderNanos == 0)
 			{
-				averageRenderNanos = lastRenderNanos;
+				averageRenderNanos = renderNanos;
 			}
 			else
 			{
-				averageRenderNanos += (lastRenderNanos - averageRenderNanos) / ++count;
+				averageRenderNanos += (renderNanos - averageRenderNanos) / ++count;
 			}
 
 			if (!config.isFullScreen())
@@ -145,12 +151,13 @@ public class DemoAnimationTimer extends AnimationTimer
 			}
 
 			measurements.measure(now - startTime, framesPerSecond);
-            
-//			System.out.println(config.getEffect() + " = " + framesPerSecond + " fps");
+
+			// System.out.println(config.getEffect() + " = " + framesPerSecond +
+			// " fps");
 		}
 	}
 
-	public String getStatsString(long now, int framesPerSecond)
+	private String getStatsString(long now, int framesPerSecond)
 	{
 		builder.setLength(0);
 
@@ -187,13 +194,13 @@ public class DemoAnimationTimer extends AnimationTimer
 
 	private void formatNanos(StringBuilder builder, long nanos)
 	{
-		if (nanos > 5_000_000)
+		if (nanos > 5_000_000L)
 		{
-			builder.append(nanos / 1_000_000).append("ms");
+			builder.append(nanos / 1_000_000L).append("ms");
 		}
-		else if (nanos > 5_000)
+		else if (nanos > 5_000L)
 		{
-			builder.append(nanos / 1_000).append("us");
+			builder.append(nanos / 1_000L).append("us");
 		}
 		else
 		{
