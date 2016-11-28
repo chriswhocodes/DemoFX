@@ -3,3 +3,6 @@
 /dist/
 /nbproject/
 /target/
+.gradle/
+.idea/
+DemoFX.iml
