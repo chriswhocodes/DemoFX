@@ -35,7 +35,8 @@ public abstract class AbstractEffect implements IEffect
 	protected PreCalc precalc;
 	protected DemoConfig config;
 
-	private double colourCycleAngle = 0;
+	private int colourCycleAngle = 0;
+	private static ColourCycleCache COLOUR_CYCLE = null;
 
 	protected long effectStartMillis = -1;
 	protected long effectStopMillis = -1;
@@ -72,6 +73,9 @@ public abstract class AbstractEffect implements IEffect
 		{
 			setupOffScreen(config.getOffScreenWidth(), config.getOffScreenHeight());
 		}
+		if (COLOUR_CYCLE == null) {
+			COLOUR_CYCLE = new ColourCycleCache(precalc);
+		}
 	}
 
 	private void setupOffScreen(double newWidth, double newHeight)
@@ -104,13 +108,17 @@ public abstract class AbstractEffect implements IEffect
 
 	protected final Color getCycleColour()
 	{
+		// range [0, 360[
 		colourCycleAngle++;
 
 		if (colourCycleAngle >= 360)
 		{
 			colourCycleAngle -= 360;
 		}
+		return COLOUR_CYCLE.colors[colourCycleAngle];
+	}
 
+	static Color generateColour(PreCalc precalc, int colourCycleAngle) {
 		double redFraction = 2 + precalc.sin(colourCycleAngle);
 		double greenFraction = 2 + precalc.sin(360 - colourCycleAngle);
 		double blueFraction = 2 + precalc.cos(colourCycleAngle);
@@ -264,6 +272,16 @@ public abstract class AbstractEffect implements IEffect
 			for (int x = 0; x < imageWidth; x++)
 			{
 				dest[pixel++] = reader.getArgb(x, y);
+			}
+		}
+	}
+
+	final class ColourCycleCache {
+		final Color[] colors = new Color[360];
+        
+		ColourCycleCache(PreCalc precalc) {
+			for (int i = 0; i < 360; i++) {
+				colors[i] = generateColour(precalc, i);
 			}
 		}
 	}

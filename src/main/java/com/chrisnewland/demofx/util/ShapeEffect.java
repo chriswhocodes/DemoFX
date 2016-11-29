@@ -14,6 +14,8 @@ import javafx.scene.paint.Color;
 
 public class ShapeEffect extends AbstractEffect
 {
+	private final static int FADE_STEPS = 50;
+
 	protected double[] shapePosX;
 	protected double[] shapePosY;
 	protected double[] shapeVectorX;
@@ -26,6 +28,8 @@ public class ShapeEffect extends AbstractEffect
 	protected int[] shapeColorRed;
 	protected int[] shapeColorGreen;
 	protected int[] shapeColorBlue;
+
+	protected final Color[][] shapeFadedColors;
 
 	protected double[] shapeAngle;
 
@@ -99,6 +103,7 @@ public class ShapeEffect extends AbstractEffect
 		shapeColorRed = new int[itemCount];
 		shapeColorGreen = new int[itemCount];
 		shapeColorBlue = new int[itemCount];
+		shapeFadedColors = new Color[itemCount][FADE_STEPS + 1];
 
 		shapeAngle = new double[itemCount];
 
@@ -317,6 +322,13 @@ public class ShapeEffect extends AbstractEffect
 
 		double fadeFactor = precalc.getCoordinateFade((int) x, (int) y);
 
+		// cache colors:
+		int fadeIndex = (int)(FADE_STEPS * fadeFactor);
+		Color color = shapeFadedColors[index][fadeIndex];
+		if (color != null) {
+			return color;
+		}
+
 		r *= fadeFactor;
 		g *= fadeFactor;
 		b *= fadeFactor;
@@ -325,7 +337,9 @@ public class ShapeEffect extends AbstractEffect
 		g = Math.max(0, Math.min(g, 255));
 		b = Math.max(0, Math.min(b, 255));
 
-		return Color.rgb(r, g, b);
+		color = Color.rgb(r, g, b);
+		shapeFadedColors[index][fadeIndex] = color;
+		return color;
 	}
 
 	private final void initialiseShapeRadii()
