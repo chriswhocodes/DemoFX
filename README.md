@@ -11,11 +11,11 @@ Part II: https://www.youtube.com/watch?v=WZf0j4GUFYM
 
 Part III: https://www.youtube.com/watch?v=9jztG_l8qrk
 
-Used to discover the best techniques for optimising JavaFX performance on the Raspberry Pi, Desktop, iOS and Android.
+Used to discover the best techniques for optimising JavaFX performance on the Raspberry Pi and Desktop.
 
-Compile in your IDE or with ant:
+Compile in your IDE or with gradle:
 ```
-ant
+./gradlew build
 ```
 ```
 Run with:
