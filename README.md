@@ -15,7 +15,7 @@ Used to discover the best techniques for optimising JavaFX performance on the Ra
 
 Compile in your IDE or with gradle:
 ```
-./gradlew
+./gradlew build
 ```
 ```
 Run with:
