@@ -186,25 +186,25 @@ public abstract class AbstractEffect implements IEffect
 	}
 
 	@Override
-	public void setStartMillis(long start)
+	public void setStartOffsetMillis(long start)
 	{
 		this.effectStartMillis = start;
 	}
 
 	@Override
-	public void setStopMillis(long stop)
+	public void setStopOffsetMillis(long stop)
 	{
 		this.effectStopMillis = stop;
 	}
 
 	@Override
-	public long getStartMillis()
+	public long getStartOffsetMillis()
 	{
 		return effectStartMillis;
 	}
 
 	@Override
-	public long getStopMillis()
+	public long getStopOffsetMillis()
 	{
 		return effectStopMillis;
 	}

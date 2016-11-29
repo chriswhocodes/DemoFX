@@ -95,17 +95,102 @@ public class SimpleEffectFactory implements IEffectFactory
 		return result;
 	}
 
+	private static List<String> availableEffectNames;
+
+	static
+	{
+		availableEffectNames = new ArrayList<>();
+
+		availableEffectNames.add("blur");
+		availableEffectNames.add("bobs");
+		availableEffectNames.add("bounce");
+		availableEffectNames.add("burst");
+		availableEffectNames.add("checkerboard");
+		availableEffectNames.add("chord");
+		availableEffectNames.add("chromakey");
+		availableEffectNames.add("cogs");
+		availableEffectNames.add("colourbackground");
+		availableEffectNames.add("concentric");
+		availableEffectNames.add("credits");
+		availableEffectNames.add("creditssprite");
+		availableEffectNames.add("cubefield");
+		availableEffectNames.add("cyclebackground");
+		availableEffectNames.add("diamonds");
+		availableEffectNames.add("equaliser");
+		availableEffectNames.add("equalisercubes");
+		availableEffectNames.add("falling");
+		availableEffectNames.add("feedback");
+		availableEffectNames.add("fireworks");
+		availableEffectNames.add("flash");
+		availableEffectNames.add("glowboard");
+		availableEffectNames.add("grid");
+		availableEffectNames.add("hexagons");
+		availableEffectNames.add("honeycomb");
+		availableEffectNames.add("hue");
+		availableEffectNames.add("imagebackground");
+		availableEffectNames.add("inversechromakey");
+		availableEffectNames.add("mandala");
+		availableEffectNames.add("mandelbrot");
+		availableEffectNames.add("mask");
+		availableEffectNames.add("maskstack");
+		availableEffectNames.add("mirrorx");
+		availableEffectNames.add("mirrory");
+		availableEffectNames.add("moire");
+		availableEffectNames.add("pentagons");
+		availableEffectNames.add("picinpic");
+		availableEffectNames.add("quadplay");
+		availableEffectNames.add("rain");
+		availableEffectNames.add("rainbow");
+		availableEffectNames.add("rawplayer");
+		availableEffectNames.add("raytrace");
+		availableEffectNames.add("rings");
+		availableEffectNames.add("rotations");
+		availableEffectNames.add("sea");
+		availableEffectNames.add("sheet");
+		availableEffectNames.add("shift");
+		availableEffectNames.add("sierpinski");
+		availableEffectNames.add("spin");
+		availableEffectNames.add("spritewave");
+		availableEffectNames.add("sprite3d");
+		availableEffectNames.add("squares");
+		availableEffectNames.add("stars");
+		availableEffectNames.add("starfield");
+		availableEffectNames.add("starfieldsprite");
+		availableEffectNames.add("textbounce");
+		availableEffectNames.add("texcube");
+		availableEffectNames.add("texsphere");
+		availableEffectNames.add("textwave");
+		availableEffectNames.add("textwavesprite");
+		availableEffectNames.add("textlabel");
+		availableEffectNames.add("textlayers");
+		availableEffectNames.add("textring");
+		availableEffectNames.add("tiles");
+		availableEffectNames.add("tunnel");
+		availableEffectNames.add("triangles");
+		availableEffectNames.add("tubestack");
+		availableEffectNames.add("twister");
+		availableEffectNames.add("vumeter");
+		availableEffectNames.add("wordsearch");
+	}
+	
+	public static List<String> getAvailableEffectNames()
+	{
+		return availableEffectNames;
+	}
+
 	private IEffect getEffect(String name, DemoConfig config)
 	{
 		switch (name)
 		{
 		case "animtexsphere":
 			// return new AnimatedTexturedSphere(config);
-			throw new UnsupportedOperationException("AnimatedTexturedSphere can't be run solo, must be combined with an effect that generates the texture");
-			
+			throw new UnsupportedOperationException(
+					"AnimatedTexturedSphere can't be run solo, must be combined with an effect that generates the texture");
+
 		case "animtexcube":
 			// return new AnimatedTexturedCube(config);
-			throw new UnsupportedOperationException("AnimatedTexturedCube can't be run solo, must be combined with an effect that generates the texture");
+			throw new UnsupportedOperationException(
+					"AnimatedTexturedCube can't be run solo, must be combined with an effect that generates the texture");
 
 		case "blur":
 			return new Blur(config);
@@ -130,7 +215,7 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "cogs":
 			return new Cogs(config);
-			
+
 		case "colourbackground":
 			return new ColourBackground(config);
 
@@ -139,13 +224,13 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "credits":
 			return new Credits(config);
-			
+
 		case "creditssprite":
 			return new CreditsSprite(config);
 
 		case "cubefield":
 			return new CubeField(config);
-			
+
 		case "cyclebackground":
 			return new CycleBackground(config);
 
@@ -169,7 +254,7 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "flash":
 			return new TextFlash(config);
-			
+
 		case "glowboard":
 			return new Glowboard(config);
 
@@ -187,19 +272,19 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "imagebackground":
 			return new ImageBackground(config);
-			
+
 		case "inversechromakey":
 			return new InverseChromaKey(config);
-						
+
 		case "mandala":
 			return new Mandala(config);
 
 		case "mandelbrot":
 			return new Mandelbrot(config);
-			
+
 		case "mask":
 			return new Mask(config);
-			
+
 		case "maskstack":
 			return new MaskStack(config);
 
@@ -223,19 +308,19 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "rain":
 			return new Rain(config);
-			
+
 		case "rainbow":
 			return new Rainbow(config);
 
 		case "rawplayer":
 			return new RawPlayer(config);
-			
+
 		case "raytrace":
 			return new RayTrace(config);
 
 		case "rings":
 			return new Rings(config);
-			
+
 		case "rotations":
 			return new Rotations(config);
 
@@ -273,13 +358,13 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "starfieldsprite":
 			return new StarfieldSprite(config);
-			
+
 		case "textbounce":
 			return new TextBounce(config);
 
 		case "texcube":
 			return new TexturedCube(config);
-			
+
 		case "texsphere":
 			return new TexturedSphere(config);
 
@@ -291,10 +376,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "textlabel":
 			return new TextLabel(config);
-			
+
 		case "textlayers":
 			return new TextLayers(config);
-			
+
 		case "textring":
 			return new TextRing(config);
 
@@ -309,10 +394,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "tubestack":
 			return new TubeStack(config);
-			
+
 		case "twister":
 			return new Twister(config);
-			
+
 		case "vumeter":
 			return new VUMeter(config);
 

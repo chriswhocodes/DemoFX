@@ -12,13 +12,13 @@ public interface IEffect
 	
 	void stop();
 
-	void setStartMillis(long start);
+	void setStartOffsetMillis(long start);
 
-	void setStopMillis(long stop);
+	void setStopOffsetMillis(long stop);
 
-	long getStartMillis();
+	long getStartOffsetMillis();
 
-	long getStopMillis();
+	long getStopOffsetMillis();
 
 	boolean isVisible(long elapsed);
 }

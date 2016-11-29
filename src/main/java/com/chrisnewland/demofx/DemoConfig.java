@@ -4,10 +4,10 @@
  */
 package com.chrisnewland.demofx;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.chrisnewland.demofx.effect.effectfactory.SimpleEffectFactory;
 import com.chrisnewland.demofx.util.PreCalc;
 
 import javafx.scene.Group;
@@ -25,6 +25,8 @@ public class DemoConfig
 	private int count = -1;
 	private double width = 800;
 	private double height = 600;
+	
+	private int runForSeconds = -1;
 
 	private boolean fullScreen = false;
 	private boolean lookupSqrt = false;
@@ -53,30 +55,7 @@ public class DemoConfig
 	{
 		StringBuilder builder = new StringBuilder();
 
-		List<String> effects = new ArrayList<>();
-
-		effects.add("triangles");
-		effects.add("squares");
-		effects.add("pentagons");
-		effects.add("hexagons");
-		effects.add("stars");
-		effects.add("rings");
-		effects.add("sierpinski");
-		effects.add("mandelbrot");
-		effects.add("tiles");
-		effects.add("spin");
-		effects.add("burst");
-		effects.add("bounce");
-		effects.add("concentric");
-		effects.add("rain");
-		effects.add("blur");
-		effects.add("textwave");
-		effects.add("spritewave");
-		effects.add("grid");
-		effects.add("checkerboard");
-		effects.add("starfield");
-		effects.add("sprite3d");
-		effects.add("credits");
+		List<String> effects = SimpleEffectFactory.getAvailableEffectNames();
 
 		Collections.sort(effects);
 
@@ -96,6 +75,7 @@ public class DemoConfig
 
 		builder.append("\n");
 
+		builder.append(buildUsageLine("-t <seconds>", "run for t seconds"));
 		builder.append(buildUsageLine("-c <count>", "number of items on screen"));
 		builder.append(buildUsageLine("-f <true>", "fullscreen mode (no stats pane)"));
 		builder.append(buildUsageLine("-w <width>", "canvas width"));
@@ -178,6 +158,10 @@ public class DemoConfig
 					// =======================================
 					case "h":
 						config.height = Double.parseDouble(value);
+						break;
+					// =======================================
+					case "t":
+						config.runForSeconds = Integer.parseInt(value);
 						break;
 					// =======================================
 					case "l":
@@ -385,5 +369,10 @@ public class DemoConfig
 	public double getOffScreenHeight()
 	{
 		return offScreenHeight;
+	}
+	
+	public int getRunForSeconds()
+	{
+		return runForSeconds;
 	}
 }

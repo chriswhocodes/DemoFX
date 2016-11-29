@@ -555,8 +555,8 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 
 	private void addEffect(long start, long duration, IEffect effect)
 	{
-		effect.setStartMillis(start);
-		effect.setStopMillis(start + duration);
+		effect.setStartOffsetMillis(start);
+		effect.setStopOffsetMillis(start + duration);
 		effects.add(effect);
 
 		System.out.println("Adding " + start + " to " + (start + duration) + " " + effect.getClass().getName());

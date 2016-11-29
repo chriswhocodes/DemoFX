@@ -79,8 +79,8 @@ public class Chord extends AbstractEffect
 
 	private void drawChord(final int points, final double x, final double y, final double radius, final double thickness, boolean reverseAngle)
 	{
-		int pointAngle = 360 / points;
-
+		double pointAngle = 360.0 / (double)points;
+		
 		double theta = reverseAngle? (360 - angle) : angle;
 
 		int pos = 0;
@@ -95,11 +95,8 @@ public class Chord extends AbstractEffect
 		{
 			theta += pointAngle;
 
-			double sinTheta = precalc.sin(theta);
-			double cosTheta = precalc.cos(theta);
-
-			pointsX[pos] = radius * sinTheta;
-			pointsY[pos] = radius * cosTheta;
+			pointsX[pos] = radius * precalc.sin(theta);
+			pointsY[pos] = radius * precalc.cos(theta);;
 
 			pos++;
 		}
