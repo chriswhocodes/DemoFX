@@ -33,7 +33,15 @@ Run with:
 -s <true>                  use ScriptedDemoConfig
 
 Current list of effects:
-blur, bobs, bounce, burst, checkerboard, chord, chromakey, cogs, colourbackground, concentric, credits, creditssprite, cubefield, cyclebackground, diamonds, equaliser, equalisercubes, falling, feedback, fireworks, flash, glowboard, grid, hexagons, honeycomb, hue, imagebackground, inversechromakey, mandala, mandelbrot, mask, maskstack, mirrorx, mirrory, moire, pentagons, picinpic, quadplay, rain, rainbow, rawplayer, raytrace, rings, rotations, sea, sheet, shift, sierpinski, spin, sprite3d, spritewave, squares, starfield, starfieldsprite, stars, texcube, texsphere, textbounce, textlabel, textlayers, textring, textwave, textwavesprite, tiles, triangles, tubestack, tunnel, twister, vumeter, wordsearch
+blur, bobs, bounce, burst, checkerboard, chord, chromakey, cogs, colourbackground,
+concentric, credits, creditssprite, cubefield, cyclebackground, diamonds, equaliser,
+equalisercubes, falling, feedback, fireworks, flash, glowboard, grid, hexagons,
+honeycomb, hue, imagebackground, inversechromakey, mandala, mandelbrot, mask,
+maskstack, mirrorx, mirrory, moire, pentagons, picinpic, quadplay, rain, rainbow,
+rawplayer, raytrace, rings, rotations, sea, sheet, shift, sierpinski, spin,
+sprite3d, spritewave, squares, starfield, starfieldsprite, stars, texcube,
+texsphere, textbounce, textlabel, textlayers, textring, textwave, textwavesprite,
+tiles, triangles, tubestack, tunnel, twister, vumeter, wordsearch
 
 ```
 Examples:
