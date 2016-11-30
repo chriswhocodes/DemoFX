@@ -17,8 +17,14 @@ Compile in your IDE or with gradle:
 ```
 ./gradlew build
 ```
+Compile with gradle and another Java version (for instance 8 or 9):
 ```
+./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/
+./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/
+```
+
 Run with:
+```
 ./run.sh [options]
 
 -e <effects>               comma separated list of effects (See SimpleEffectFactory)
