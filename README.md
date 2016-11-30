@@ -17,7 +17,7 @@ Compile in your IDE or with gradle:
 ```
 ./gradlew build
 ```
-Compile with gradle and another Java version (for instance 8 or 9):
+Compile with gradle and another Java version (8 or 9):
 ```
 ./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/
 ./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/
@@ -75,4 +75,10 @@ Examples:
 
 # DemoFX Part III scripted demo:
 ./run.sh -s true -f true -w 1280 -h 720
+```
+In order to run in another java version, like java 9. JAVA_HOME should be set.
+In MAC:
+```
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
+./run.sh
 ```
