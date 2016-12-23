@@ -53,23 +53,23 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		long stopIntro = startIntro + 21_000;
 
 		Starfield starField1 = new Starfield(config);
-		starField1.setStartMillis(startIntro);
-		starField1.setStopMillis(stopIntro);
+		starField1.setStartOffsetMillis(startIntro);
+		starField1.setStopOffsetMillis(stopIntro);
 
 		TextWave textWaveIntro = new TextWave(config, new String[] {
 				"DemoFX Part II",
 				"JavaFX Canvas Performance Demo",
 				"Layers+Timelines+Fractals+Fonts+3D+Starfields, Oh My!" }, false);
 
-		textWaveIntro.setStartMillis(startIntro);
-		textWaveIntro.setStopMillis(stopIntro);
+		textWaveIntro.setStartOffsetMillis(startIntro);
+		textWaveIntro.setStopOffsetMillis(stopIntro);
 
 		TextWave twDescriptionIntro = new TextWave(config, new String[] {
 				"Starfield and TextWave Effect" }, false, twDescriptionYpos, twDescriptionAmplitude, twDescriptionColor,
 				fontEffectDescription, twSpeed);
 
-		textWaveIntro.setStartMillis(startIntro + 3000);
-		textWaveIntro.setStopMillis(stopIntro);
+		textWaveIntro.setStartOffsetMillis(startIntro + 3000);
+		textWaveIntro.setStopOffsetMillis(stopIntro);
 
 		effects.add(starField1);
 
@@ -87,21 +87,21 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		long stopCheckerboard = startCheckerboard + 20_000;
 
 		Checkerboard checkerBoard1 = new Checkerboard(config);
-		checkerBoard1.setStartMillis(startCheckerboard);
-		checkerBoard1.setStopMillis(stopCheckerboard);
+		checkerBoard1.setStartOffsetMillis(startCheckerboard);
+		checkerBoard1.setStopOffsetMillis(stopCheckerboard);
 
 		SpriteWave spritewave1 = new SpriteWave(config, new String[] {
 				"Rendered strings diced into pixel grids and plotted as sprites" }, false);
-		spritewave1.setStartMillis(startCheckerboard);
-		spritewave1.setStopMillis(stopCheckerboard);
+		spritewave1.setStartOffsetMillis(startCheckerboard);
+		spritewave1.setStopOffsetMillis(stopCheckerboard);
 
 		TextWave twDescriptionSpriteWave = new TextWave(config, new String[] {
 				"Checkerboard and SpriteWave Effect",
 				"In case you thought JavaFX was just for user interfaces!" }, false, twDescriptionYpos, twDescriptionAmplitude,
 				twDescriptionColor, fontEffectDescription, twSpeed);
 
-		twDescriptionSpriteWave.setStartMillis(startCheckerboard);
-		twDescriptionSpriteWave.setStopMillis(stopCheckerboard);
+		twDescriptionSpriteWave.setStartOffsetMillis(startCheckerboard);
+		twDescriptionSpriteWave.setStopOffsetMillis(stopCheckerboard);
 
 		effects.add(checkerBoard1);
 
@@ -117,8 +117,8 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		long stopSierpinski = startSierpinski + 20_000;
 
 		Sierpinski sierpinski = new Sierpinski(config);
-		sierpinski.setStartMillis(startSierpinski);
-		sierpinski.setStopMillis(stopSierpinski);
+		sierpinski.setStartOffsetMillis(startSierpinski);
+		sierpinski.setStopOffsetMillis(stopSierpinski);
 
 		TextWave twDescriptionSierpinski = new TextWave(config, new String[] {
 				"Sierpinski Triangles Effect",
@@ -126,8 +126,8 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 				"Led to the discovery of a JavaFX filled polygon performance bug" }, false, twDescriptionYpos,
 				twDescriptionAmplitude, twDescriptionColor, fontEffectDescription, twSpeed);
 
-		twDescriptionSierpinski.setStartMillis(startSierpinski);
-		twDescriptionSierpinski.setStopMillis(stopSierpinski);
+		twDescriptionSierpinski.setStartOffsetMillis(startSierpinski);
+		twDescriptionSierpinski.setStopOffsetMillis(stopSierpinski);
 
 		effects.add(sierpinski);
 
@@ -141,8 +141,8 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		long stopMandelbrot = startMandelbrot + 28_000;
 
 		Mandelbrot mandelbrot = new Mandelbrot(config);
-		mandelbrot.setStartMillis(startMandelbrot);
-		mandelbrot.setStopMillis(stopMandelbrot);
+		mandelbrot.setStartOffsetMillis(startMandelbrot);
+		mandelbrot.setStopOffsetMillis(stopMandelbrot);
 
 		TextWave twDescriptionMandelbrot = new TextWave(config, new String[] {
 				"Mandelbrot Zoomer Effect",
@@ -151,8 +151,8 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 				"If you love fractals, check out the work of Paul Nylander at http://bugman123.com" }, false, twDescriptionYpos,
 				twDescriptionAmplitude, twDescriptionColor, fontEffectDescription, twSpeed);
 
-		twDescriptionMandelbrot.setStartMillis(startMandelbrot);
-		twDescriptionMandelbrot.setStopMillis(stopMandelbrot);
+		twDescriptionMandelbrot.setStartOffsetMillis(startMandelbrot);
+		twDescriptionMandelbrot.setStopOffsetMillis(stopMandelbrot);
 
 		effects.add(mandelbrot);
 
@@ -189,8 +189,8 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		TextWave twDescriptionRing = new TextWave(config, new String[] {
 				"And now for a bunch of 3D objects spinning around in space!" }, false, twDescriptionYpos, twDescriptionAmplitude,
 				twDescriptionColor, fontEffectDescription, twSpeed);
-		twDescriptionRing.setStartMillis(startRing);
-		twDescriptionRing.setStopMillis(stopRing);
+		twDescriptionRing.setStartOffsetMillis(startRing);
+		twDescriptionRing.setStopOffsetMillis(stopRing);
 
 		Sprite3D tube = new Sprite3D(config);
 		tube.addObject(Shape3D.TUBE, image, 1.0, startTube, stopTube);
@@ -198,8 +198,8 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		TextWave twDescriptionTube = new TextWave(config, new String[] {
 				"Hey Chris, the 1990s called and they want their demoscene back!" }, false, twDescriptionYpos,
 				twDescriptionAmplitude, twDescriptionColor, fontEffectDescription, twSpeed);
-		twDescriptionTube.setStartMillis(startTube);
-		twDescriptionTube.setStopMillis(stopTube);
+		twDescriptionTube.setStartOffsetMillis(startTube);
+		twDescriptionTube.setStopOffsetMillis(stopTube);
 
 		Sprite3D cube = new Sprite3D(config);
 		cube.addObject(Shape3D.SOLIDCUBE, image, 1.0, startCube, stopCube);
@@ -207,8 +207,8 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		TextWave twDescriptionCube = new TextWave(config, new String[] {
 				"Rotates, Translates, Depth-Sorts, and Plots" }, false, twDescriptionYpos, twDescriptionAmplitude,
 				twDescriptionColor, fontEffectDescription, twSpeed);
-		twDescriptionCube.setStartMillis(startCube);
-		twDescriptionCube.setStopMillis(stopCube);
+		twDescriptionCube.setStartOffsetMillis(startCube);
+		twDescriptionCube.setStopOffsetMillis(stopCube);
 
 		Sprite3D sphere = new Sprite3D(config);
 		sphere.addObject(Shape3D.SPHERE, image, 1.0, startSphere, stopSphere);
@@ -216,8 +216,8 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		TextWave twDescriptionSphere = new TextWave(config, new String[] {
 				"This effect is called Sprite3D, real 3D calculations plotted with scaled sprites" }, false, twDescriptionYpos,
 				twDescriptionAmplitude, twDescriptionColor, fontEffectDescription, twSpeed);
-		twDescriptionSphere.setStartMillis(startSphere);
-		twDescriptionSphere.setStopMillis(stopSphere);
+		twDescriptionSphere.setStartOffsetMillis(startSphere);
+		twDescriptionSphere.setStopOffsetMillis(stopSphere);
 
 		effects.add(starField2);
 
@@ -257,25 +257,25 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 		long stopBurst = startBurst + creditEffectDuration;
 
 		Grid grid = new Grid(config);
-		grid.setStartMillis(startOutro);
-		grid.setStopMillis(stopGrid);
+		grid.setStartOffsetMillis(startOutro);
+		grid.setStopOffsetMillis(stopGrid);
 
 		ShapeEffect stars = new ShapeEffect(config, 5);
 		stars.setDoubleAngle(true);
-		stars.setStartMillis(startStars);
-		stars.setStopMillis(stopStars);
+		stars.setStartOffsetMillis(startStars);
+		stars.setStopOffsetMillis(stopStars);
 
 		Bounce bounce = new Bounce(config, 14);
-		bounce.setStartMillis(startBounce);
-		bounce.setStopMillis(stopBounce);
+		bounce.setStartOffsetMillis(startBounce);
+		bounce.setStopOffsetMillis(stopBounce);
 
 		Burst burst = new Burst(config);
-		burst.setStartMillis(startBurst);
-		burst.setStopMillis(stopBurst);
+		burst.setStartOffsetMillis(startBurst);
+		burst.setStopOffsetMillis(stopBurst);
 
 		Credits credits = new Credits(config);
-		credits.setStartMillis(startOutro);
-		credits.setStopMillis(stopOutro);
+		credits.setStartOffsetMillis(startOutro);
+		credits.setStopOffsetMillis(stopOutro);
 
 		effects.add(grid);
 		effects.add(stars);

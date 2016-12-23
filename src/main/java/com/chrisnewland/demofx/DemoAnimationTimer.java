@@ -40,7 +40,7 @@ public class DemoAnimationTimer extends AnimationTimer
 
 	private DemoFX parent;
 	private DemoConfig config;
-	
+
 	private IEffect[] effectArray;
 	private final int effectCount;
 
@@ -65,6 +65,21 @@ public class DemoAnimationTimer extends AnimationTimer
 		scriptStartTimeMillis = startTime;
 
 		System.out.println("DemoAnimationTimer start " + startTime);
+
+		int runForSeconds = config.getRunForSeconds();
+
+		if (runForSeconds != -1)
+		{
+			for (IEffect effect : effectArray)
+			{
+				effect.setStartOffsetMillis(0);
+
+				effect.setStopOffsetMillis(1000 * runForSeconds);
+			}
+
+			System.out.println("Running for " + runForSeconds + " seconds");
+		}
+
 	}
 
 	@Override
@@ -75,7 +90,7 @@ public class DemoAnimationTimer extends AnimationTimer
 		long elapsed = now - startTime;
 
 		boolean effectsUsed = false;
-		
+
 		blackBackground();
 
 		for (int i = 0; i < effectCount; i++)
@@ -105,7 +120,7 @@ public class DemoAnimationTimer extends AnimationTimer
 		onScreenGC.setFill(Color.BLACK);
 		onScreenGC.fillRect(0, 0, config.getWidth(), config.getHeight());
 	}
-	
+
 	@Override
 	public void stop()
 	{
@@ -129,9 +144,9 @@ public class DemoAnimationTimer extends AnimationTimer
 		if (now - lastStatsUpdate > UPDATE_STATS_MILLIS)
 		{
 			int framesPerSecond = frameCount * SAMPLE_PER_SECOND;
-			
+
 			frameCount = 0;
-			
+
 			lastStatsUpdate = now;
 
 			lastRenderNanos = renderNanos;

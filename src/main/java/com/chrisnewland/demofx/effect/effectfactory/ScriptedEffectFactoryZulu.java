@@ -54,8 +54,8 @@ public class ScriptedEffectFactoryZulu implements IEffectFactory
 
 		TextWave twDescriptionIntro = new TextWave(config, twStringsDescIntro, false, twDescriptionYpos,
 				twDescriptionAmplitude, twDescriptionColor, fontEffectDescription, twSpeed);
-		twDescriptionIntro.setStartMillis(startIntro + 3_000);
-		twDescriptionIntro.setStopMillis(stopIntro);
+		twDescriptionIntro.setStartOffsetMillis(startIntro + 3_000);
+		twDescriptionIntro.setStopOffsetMillis(stopIntro);
 		
 		effects.add(twDescriptionIntro);
 
@@ -65,8 +65,8 @@ public class ScriptedEffectFactoryZulu implements IEffectFactory
 	private static void buildText3D(List<IEffect> effects, String text, long start, long duration)
 	{
 		Sprite3D text3D = new Sprite3D(config, text, 30);
-		text3D.setStartMillis(start);
-		text3D.setStopMillis(start+duration);
+		text3D.setStartOffsetMillis(start);
+		text3D.setStopOffsetMillis(start+duration);
 		effects.add(text3D);
 	}
 }
