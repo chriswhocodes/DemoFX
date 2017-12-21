@@ -26,7 +26,7 @@ public class ChristmasFXScriptFactory implements IEffectFactory
 	@Override
 	public List<IEffect> getEffects(DemoConfig config)
 	{
-		String audio = getClass().getResource("/silent.wav").toExternalForm();
+		String audio = getClass().getResource("/silent.mp3").toExternalForm();
 
 		config.setAudioFilename(audio);
 
