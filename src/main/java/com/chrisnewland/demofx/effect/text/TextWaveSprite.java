@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Chris Newland.
+ * Copyright (c) 2015-2017 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.text;
@@ -26,7 +26,7 @@ public class TextWaveSprite extends AbstractEffect
 	private double speed = 10;
 	private double amplitude = 40;
 	private double waveYPos;
-	
+
 	private double fontScale = 0.2;
 
 	private int stringIndex = 0;
@@ -34,16 +34,28 @@ public class TextWaveSprite extends AbstractEffect
 	private String currentString;
 	private Character[] chars;
 
+	private boolean repeat;
+
 	public TextWaveSprite(DemoConfig config)
 	{
 		super(config);
 
-		init(new String[] { "DemoFX III" }, halfHeight + 48, 1, 10);
+		init(new String[]
+		{
+				"DemoFX III"
+		}, halfHeight + 48, 1, 10);
 	}
 
 	public TextWaveSprite(DemoConfig config, String[] strings, double yPos, double fontScale, double speed)
 	{
+		this(config, strings, yPos, fontScale, speed, false);
+	}
+
+	public TextWaveSprite(DemoConfig config, String[] strings, double yPos, double fontScale, double speed, boolean repeat)
+	{
 		super(config);
+
+		this.repeat = repeat;
 
 		init(strings, yPos, fontScale, speed);
 	}
@@ -92,7 +104,14 @@ public class TextWaveSprite extends AbstractEffect
 
 			if (stringIndex == stringList.size())
 			{
-				effectFinished = true;
+				if (repeat)
+				{
+					stringIndex = 0;
+				}
+				else
+				{
+					effectFinished = true;
+				}
 			}
 
 			if (!effectFinished)

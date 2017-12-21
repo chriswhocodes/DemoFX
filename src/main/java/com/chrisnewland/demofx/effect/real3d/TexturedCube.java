@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Chris Newland.
+ * Copyright (c) 2015-2017 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.real3d;
@@ -28,26 +28,46 @@ public class TexturedCube extends AbstractEffect
 
 	private Rotate rotateY;
 	private Rotate rotateX;
-
+	
+	private double xAmplitude;
+	private double zAmplitude;
+	
+	private double translateX;
+	
 	public TexturedCube(DemoConfig config)
 	{
 		super(config);
 		
+		zAmplitude = 100 + halfWidth / 2;
+		xAmplitude = halfWidth / 4;
+		
 		WritableImage earthImage = ImageUtil.loadWritableImageFromResources("/earth.jpg"); // https://www.evl.uic.edu/pape/data/Earth/
 		
-		init(earthImage, 256, 1, 1);
+		init(earthImage, 256, 1, 1, halfWidth, halfHeight);
+	}
+	
+	public TexturedCube(DemoConfig config, WritableImage textureImage, double side, double rotateAngleX, double rotateAngleY, double translateX, double translateY, double xAmplitude, double zAmplitude)
+	{
+		super(config);
+				
+		this.xAmplitude = xAmplitude;
+		this.zAmplitude = zAmplitude;
+		
+		init(textureImage, side, rotateAngleX, rotateAngleY, translateX, translateY);
 	}
 	
 	public TexturedCube(DemoConfig config, double side, double rotateAngleX, double rotateAngleY)
 	{
 		super(config);
 		
+		zAmplitude = 100 + halfWidth / 2;
+		
 		WritableImage image = new WritableImage((int)side, (int)side);
 		
-		init(image, side, rotateAngleX, rotateAngleY);
+		init(image, side, rotateAngleX, rotateAngleY, halfWidth, halfHeight);
 	}
 	
-	private void init(WritableImage image, double side, double rotateAngleX, double rotateAngleY)
+	private void init(WritableImage image, double side, double rotateAngleX, double rotateAngleY, double translateX, double translateY)
 	{
 		this.side = side;
 
@@ -66,8 +86,10 @@ public class TexturedCube extends AbstractEffect
 		box.getTransforms().add(rotateY);
 		box.getTransforms().add(rotateX);
 
-		box.setTranslateX(halfWidth);
-		box.setTranslateY(halfHeight);
+		this.translateX = translateX;
+		
+		box.setTranslateX(translateX);
+		box.setTranslateY(translateY);
 	}
 	
 	@Override
@@ -95,7 +117,7 @@ public class TexturedCube extends AbstractEffect
 		rotateX.setAngle(angle);
 		rotateY.setAngle(angle);
 
-		box.setTranslateX(halfWidth + halfWidth / 4 * precalc.sin(angle));
-		box.setTranslateZ(100 + halfWidth / 2 * precalc.cos(angle));
+		box.setTranslateX(translateX + xAmplitude * precalc.sin(angle));
+		box.setTranslateZ(zAmplitude * precalc.cos(angle));
 	}
 }

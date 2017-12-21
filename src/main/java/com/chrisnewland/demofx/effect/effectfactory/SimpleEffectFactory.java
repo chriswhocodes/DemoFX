@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
+import com.chrisnewland.demofx.effect.background.BinaryBackground;
 import com.chrisnewland.demofx.effect.background.ColourBackground;
 import com.chrisnewland.demofx.effect.background.CycleBackground;
 import com.chrisnewland.demofx.effect.background.ImageBackground;
@@ -17,6 +18,7 @@ import com.chrisnewland.demofx.effect.fake3d.Sprite3D;
 import com.chrisnewland.demofx.effect.fake3d.Starfield;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.Tunnel;
+import com.chrisnewland.demofx.effect.fractal.ChristmasTrees;
 import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.pixel.Blur;
@@ -26,6 +28,7 @@ import com.chrisnewland.demofx.effect.pixel.Rain;
 import com.chrisnewland.demofx.effect.pixel.Rainbow;
 import com.chrisnewland.demofx.effect.pixel.Shift;
 import com.chrisnewland.demofx.effect.pixel.Twister;
+import com.chrisnewland.demofx.effect.pixel.TwisterSprite;
 import com.chrisnewland.demofx.effect.ray.RayTrace;
 import com.chrisnewland.demofx.effect.real3d.CubeField;
 import com.chrisnewland.demofx.effect.real3d.TexturedCube;
@@ -37,6 +40,7 @@ import com.chrisnewland.demofx.effect.shape.Chord;
 import com.chrisnewland.demofx.effect.shape.Cogs;
 import com.chrisnewland.demofx.effect.shape.Concentric;
 import com.chrisnewland.demofx.effect.shape.Diamonds;
+import com.chrisnewland.demofx.effect.shape.GCVisualiser;
 import com.chrisnewland.demofx.effect.shape.Glowboard;
 import com.chrisnewland.demofx.effect.shape.Grid;
 import com.chrisnewland.demofx.effect.shape.Honeycomb;
@@ -101,12 +105,14 @@ public class SimpleEffectFactory implements IEffectFactory
 	{
 		availableEffectNames = new ArrayList<>();
 
+		availableEffectNames.add("binarybackground");
 		availableEffectNames.add("blur");
 		availableEffectNames.add("bobs");
 		availableEffectNames.add("bounce");
 		availableEffectNames.add("burst");
 		availableEffectNames.add("checkerboard");
 		availableEffectNames.add("chord");
+		availableEffectNames.add("christmastrees");
 		availableEffectNames.add("chromakey");
 		availableEffectNames.add("cogs");
 		availableEffectNames.add("colourbackground");
@@ -122,6 +128,7 @@ public class SimpleEffectFactory implements IEffectFactory
 		availableEffectNames.add("feedback");
 		availableEffectNames.add("fireworks");
 		availableEffectNames.add("flash");
+		availableEffectNames.add("gc");
 		availableEffectNames.add("glowboard");
 		availableEffectNames.add("grid");
 		availableEffectNames.add("hexagons");
@@ -169,6 +176,7 @@ public class SimpleEffectFactory implements IEffectFactory
 		availableEffectNames.add("triangles");
 		availableEffectNames.add("tubestack");
 		availableEffectNames.add("twister");
+		availableEffectNames.add("twistersprite");
 		availableEffectNames.add("vumeter");
 		availableEffectNames.add("wordsearch");
 	}
@@ -192,6 +200,9 @@ public class SimpleEffectFactory implements IEffectFactory
 			throw new UnsupportedOperationException(
 					"AnimatedTexturedCube can't be run solo, must be combined with an effect that generates the texture");
 
+		case "binarybackground":
+			return new BinaryBackground(config);
+			
 		case "blur":
 			return new Blur(config);
 
@@ -209,6 +220,9 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "chord":
 			return new Chord(config);
+			
+		case "christmastrees":
+			return new ChristmasTrees(config);
 
 		case "chromakey":
 			return new ChromaKey(config);
@@ -255,6 +269,9 @@ public class SimpleEffectFactory implements IEffectFactory
 		case "flash":
 			return new TextFlash(config);
 
+		case "gc":
+			return new GCVisualiser(config);
+			
 		case "glowboard":
 			return new Glowboard(config);
 
@@ -397,6 +414,9 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "twister":
 			return new Twister(config);
+			
+		case "twistersprite":
+			return new TwisterSprite(config);
 
 		case "vumeter":
 			return new VUMeter(config);

@@ -49,11 +49,14 @@ public class TextRing extends AbstractEffect
 	{
 		super(config);
 
+//		init(new RingData[] {
+//				new RingData("DemoFX Part III", 100, 0.10, 1, 7.3, 8),
+//				new RingData("JavaFX Demoscene Engine", 160, 0.12, 1.2, 4.0, 6),
+//				new RingData("Coding by Chriswhocodes", 220, 0.13, 1.4, 3.8, 4),
+//				new RingData("Music by David Newland", 300, 0.15, 1.6, 3.6, 2), });
+		
 		init(new RingData[] {
-				new RingData("DemoFX Part III", 100, 0.10, 1, 7.3, 8),
-				new RingData("JavaFX Demoscene Engine", 160, 0.12, 1.2, 4.0, 6),
-				new RingData("Coding by Chriswhocodes", 220, 0.13, 1.4, 3.8, 4),
-				new RingData("Music by David Newland", 300, 0.15, 1.6, 3.6, 2), });
+		new RingData("Merry JavaFXmas", 300, 0.15, 1.6, 3.6, 2)});
 	}
 
 	public TextRing(DemoConfig config, RingData[] ringData)

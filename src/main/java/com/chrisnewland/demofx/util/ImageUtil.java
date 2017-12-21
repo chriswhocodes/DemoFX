@@ -35,6 +35,16 @@ public class ImageUtil
 
 		return new Image(ImageUtil.class.getResourceAsStream(filename));
 	}
+	
+	public static Image loadImageFromResources(String filename, int newWidth, int newHeight)
+	{
+		if (!filename.startsWith("/"))
+		{
+			filename = "/" + filename;
+		}
+
+		return new Image(ImageUtil.class.getResourceAsStream(filename), newWidth, newHeight, false, true);
+	}
 
 	public static WritableImage loadWritableImageFromResources(String filename)
 	{
@@ -82,8 +92,11 @@ public class ImageUtil
 		return image;
 	}
 
-	public static int[] readImageToArray(Image image, int imageWidth, int imageHeight)
+	public static int[] readImageToIntArray(Image image)
 	{
+		int imageWidth = (int) image.getWidth();
+		int imageHeight = (int) image.getHeight();
+		
 		int[] dest = new int[imageWidth * imageHeight];
 
 		PixelReader reader = image.getPixelReader();
@@ -95,6 +108,31 @@ public class ImageUtil
 			for (int x = 0; x < imageWidth; x++)
 			{
 				dest[pixel++] = reader.getArgb(x, y);
+			}
+		}
+
+		return dest;
+	}
+	
+	public static byte[] readImageToByteArrayBGRA(Image image)
+	{
+		int imageWidth = (int) image.getWidth();
+		int imageHeight = (int) image.getHeight();
+		
+		byte[] dest = new byte[imageWidth * imageHeight * 4];
+
+		PixelReader reader = image.getPixelReader();
+				
+		int pixel = 0;
+
+		for (int y = 0; y < imageHeight; y++)
+		{
+			for (int x = 0; x < imageWidth; x++)
+			{
+				dest[pixel++] = (byte)((reader.getArgb(x, y) & 0x000000ff) >> 0);
+				dest[pixel++] = (byte)((reader.getArgb(x, y) & 0x0000ff00) >> 8);
+				dest[pixel++] = (byte)((reader.getArgb(x, y) & 0x00ff0000) >> 16);
+				dest[pixel++] = (byte)((reader.getArgb(x, y) & 0xff000000) >> 24);
 			}
 		}
 

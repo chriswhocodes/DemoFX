@@ -46,8 +46,8 @@ public class Mask extends AbstractEffect
 		layerWidth = (int) image0.getWidth();
 		layerHeight = (int) image0.getHeight();
 
-		int[] layer0 = ImageUtil.readImageToArray(image0, layerWidth, layerHeight);
-		int[] layer1 = ImageUtil.readImageToArray(image1, layerWidth, layerHeight);
+		int[] layer0 = ImageUtil.readImageToIntArray(image0);
+		int[] layer1 = ImageUtil.readImageToIntArray(image1);
 		
 		maskWidth = diameter;
 		maskHeight = diameter;

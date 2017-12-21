@@ -10,20 +10,27 @@ import com.chrisnewland.demofx.util.ImageUtil;
 
 import javafx.scene.image.Image;
 
-public class StarfieldSprite extends AbstractEffect
+public class SnowField extends AbstractEffect
 {
 	private double[] starX;
 	private double[] starY;
 	private double[] starZ;
+	private double[] dX;
+	private double[] dY;
+	private double[] dZ;
 
-	private static final double SPEED = 0.01;
-	private static final double MAX_DEPTH = 5;
+	private double windX = 1;
+
+	private double sine = 0;
+
+	// private static final double SPEED = 0.01;
+	// private static final double MAX_DEPTH = 5;
 
 	private boolean spin = true;
 
 	private Image sprite = ImageUtil.loadImageFromResources("starshine.png");
 
-	public StarfieldSprite(DemoConfig config)
+	public SnowField(DemoConfig config)
 	{
 		super(config);
 
@@ -34,12 +41,11 @@ public class StarfieldSprite extends AbstractEffect
 
 		init();
 	}
-	
-	
-	public StarfieldSprite(DemoConfig config, int starCount, Image sprite)
+
+	public SnowField(DemoConfig config, int starCount, Image sprite)
 	{
 		super(config);
-		
+
 		this.itemCount = starCount;
 
 		this.sprite = sprite;
@@ -47,7 +53,7 @@ public class StarfieldSprite extends AbstractEffect
 		init();
 	}
 
-	public StarfieldSprite(DemoConfig config, int starCount, long startMillis, long stopMillis)
+	public SnowField(DemoConfig config, int starCount, long startMillis, long stopMillis)
 	{
 		super(config);
 
@@ -57,7 +63,6 @@ public class StarfieldSprite extends AbstractEffect
 
 		init();
 	}
-
 
 	private void init()
 	{
@@ -70,21 +75,33 @@ public class StarfieldSprite extends AbstractEffect
 		starY = new double[itemCount];
 		starZ = new double[itemCount];
 
+		dX = new double[itemCount];
+		dY = new double[itemCount];
+		dZ = new double[itemCount];
+
 		for (int i = 0; i < itemCount; i++)
 		{
 			starX[i] = precalc.getSignedRandom() * halfWidth;
-			starY[i] = precalc.getSignedRandom() * halfHeight;
-			respawn(i);
+			starY[i] = -halfHeight - precalc.getUnsignedRandom() * height;
+			starZ[i] = precalc.getUnsignedRandom();
+
+			dX[i] = precalc.getSignedRandom();
+			dY[i] = 2 + precalc.getUnsignedRandom();
+			dZ[i] = precalc.getSignedRandom() / 512;
 		}
 	}
 
 	@Override
 	public void renderForeground()
 	{
-		if (spin)
+		sine += 0.5;
+
+		if (sine > 360)
 		{
-			rotateCanvasAroundCentre(0.5);
+			sine -= 360;
 		}
+
+		windX = precalc.sin(sine);
 
 		for (int i = 0; i < itemCount; i++)
 		{
@@ -94,14 +111,12 @@ public class StarfieldSprite extends AbstractEffect
 		}
 	}
 
+	// TODO move all then plot all
 	private final void moveStar(int i)
 	{
-		starZ[i] -= SPEED;
-	}
-
-	private final void respawn(int i)
-	{
-		starZ[i] = precalc.getUnsignedRandom() * MAX_DEPTH;
+		starX[i] += dX[i] + windX;
+		starY[i] += dY[i] - windX / 4;
+		starZ[i] += dZ[i] + windX / 512;
 	}
 
 	private double translateX(int i)
@@ -118,29 +133,36 @@ public class StarfieldSprite extends AbstractEffect
 	{
 		double x = halfWidth + translateX(i);
 		double y = halfHeight + translateY(i);
+		double z = starZ[i];
 
-		if (isOnScreen(x, y))
+		if (x < -64)
 		{
-			int size = (int) (8 / starZ[i]);
+			starX[i] += width;
+		}
+		else if (x > width)
+		{
+			starX[i] -= width;
+		}
+
+		if (y > height)
+		{
+			starY[i] -= height;
+		}
+
+		if (z > 2 || z <= 0)
+		{
+			starZ[i] = precalc.getUnsignedRandom();
+		}
+
+		x = halfWidth + translateX(i);
+		y = halfHeight + translateY(i);
+		z = starZ[i];
+
+		int size = (int) (8.0 / z);
+
+		if (size > 1)
+		{
 			gc.drawImage(sprite, x, y, size, size);
-		}
-		else
-		{
-			respawn(i);
-		}
-	}
-
-	private final boolean isOnScreen(double x, double y)
-	{
-		if (spin)
-		{
-			double max = 1.4 * Math.max(width, height);
-
-			return x > -max && y > -max && x < max && y < max;
-		}
-		else
-		{
-			return x > 0 && y > 0 && x < width && y < height;
 		}
 	}
 }

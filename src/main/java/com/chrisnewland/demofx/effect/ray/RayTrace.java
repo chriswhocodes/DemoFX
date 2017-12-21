@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Chris Newland.
+ * Copyright (c) 2015-2017 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.ray;
@@ -12,7 +12,6 @@ import javafx.scene.image.WritableImage;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
-import com.chrisnewland.demofx.util.TextUtil;
 
 public class RayTrace extends AbstractEffect
 {
@@ -25,38 +24,52 @@ public class RayTrace extends AbstractEffect
 	private PixelWriter pixelWriter;
 	private WritableImage image;
 
+	private String[] lines = new String[]
+	{
+			"*       * ***** ****    ****   *     *",
+			"* *   * * *     *   *   *   *    * *  ",
+			"*   *   * ****  *   *   *   *     *   ",
+			"*       * *     *****   *****     *   ",
+			"*       * *     *    *  *    *    *   ",
+			"*       * ***** *     * *     *   *   ",
+			"                                      ",
+			"**** *     * *       *     *    ******",
+			"*     *   *  * *   * *   *  *   *     ",
+			"****   * *   *   *   *  ******  ***** ",
+			"*       *    *       * *      *     * ",
+			"*      * *   *       * *      *     * ",
+			"*     *   *  *       * *      * ***** "
+	};
+
 	public RayTrace(DemoConfig config)
 	{
 		super(config);
 
-		renderConfig = new RenderConfig();
+		render();
+	}
 
-		String[] lines = new String[] {
-				"****                        **** *     *",
-				"*   *  ***    *   *    ***  *     *   * ",
-				"*   * *   *  * * * *  *   * ****   * *  ",
-				"*   * ****  *   *   * *   * *       *   ",
-				"*   * *     *       * *   * *      * *  ",
-				"****   ***  *       *  ***  *     *   * " };
+	private void render()
+	{
+		renderConfig = new RenderConfig();
 
 		renderConfig.setLines(lines);
 
-		rayImageWidth = (int) width;/// 2;
-		rayImageHeight = (int) height;/// 2;
+		rayImageWidth = (int) width;
+		rayImageHeight = (int) height;
 
 		renderConfig.setImageWidth(rayImageWidth);
 		renderConfig.setImageHeight(rayImageHeight);
 
 		int cores = Runtime.getRuntime().availableProcessors();
 
-		renderConfig.setCamDirection(new Vector3f(-2, -12, 0));
-		renderConfig.setEvenColour(new Vector3f(3, 1, 1));
+		renderConfig.setCamDirection(new Vector3f(0, -8, 0));
+		renderConfig.setEvenColour(new Vector3f(3, 0, 0));
 		renderConfig.setOddColour(new Vector3f(3, 3, 3));
 		renderConfig.setRayOrigin(new Vector3f(8, 20, 12)); // zoom
 		renderConfig.setSkyColour(new Vector3f(.4f, .4f, 1f));
-		renderConfig.setSphereReflectivity(0.5f);
-		renderConfig.setRays(1);
-		renderConfig.setBrightness(150);
+		renderConfig.setSphereReflectivity(0.8f);
+		renderConfig.setRays(2);
+		renderConfig.setBrightness(200);
 
 		image = new WritableImage(rayImageWidth, rayImageHeight);
 
@@ -68,15 +81,12 @@ public class RayTrace extends AbstractEffect
 
 		pixelWriter.setPixels(0, 0, rayImageWidth, rayImageHeight, pixelFormat, raytracer.getImageData(), 0,
 				renderConfig.getImageWidth() * 3);
+
 	}
 
 	@Override
 	public void renderForeground()
 	{
-		// zoom += 0.1;
-		// renderConfig.setRayOrigin(new Vector3f(16,18, zoom)); // zoom
-		//// renderConfig.setCamDirection(new Vector3f(-2, -zoom, 0));
-
-		gc.drawImage(image, 0, 0, width, height);
+		gc.drawImage(image, 0, 8, width, height);
 	}
 }

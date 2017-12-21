@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.chrisnewland.demofx.effect.IEffect;
+import com.chrisnewland.demofx.effect.effectfactory.ChristmasFXScriptFactory;
 import com.chrisnewland.demofx.effect.effectfactory.DemoFX3ScriptFactory;
 import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.effectfactory.SimpleEffectFactory;
@@ -114,10 +115,19 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		{
 			IEffectFactory effectFactory;
 
-			if (config.isUseScriptedDemoConfig())
-			{
-				effectFactory = new DemoFX3ScriptFactory();
+			String scriptName = config.getDemoScriptName();
 
+			if (scriptName != null)
+			{
+				switch (scriptName)
+				{
+				case "xmas":
+					effectFactory = new ChristmasFXScriptFactory();
+					break;
+				default:
+					effectFactory = new DemoFX3ScriptFactory();
+					break;
+				}
 			}
 			else
 			{
@@ -162,9 +172,17 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 		scene.setCamera(new PerspectiveCamera());
 
-		String styleSheet = DemoFX.class.getResource("/style.css").toExternalForm();
+		try
+		{
+			String styleSheet = DemoFX.class.getResource("/style.css").toExternalForm();
 
-		scene.getStylesheets().add(styleSheet);
+			scene.getStylesheets().add(styleSheet);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.err.println("Could not load style.css stylesheet. Please add it to the classpath");
+		}
 
 		return scene;
 	}

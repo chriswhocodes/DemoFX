@@ -9,7 +9,6 @@ import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.util.ImageUtil;
 
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 public class Falling extends AbstractEffect
 {
@@ -32,24 +31,12 @@ public class Falling extends AbstractEffect
 		// By Wilson Bentley - http://snowflakebentley.com/snowflakes.htm,
 		// Public Domain,
 		// https://commons.wikimedia.org/w/index.php?curid=1282792
-		// sprite = ImageUtil.loadImageFromResources("star.png"));
 
-		// Image snowflake =
-		// ImageUtil.loadImageFromResources("BentleySnowFlakeResized.png"));
-		//
-		// spriteChoices = new Image[] {
-		// snowflake };
-		//
-		// directionDown = true;
+		Image snowflake = ImageUtil.loadImageFromResources("flake.png");
 
-		Image balloon = ImageUtil.loadImageFromResources("balloon2.png");
+		directionDown = true;
 
-		spriteChoices = new Image[] {
-				balloon,
-				ImageUtil.tintImage(balloon, Color.PURPLE.getHue() - 20),
-				ImageUtil.tintImage(balloon, Color.PURPLE.getHue() - 40) };
-
-		directionDown = false;
+		spriteChoices = new Image[] { snowflake };
 
 		init();
 	}
@@ -69,7 +56,7 @@ public class Falling extends AbstractEffect
 	{
 		if (itemCount == -1)
 		{
-			itemCount = 1024;
+			itemCount = 512;
 		}
 
 		bx = new double[itemCount];
