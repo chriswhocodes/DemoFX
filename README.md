@@ -11,6 +11,8 @@ Part II: https://www.youtube.com/watch?v=WZf0j4GUFYM
 
 Part III: https://www.youtube.com/watch?v=9jztG_l8qrk
 
+Christmas Demo 2017: https://youtu.be/npxfaHAAjBQ
+
 Used to discover the best techniques for optimising JavaFX performance on the Raspberry Pi and Desktop.
 
 Compile in your IDE or with gradle:
@@ -44,7 +46,7 @@ concentric, credits, creditssprite, cubefield, cyclebackground, diamonds, equali
 equalisercubes, falling, feedback, fireworks, flash, glowboard, grid, hexagons,
 honeycomb, hue, imagebackground, inversechromakey, mandala, mandelbrot, mask,
 maskstack, mirrorx, mirrory, moire, pentagons, picinpic, quadplay, rain, rainbow,
-rawplayer, raytrace, rings, rotations, sea, sheet, shift, sierpinski, spin,
+rawplayer, raytrace, rings, rotations, sea, sheet, shift, sierpinski, snowfieldsprite, spin,
 sprite3d, spritewave, squares, starfield, starfieldsprite, stars, texcube,
 texsphere, textbounce, textlabel, textlayers, textring, textwave, textwavesprite,
 tiles, triangles, tubestack, tunnel, twister, vumeter, wordsearch
@@ -75,6 +77,9 @@ Examples:
 
 # DemoFX Part III scripted demo:
 ./run.sh -s true -f true -w 1280 -h 720
+
+# Christmas DemoFX scripted demo:
+./run.sh -s xmas -f true -w 1280 -h 720
 ```
 In order to run in another java version, like java 9. JAVA_HOME should be set.
 In MAC:
