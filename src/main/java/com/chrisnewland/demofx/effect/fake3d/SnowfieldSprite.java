@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Chris Newland.
+ * Copyright (c) 2017 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.fake3d;
@@ -10,7 +10,7 @@ import com.chrisnewland.demofx.util.ImageUtil;
 
 import javafx.scene.image.Image;
 
-public class SnowField extends AbstractEffect
+public class SnowfieldSprite extends AbstractEffect
 {
 	private double[] starX;
 	private double[] starY;
@@ -23,14 +23,11 @@ public class SnowField extends AbstractEffect
 
 	private double sine = 0;
 
-	// private static final double SPEED = 0.01;
-	// private static final double MAX_DEPTH = 5;
-
 	private boolean spin = true;
 
-	private Image sprite = ImageUtil.loadImageFromResources("starshine.png");
+	private Image sprite = ImageUtil.loadImageFromResources("flake.png");
 
-	public SnowField(DemoConfig config)
+	public SnowfieldSprite(DemoConfig config)
 	{
 		super(config);
 
@@ -42,7 +39,7 @@ public class SnowField extends AbstractEffect
 		init();
 	}
 
-	public SnowField(DemoConfig config, int starCount, Image sprite)
+	public SnowfieldSprite(DemoConfig config, int starCount, Image sprite)
 	{
 		super(config);
 
@@ -53,7 +50,7 @@ public class SnowField extends AbstractEffect
 		init();
 	}
 
-	public SnowField(DemoConfig config, int starCount, long startMillis, long stopMillis)
+	public SnowfieldSprite(DemoConfig config, int starCount, long startMillis, long stopMillis)
 	{
 		super(config);
 

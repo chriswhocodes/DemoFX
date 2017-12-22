@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Chris Newland.
+ * Copyright (c) 2017 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
 package com.chrisnewland.demofx.effect.effectfactory;
@@ -10,7 +10,7 @@ import java.util.List;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.fade.FadeOutEffect;
-import com.chrisnewland.demofx.effect.fake3d.SnowField;
+import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.ray.RayTrace;
 import com.chrisnewland.demofx.effect.real3d.TexturedCube;
 import com.chrisnewland.demofx.effect.text.TextWaveSprite;
@@ -38,7 +38,7 @@ public class ChristmasFXScriptFactory implements IEffectFactory
 		long length = 48_000;
 
 		addEffect(0, length, new RayTrace(config));
-		addEffect(0, length, new SnowField(config, 8000, snowflake));
+		addEffect(0, length, new SnowfieldSprite(config, 8000, snowflake));
 
 		addEffect(0, length, new TexturedCube(config, paper, 240, 1, 1, 240, 480, 32, 32));
 

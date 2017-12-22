@@ -16,6 +16,7 @@ import com.chrisnewland.demofx.effect.background.ImageBackground;
 import com.chrisnewland.demofx.effect.fake3d.Sheet;
 import com.chrisnewland.demofx.effect.fake3d.Sprite3D;
 import com.chrisnewland.demofx.effect.fake3d.Starfield;
+import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.Tunnel;
 import com.chrisnewland.demofx.effect.fractal.ChristmasTrees;
@@ -162,6 +163,7 @@ public class SimpleEffectFactory implements IEffectFactory
 		availableEffectNames.add("squares");
 		availableEffectNames.add("stars");
 		availableEffectNames.add("starfield");
+		availableEffectNames.add("snowfieldsprite");
 		availableEffectNames.add("starfieldsprite");
 		availableEffectNames.add("textbounce");
 		availableEffectNames.add("texcube");
@@ -202,7 +204,7 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "binarybackground":
 			return new BinaryBackground(config);
-			
+
 		case "blur":
 			return new Blur(config);
 
@@ -220,7 +222,7 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "chord":
 			return new Chord(config);
-			
+
 		case "christmastrees":
 			return new ChristmasTrees(config);
 
@@ -271,7 +273,7 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "gc":
 			return new GCVisualiser(config);
-			
+
 		case "glowboard":
 			return new Glowboard(config);
 
@@ -352,6 +354,9 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "sierpinski":
 			return new Sierpinski(config);
+
+		case "snowfieldsprite":
+			return new SnowfieldSprite(config);
 
 		case "spin":
 			return new Spin(config);
