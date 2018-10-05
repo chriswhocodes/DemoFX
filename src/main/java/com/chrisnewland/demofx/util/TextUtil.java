@@ -52,7 +52,7 @@ public class TextUtil
 		charMap.put(Character.valueOf('/'), ImageUtil.loadImageFromResources(LETTERS_PATH + "_slash.png"));
 		charMap.put(Character.valueOf('\''), ImageUtil.loadImageFromResources(LETTERS_PATH + "_apostrophe.png"));
 		charMap.put(Character.valueOf('.'), ImageUtil.loadImageFromResources(LETTERS_PATH + "_fullstop.png"));
-
+		charMap.put(Character.valueOf(','), ImageUtil.loadImageFromResources(LETTERS_PATH + "_comma.png"));
 	}
 
 	public static Image getSpriteCharacter(Character character)

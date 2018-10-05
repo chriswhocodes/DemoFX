@@ -38,7 +38,7 @@ public class TexturedSphere extends AbstractEffect
 	{
 		super(config);
 
-		WritableImage earthImage = ImageUtil.loadWritableImageFromResources("/earth.jpg"); // https://www.evl.uic.edu/pape/data/Earth/
+		WritableImage earthImage = ImageUtil.loadWritableImageFromResources("/earth.png"); // https://www.evl.uic.edu/pape/data/Earth/
 
 		init(earthImage, height / 3, 0, 1, halfWidth, halfHeight);
 	}

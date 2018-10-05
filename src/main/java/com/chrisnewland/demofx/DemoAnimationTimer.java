@@ -47,7 +47,7 @@ public class DemoAnimationTimer extends AnimationTimer
 	public DemoAnimationTimer(DemoFX parent, DemoConfig config, Label statsLabel, List<IEffect> effects)
 	{
 		super();
-
+		
 		this.parent = parent;
 		this.config = config;
 		this.onScreenGC = config.getOnScreenCanvasGC();
@@ -61,6 +61,7 @@ public class DemoAnimationTimer extends AnimationTimer
 	public void start()
 	{
 		super.start();
+		
 		startTime = System.currentTimeMillis();
 		scriptStartTimeMillis = startTime;
 
@@ -180,7 +181,7 @@ public class DemoAnimationTimer extends AnimationTimer
 
 		builder.append(framesPerSecond).append(" fps | ");
 
-		if (config.isUseScriptedDemoConfig())
+		if (config.getDemoScriptName() != null)
 		{
 			long elapsedSeconds = (now - scriptStartTimeMillis) / 1000L;
 			builder.append("Demo mode: ").append(elapsedSeconds).append("s | ");

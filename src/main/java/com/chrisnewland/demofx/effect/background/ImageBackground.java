@@ -6,6 +6,7 @@ package com.chrisnewland.demofx.effect.background;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import com.chrisnewland.demofx.util.ImageUtil;
 
 import javafx.scene.image.Image;
 
@@ -17,7 +18,7 @@ public class ImageBackground extends AbstractEffect
 	{
 		super(config);
 
-		init("/javafx.png");
+		init("javafx.png");
 	}
 
 	public ImageBackground(DemoConfig config, String filename)
@@ -29,8 +30,7 @@ public class ImageBackground extends AbstractEffect
 
 	private void init(String imageName)
 	{
-		image = new Image(getClass().getResourceAsStream(imageName));
-
+		image = ImageUtil.loadImageFromResources(imageName);
 	}
 
 	@Override

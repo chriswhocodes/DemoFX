@@ -35,7 +35,7 @@ public class DemoConfig
 
 	private PlotMode plotMode = PlotMode.PLOT_MODE_FILL_POLYGON;
 
-	private boolean useScriptedDemoConfig = false;
+	private String demoScriptName = null;
 	
 	private Group groupNode;
 	private GraphicsContext onScreenCanvasGC;
@@ -188,11 +188,8 @@ public class DemoConfig
 						break;
 					// =======================================
 					case "s":
-						if ("true".equals(value.toLowerCase()))
-						{
-							config.useScriptedDemoConfig = true;
+							config.demoScriptName = value.toLowerCase();
 							config.effect = "script mode";
-						}
 						break;
 					case "f":
 						if ("true".equals(value.toLowerCase()))
@@ -312,9 +309,9 @@ public class DemoConfig
 		return lookupRandom;
 	}
 
-	public boolean isUseScriptedDemoConfig()
+	public String getDemoScriptName()
 	{
-		return useScriptedDemoConfig;
+		return demoScriptName;
 	}
 	
 	public boolean isFullScreen()
