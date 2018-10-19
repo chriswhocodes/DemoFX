@@ -1,10 +1,35 @@
 apply plugin: 'java'
 
-targetCompatibility = '1.8'
-sourceCompatibility = '1.8'
+targetCompatibility = '1.11'
+sourceCompatibility = '1.11'
 
 jar {
     manifest {
         attributes 'Main-Class': 'com.chrisnewland.demofx.DemoFXApplication'
     }
+}
+
+compileJava {
+    doFirst {
+        options.compilerArgs = [
+		'--module-path', '/home/javafxdeveloper/Projects/openjfx/rt/build/sdk/lib',
+		'--add-modules', 'javafx.controls,javafx.fxml,javafx.media,javafx.graphics',
+		'--add-exports', 'javafx.media/com.sun.media.jfxmedia.control=ALL-UNNAMED',
+		'--add-exports','javafx.graphics/com.sun.prism=ALL-UNNAMED',
+		'--add-exports','javafx.graphics/com.sun.prism.impl=ALL-UNNAMED'
+        ]
+        classpath = files()  
+    }
+}
+
+task runApp(type: JavaExec){
+	classpath = files('build/libs/DemoFX.jar')
+	main = 'com.chrisnewland.demofx.DemoFXApplication'
+	jvmArgs = ["--module-path", "/home/javafxdeveloper/Projects/openjfx/rt/build/sdk/lib", "--add-modules", "javafx.controls,javafx.fxml,javafx.media"]
+}
+
+task runAppSoftware(type: JavaExec){
+	classpath = files('build/libs/DemoFX.jar')
+	main = 'com.chrisnewland.demofx.DemoFXApplication'
+	jvmArgs = ["-Dprism.order=sw", "--module-path", "/home/javafxdeveloper/Projects/openjfx/rt/build/sdk/lib", "--add-modules", "javafx.controls,javafx.fxml,javafx.media"]
 }

@@ -1,6 +1,7 @@
 package com.chrisnewland.demofx.effect.video;
 
 import java.nio.IntBuffer;
+import java.util.Optional;
 
 import com.chrisnewland.demofx.effect.IPixelSink;
 import com.chrisnewland.demofx.effect.IPixelSource;
@@ -14,6 +15,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.media.MediaPlayer.Status;
 
+import java.lang.reflect.Method;
+
 public class VideoStream implements IPixelSource
 {
 	private MediaPlayer player;
@@ -23,8 +26,6 @@ public class VideoStream implements IPixelSource
 
 	private int frameWidth;
 	private int frameHeight;
-
-	private VideoDataBuffer buf;
 
 	private PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbPreInstance();
 
@@ -77,25 +78,39 @@ public class VideoStream implements IPixelSource
 	// http://stackoverflow.com/questions/4041840/function-to-convert-ycbcr-to-rgb
 	public synchronized void snapshotVideo()
 	{
-		buf = player.impl_getLatestFrame();
 
-		if (buf != null)
+		Optional<VideoDataBuffer> buf = getLastestFrame();
+		
+		if (buf.isPresent())
 		{
-			buf = buf.convertToFormat(VideoFormat.BGRA_PRE); // int format
+			VideoDataBuffer newBuffer = buf.get().convertToFormat(VideoFormat.BGRA_PRE); // int format
 
-			buf.getBufferForPlane(VideoDataBuffer.PACKED_FORMAT_PLANE).asIntBuffer().get(rawFrameData);
+			newBuffer.getBufferForPlane(VideoDataBuffer.PACKED_FORMAT_PLANE).asIntBuffer().get(rawFrameData);
 			
-			buf.releaseFrame();
+			newBuffer.releaseFrame();
 		}
 	}
 
-	public int[] getRawFrameData()
+	private Optional<VideoDataBuffer> getLastestFrame() 
 	{
+		Optional<VideoDataBuffer> videoDataBuffer = Optional.empty();
+		try
+		{
+			Method method = player.getClass().getMethod("getLatestFrame");
+			method.setAccessible(true);
+			Object tmp = method.invoke(player);
+			videoDataBuffer = Optional.of((VideoDataBuffer)tmp);
+
+			// buf = player.getLatestFrame();// java modularization(java jigsaw).
+		} catch (Exception e) {}
+		return videoDataBuffer;
+	}
+
+	public int[] getRawFrameData() {
 		return rawFrameData;
 	}
 
-	public int[] getProcessedFrameData()
-	{
+	public int[] getProcessedFrameData() {
 		return processedFrameData;
 	}
 
