@@ -15,21 +15,19 @@ Christmas Demo 2017: https://youtu.be/npxfaHAAjBQ
 
 Used to discover the best techniques for optimising JavaFX performance on the Raspberry Pi and Desktop.
 
-Compile in your IDE or with gradle:
-```
-./gradlew build
-```
-
-Compile with gradle and Java 11 in Mac:
+Configure Java 11 in Mac:
 ```
 export JAVA_HOME=`/usr/libexec/java_home -v 11.0.1`
 ./gradlew build 
 ```
-
-Compile with gradle and Java 11 in Linux:
+Configure Java 11 in Linux:
 ```
 export JAVA_HOME=PATH_TO_JDK_11/jdk-11
 ./gradlew build 
+```
+Compile in your IDE or with gradle:
+```
+./gradlew build
 ```
 
 Run with:
@@ -82,8 +80,8 @@ Examples:
 # Burst effect with rainbow background
 ./gradlew run --args="-e rainbow,burst"
 
-# Layered effects: grid,ballwave
-./gradlew run --args="-e grid,ballwave"
+# Layered effects: grid,hexagons
+./gradlew run --args="-e grid,hexagons"
 
 # DemoFX Part III scripted demo:
 ./gradlew run --args="-s true -f true -w 1280 -h 720"
