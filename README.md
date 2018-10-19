@@ -18,12 +18,10 @@ Used to discover the best techniques for optimising JavaFX performance on the Ra
 Configure Java 11 in Mac:
 ```
 export JAVA_HOME=`/usr/libexec/java_home -v 11.0.1`
-./gradlew build 
 ```
 Configure Java 11 in Linux:
 ```
 export JAVA_HOME=PATH_TO_JDK_11/jdk-11
-./gradlew build 
 ```
 Compile in your IDE or with gradle:
 ```
@@ -37,6 +35,7 @@ Run with:
 -Pverbose                  -Dprism.verbose=true + -Xlog:gc* 
 -Psw_rendering             JavaFX software rendering (-Dprism.order=sw)
 
+options:
 -e <effects>               comma separated list of effects (See SimpleEffectFactory)
 -t <seconds>               run for t seconds
 -c <count>                 number of items on screen
@@ -64,6 +63,9 @@ Examples:
 ```
 # Default settings
 ./gradlew run
+
+# Default settings and verbose and software rendering enabled
+./gradlew run -Pverbose -Psw_rendering
 
 # Triangle effect, 500 shapes run for 10 seconds
 ./gradlew run --args="-e colourbackground,triangles -c 500 -t 10"
