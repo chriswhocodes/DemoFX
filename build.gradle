@@ -3,16 +3,36 @@ apply plugin: 'java'
 targetCompatibility = '1.11'
 sourceCompatibility = '1.11'
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'com.chrisnewland.demofx.DemoFXApplication'
+buildscript {
+    repositories {
+        mavenCentral()
     }
+    dependencies {
+        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
+    }
+}
+
+apply plugin: 'application'
+apply plugin: 'com.google.osdetector'
+
+ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.openjfx:javafx-base:11:$platform"
+    compile "org.openjfx:javafx-graphics:11:$platform"
+    compile "org.openjfx:javafx-controls:11:$platform"
+    compile "org.openjfx:javafx-fxml:11:$platform"
+    compile "org.openjfx:javafx-media:11:$platform"
 }
 
 compileJava {
     doFirst {
         options.compilerArgs = [
-		'--module-path', '/home/javafxdeveloper/Projects/openjfx/rt/build/sdk/lib',
+		'--module-path', classpath.asPath,
 		'--add-modules', 'javafx.controls,javafx.fxml,javafx.media,javafx.graphics',
 		'--add-exports', 'javafx.media/com.sun.media.jfxmedia.control=ALL-UNNAMED',
 		'--add-exports','javafx.graphics/com.sun.prism=ALL-UNNAMED',
@@ -22,14 +42,10 @@ compileJava {
     }
 }
 
-task runApp(type: JavaExec){
-	classpath = files('build/libs/DemoFX.jar')
-	main = 'com.chrisnewland.demofx.DemoFXApplication'
-	jvmArgs = ["--module-path", "/home/javafxdeveloper/Projects/openjfx/rt/build/sdk/lib", "--add-modules", "javafx.controls,javafx.fxml,javafx.media"]
+run	 {
+	doFirst {
+		jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls,javafx.fxml,javafx.media"]
+	}
 }
 
-task runAppSoftware(type: JavaExec){
-	classpath = files('build/libs/DemoFX.jar')
-	main = 'com.chrisnewland.demofx.DemoFXApplication'
-	jvmArgs = ["-Dprism.order=sw", "--module-path", "/home/javafxdeveloper/Projects/openjfx/rt/build/sdk/lib", "--add-modules", "javafx.controls,javafx.fxml,javafx.media"]
-}
+mainClassName='com.chrisnewland.demofx.DemoFXApplication'
