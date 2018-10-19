@@ -19,15 +19,25 @@ Compile in your IDE or with gradle:
 ```
 ./gradlew build
 ```
-Compile with gradle and another Java version (8 or 9):
+
+Compile with gradle and Java 11 in Mac:
 ```
-./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/
-./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/
+export JAVA_HOME=`/usr/libexec/java_home -v 11.0.1`
+./gradlew build 
+```
+
+Compile with gradle and Java 11 in Linux:
+```
+export JAVA_HOME=PATH_TO_JDK_11/jdk-11
+./gradlew build 
 ```
 
 Run with:
 ```
-./run.sh [options]
+./gradlew run --args="[options]" [-Pverbose] [-Psw_rendering]
+
+-Pverbose                  -Dprism.verbose=true + -Xlog:gc* 
+-Psw_rendering             JavaFX software rendering (-Dprism.order=sw)
 
 -e <effects>               comma separated list of effects (See SimpleEffectFactory)
 -t <seconds>               run for t seconds
@@ -55,35 +65,30 @@ tiles, triangles, tubestack, tunnel, twister, vumeter, wordsearch
 Examples:
 ```
 # Default settings
-./run.sh
+./gradlew run
 
 # Triangle effect, 500 shapes run for 10 seconds
-./run.sh -e colourbackground,triangles -c 500 -t 10
+./gradlew run --args="-e colourbackground,triangles -c 500 -t 10"
 
 # Square effect, set 640x480 canvas size
-./run.sh -e colourbackground,squares -w 640 -h 480
+./gradlew run --args="-e colourbackground,squares -w 640 -h 480"
 
 # Star effect, plot mode line
-./run.sh -e colourbackground,stars -m line
+./gradlew run --args="-e colourbackground,stars -m line"
 
 # Bounce effect with rainbow background
-./run.sh -e rainbow,bounce
+./gradlew run --args="-e rainbow,bounce"
 
 # Burst effect with rainbow background
-./run.sh -e rainbow,burst
+./gradlew run --args="-e rainbow,burst"
 
 # Layered effects: grid,ballwave
-./run.sh -e grid,ballwave
+./gradlew run --args="-e grid,ballwave"
 
 # DemoFX Part III scripted demo:
-./run.sh -s true -f true -w 1280 -h 720
+./gradlew run --args="-s true -f true -w 1280 -h 720"
 
 # Christmas DemoFX scripted demo:
-./run.sh -s xmas -f true -w 1280 -h 720
+./gradlew run --args="-s xmas -f true -w 1280 -h 720"
 ```
-In order to run in another java version, like java 9. JAVA_HOME should be set.
-In MAC:
-```
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
-./run.sh
-```
+

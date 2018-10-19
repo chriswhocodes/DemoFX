@@ -45,6 +45,12 @@ compileJava {
 run	 {
 	doFirst {
 		jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls,javafx.fxml,javafx.media"]
+		if (project.hasProperty('sw_rendering')) {
+      		jvmArgs = jvmArgs +"-Dprism.order=sw"
+  		}
+		if (project.hasProperty('verbose')){
+			jvmArgs = jvmArgs +"-Dprism.verbose=true"+"-Xlog:gc*"
+		}
 	}
 }
 
