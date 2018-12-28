@@ -15,12 +15,12 @@ export JAVA_HOME=PATH_TO_JDK_11/jdk-11
 ```
 Compile in your IDE or with gradle:
 ```
-./gradlew build
+bash ./gradlew build
 ```
 
 Run with:
 ```
-./gradlew run --args="[options]" [-Pverbose] [-Psw_rendering]
+bash ./gradlew run --args="[options]" [-Pverbose] [-Psw_rendering]
 
 -Pverbose                  -Dprism.verbose=true + -Xlog:gc* 
 -Psw_rendering             JavaFX software rendering (-Dprism.order=sw)
@@ -52,33 +52,33 @@ tiles, triangles, tubestack, tunnel, twister, vumeter, wordsearch
 Examples:
 ```
 # Default settings
-./gradlew run
+bash ./gradlew run
 
 # Default settings and verbose and software rendering enabled
-./gradlew run -Pverbose -Psw_rendering
+bash ./gradlew run -Pverbose -Psw_rendering
 
 # Triangle effect, 500 shapes run for 10 seconds
-./gradlew run --args="-e colourbackground,triangles -c 500 -t 10"
+bash ./gradlew run --args="-e colourbackground,triangles -c 500 -t 10"
 
 # Square effect, set 640x480 canvas size
-./gradlew run --args="-e colourbackground,squares -w 640 -h 480"
+bash ./gradlew run --args="-e colourbackground,squares -w 640 -h 480"
 
 # Star effect, plot mode line
-./gradlew run --args="-e colourbackground,stars -m line"
+bash ./gradlew run --args="-e colourbackground,stars -m line"
 
 # Bounce effect with rainbow background
-./gradlew run --args="-e rainbow,bounce"
+bash ./gradlew run --args="-e rainbow,bounce"
 
 # Burst effect with rainbow background
-./gradlew run --args="-e rainbow,burst"
+bash ./gradlew run --args="-e rainbow,burst"
 
 # Layered effects: grid,hexagons
-./gradlew run --args="-e grid,hexagons"
+bash ./gradlew run --args="-e grid,hexagons"
 
 # DemoFX Part III scripted demo:
-./gradlew run --args="-s true -f true -w 1280 -h 720"
+bash ./gradlew run --args="-s true -f true -w 1280 -h 720"
 
 # Christmas DemoFX scripted demo:
-./gradlew run --args="-s xmas -f true -w 1280 -h 720"
+bash ./gradlew run --args="-s xmas -f true -w 1280 -h 720"
 ```
 
