@@ -1,34 +1,31 @@
-# DemoFX
+# DemoFX in JavaFX 11
 Performance test platform for JavaFX.
 
 Effects can be layered and scheduled on a timeline.
 
-Videos of the demo effects:
-
-Part I : https://www.youtube.com/watch?v=N1rihYA8c2M
-
-Part II: https://www.youtube.com/watch?v=WZf0j4GUFYM
-
-Part III: https://www.youtube.com/watch?v=9jztG_l8qrk
-
-Christmas Demo 2017: https://youtu.be/npxfaHAAjBQ
-
 Used to discover the best techniques for optimising JavaFX performance on the Raspberry Pi and Desktop.
 
+Configure Java 11 in Mac:
+```
+export JAVA_HOME=`/usr/libexec/java_home -v 11.0.1`
+```
+Configure Java 11 in Linux:
+```
+export JAVA_HOME=PATH_TO_JDK_11/jdk-11
+```
 Compile in your IDE or with gradle:
 ```
-./gradlew build
-```
-Compile with gradle and another Java version (8 or 9):
-```
-./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/
-./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/
+bash ./gradlew build
 ```
 
 Run with:
 ```
-./run.sh [options]
+bash ./gradlew run --args="[options]" [-Pverbose] [-Psw_rendering]
 
+-Pverbose                  -Dprism.verbose=true + -Xlog:gc* 
+-Psw_rendering             JavaFX software rendering (-Dprism.order=sw)
+
+options:
 -e <effects>               comma separated list of effects (See SimpleEffectFactory)
 -t <seconds>               run for t seconds
 -c <count>                 number of items on screen
@@ -55,35 +52,33 @@ tiles, triangles, tubestack, tunnel, twister, vumeter, wordsearch
 Examples:
 ```
 # Default settings
-./run.sh
+bash ./gradlew run
+
+# Default settings and verbose and software rendering enabled
+bash ./gradlew run -Pverbose -Psw_rendering
 
 # Triangle effect, 500 shapes run for 10 seconds
-./run.sh -e colourbackground,triangles -c 500 -t 10
+bash ./gradlew run --args="-e colourbackground,triangles -c 500 -t 10"
 
 # Square effect, set 640x480 canvas size
-./run.sh -e colourbackground,squares -w 640 -h 480
+bash ./gradlew run --args="-e colourbackground,squares -w 640 -h 480"
 
 # Star effect, plot mode line
-./run.sh -e colourbackground,stars -m line
+bash ./gradlew run --args="-e colourbackground,stars -m line"
 
 # Bounce effect with rainbow background
-./run.sh -e rainbow,bounce
+bash ./gradlew run --args="-e rainbow,bounce"
 
 # Burst effect with rainbow background
-./run.sh -e rainbow,burst
+bash ./gradlew run --args="-e rainbow,burst"
 
-# Layered effects: grid,ballwave
-./run.sh -e grid,ballwave
+# Layered effects: grid,hexagons
+bash ./gradlew run --args="-e grid,hexagons"
 
 # DemoFX Part III scripted demo:
-./run.sh -s true -f true -w 1280 -h 720
+bash ./gradlew run --args="-s true -f true -w 1280 -h 720"
 
 # Christmas DemoFX scripted demo:
-./run.sh -s xmas -f true -w 1280 -h 720
+bash ./gradlew run --args="-s xmas -f true -w 1280 -h 720"
 ```
-In order to run in another java version, like java 9. JAVA_HOME should be set.
-In MAC:
-```
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
-./run.sh
-```
+
