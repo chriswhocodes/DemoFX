@@ -24,6 +24,7 @@ import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.pixel.Blur;
 import com.chrisnewland.demofx.effect.pixel.Bobs;
+import com.chrisnewland.demofx.effect.pixel.DoomFire;
 import com.chrisnewland.demofx.effect.pixel.Mask;
 import com.chrisnewland.demofx.effect.pixel.Rain;
 import com.chrisnewland.demofx.effect.pixel.Rainbow;
@@ -123,6 +124,7 @@ public class SimpleEffectFactory implements IEffectFactory
 		availableEffectNames.add("cubefield");
 		availableEffectNames.add("cyclebackground");
 		availableEffectNames.add("diamonds");
+		availableEffectNames.add("doomfire");
 		availableEffectNames.add("equaliser");
 		availableEffectNames.add("equalisercubes");
 		availableEffectNames.add("falling");
@@ -252,6 +254,9 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "diamonds":
 			return new Diamonds(config);
+
+		case "doomfire":
+			return new DoomFire(config);
 
 		case "equaliser":
 			return new Equaliser2D(config);
