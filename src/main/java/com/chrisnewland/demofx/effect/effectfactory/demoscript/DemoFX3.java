@@ -528,7 +528,7 @@ public class DemoFX3 implements IEffectFactory
 		long duration = 2 * D;
 
 		addEffect(time, duration, new Moire(config));
-		addEffect(time, duration, new TextBounce(config, "MoreMoire"));
+		addEffect(time, duration, new TextBounce(config, "Moire"));
 
 		time += duration;
 	}

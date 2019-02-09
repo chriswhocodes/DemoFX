@@ -139,7 +139,7 @@ public class MoreMoire extends AbstractEffect
 		paramList.add(new MoireParameters(buildImagePolygon(6, 4), -0.64));
 		paramList.add(new MoireParameters(buildImageCheckerboard(4, Shape.SQUARE), 0.16));
 
-		millisPerEffect = 132_000 / paramList.size();
+		millisPerEffect = 2667 * 2;// 2 bars @ 90bpm
 
 		System.out.println("millisPerEffect: " + millisPerEffect);
 

@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoreMoire implements IEffectFactory
+public class Moire implements IEffectFactory
 {
 	private List<IEffect> effects = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public class MoreMoire implements IEffectFactory
 
 		long bar = 2667;
 
-		String text = "Presenting|A JavaFX demoscene production|More MoreMoire|built with the DemoFX Engine|Coding by chriswhocodes|Music by David Newland|Inspired by Numberphile's video|Freaky Dot Patterns|by Tadashi Tokieda|Source code at|github.com/chriswhocodes/DemoFX";
+		String text = "Presenting|A JavaFX demoscene production|More Moire|built with the DemoFX Engine|Coding by chriswhocodes|Music by David Newland|Inspired by Numberphile's video|Freaky Dot Patterns|by Tadashi Tokieda|Source code at|github.com/chriswhocodes/DemoFX";
 
 		addEffect(0, length, new Starfield(config, 20_000, 0.01, Color.DEEPSKYBLUE));
 

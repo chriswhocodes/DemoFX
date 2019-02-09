@@ -13,7 +13,6 @@ import com.chrisnewland.demofx.effect.background.BinaryBackground;
 import com.chrisnewland.demofx.effect.background.ColourBackground;
 import com.chrisnewland.demofx.effect.background.CycleBackground;
 import com.chrisnewland.demofx.effect.background.ImageBackground;
-import com.chrisnewland.demofx.effect.effectfactory.demoscript.MoreMoire;
 import com.chrisnewland.demofx.effect.fake3d.Sheet;
 import com.chrisnewland.demofx.effect.fake3d.Sprite3D;
 import com.chrisnewland.demofx.effect.fake3d.Starfield;

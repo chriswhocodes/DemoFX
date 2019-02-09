@@ -14,7 +14,7 @@ import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.effectfactory.*;
 import com.chrisnewland.demofx.effect.effectfactory.demoscript.Christmas;
 import com.chrisnewland.demofx.effect.effectfactory.demoscript.DemoFX3;
-import com.chrisnewland.demofx.effect.effectfactory.demoscript.MoreMoire;
+import com.chrisnewland.demofx.effect.effectfactory.demoscript.Moire;
 import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
 import com.chrisnewland.demofx.measurement.MeasurementChartBuilder;
 import com.chrisnewland.demofx.measurement.Measurements;
@@ -123,7 +123,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 					effectFactory = new Christmas();
 					break;
 				case "moire":
-					effectFactory = new MoreMoire();
+					effectFactory = new Moire();
 					break;
 				default:
 					effectFactory = new DemoFX3();
