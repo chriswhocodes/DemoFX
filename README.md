@@ -42,7 +42,7 @@ Run with:
 
 Current list of effects:
 blur, bobs, bounce, burst, checkerboard, chord, chromakey, cogs, colourbackground,
-concentric, credits, creditssprite, cubefield, cyclebackground, diamonds, equaliser,
+concentric, credits, creditssprite, cubefield, cyclebackground, diamonds, doomfire, equaliser,
 equalisercubes, falling, feedback, fireworks, flash, glowboard, grid, hexagons,
 honeycomb, hue, imagebackground, inversechromakey, mandala, mandelbrot, mask,
 maskstack, mirrorx, mirrory, moire, pentagons, picinpic, quadplay, rain, rainbow,
