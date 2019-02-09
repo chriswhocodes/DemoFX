@@ -2,13 +2,14 @@
  * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
-package com.chrisnewland.demofx.effect.effectfactory;
+package com.chrisnewland.demofx.effect.effectfactory.demoscript;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
+import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.fake3d.Sprite3D;
 import com.chrisnewland.demofx.effect.fake3d.Starfield;
 import com.chrisnewland.demofx.effect.text.TextWave;
@@ -17,14 +18,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class ScriptedEffectFactoryZulu implements IEffectFactory
+public class Zulu implements IEffectFactory
 {
 	private static DemoConfig config;
 
 	@Override
 	public List<IEffect> getEffects(DemoConfig config)
 	{
-		ScriptedEffectFactoryZulu.config = config;
+		Zulu.config = config;
 
 		List<IEffect> effects = new ArrayList<>();
 

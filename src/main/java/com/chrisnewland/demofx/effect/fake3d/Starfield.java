@@ -15,23 +15,31 @@ public class Starfield extends AbstractEffect
 	private double[] starY;
 	private double[] starZ;
 
-	private static final double SPEED = 0.05;
+	private double speed = 0.05;
 	private static final double MAX_DEPTH = 5;
 
 	private boolean spin = true;
 
+	private Color starColour;
+
 	public Starfield(DemoConfig config)
+	{
+		this(config, 5000, 0.05, Color.WHITE);
+	}
+
+	public Starfield(DemoConfig config, int itemCount, double speed, Color starColour)
 	{
 		super(config);
 
-		if (itemCount == -1)
-		{
-			itemCount = 5000;
-		}
+		this.itemCount = itemCount;
+
+		this.speed = speed;
+
+		this.starColour = starColour;
 
 		init();
 	}
-	
+
 	public Starfield(DemoConfig config, int starCount, long startMillis, long stopMillis)
 	{
 		super(config);
@@ -47,7 +55,7 @@ public class Starfield extends AbstractEffect
 	{
 		buildStars();
 	}
-	
+
 	private void buildStars()
 	{
 		starX = new double[itemCount];
@@ -62,10 +70,9 @@ public class Starfield extends AbstractEffect
 		}
 	}
 
-	@Override
-	public void renderForeground()
+	@Override public void renderForeground()
 	{
-		gc.setStroke(Color.WHITE);
+		gc.setStroke(starColour);
 
 		if (spin)
 		{
@@ -82,7 +89,7 @@ public class Starfield extends AbstractEffect
 
 	private final void moveStar(int i)
 	{
-		starZ[i] -= SPEED;
+		starZ[i] -= speed;
 	}
 
 	private final void respawn(int i)

@@ -87,3 +87,8 @@ In MAC:
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
 ./run.sh
 ```
+
+If the frame rate is not vsynced on Ubuntu then run:
+```
+export _JAVA_OPTIONS="-Dquantum.multithreaded=false"
+```

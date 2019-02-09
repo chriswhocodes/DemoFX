@@ -13,6 +13,7 @@ import com.chrisnewland.demofx.effect.background.BinaryBackground;
 import com.chrisnewland.demofx.effect.background.ColourBackground;
 import com.chrisnewland.demofx.effect.background.CycleBackground;
 import com.chrisnewland.demofx.effect.background.ImageBackground;
+import com.chrisnewland.demofx.effect.effectfactory.demoscript.MoreMoire;
 import com.chrisnewland.demofx.effect.fake3d.Sheet;
 import com.chrisnewland.demofx.effect.fake3d.Sprite3D;
 import com.chrisnewland.demofx.effect.fake3d.Starfield;
@@ -33,45 +34,17 @@ import com.chrisnewland.demofx.effect.pixel.Twister;
 import com.chrisnewland.demofx.effect.pixel.TwisterSprite;
 import com.chrisnewland.demofx.effect.ray.RayTrace;
 import com.chrisnewland.demofx.effect.real3d.CubeField;
+import com.chrisnewland.demofx.effect.real3d.Mesh;
 import com.chrisnewland.demofx.effect.real3d.TexturedCube;
 import com.chrisnewland.demofx.effect.real3d.TexturedSphere;
 import com.chrisnewland.demofx.effect.real3d.TubeStack;
-import com.chrisnewland.demofx.effect.shape.Burst;
-import com.chrisnewland.demofx.effect.shape.Checkerboard;
-import com.chrisnewland.demofx.effect.shape.Chord;
-import com.chrisnewland.demofx.effect.shape.Cogs;
-import com.chrisnewland.demofx.effect.shape.Concentric;
-import com.chrisnewland.demofx.effect.shape.Diamonds;
-import com.chrisnewland.demofx.effect.shape.GCVisualiser;
-import com.chrisnewland.demofx.effect.shape.Glowboard;
-import com.chrisnewland.demofx.effect.shape.Grid;
-import com.chrisnewland.demofx.effect.shape.Honeycomb;
-import com.chrisnewland.demofx.effect.shape.Mandala;
-import com.chrisnewland.demofx.effect.shape.Rings;
+import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.spectral.Equaliser2D;
 import com.chrisnewland.demofx.effect.spectral.Equaliser3D;
 import com.chrisnewland.demofx.effect.spectral.Feedback;
 import com.chrisnewland.demofx.effect.spectral.VUMeter;
-import com.chrisnewland.demofx.effect.sprite.Bounce;
-import com.chrisnewland.demofx.effect.sprite.Falling;
-import com.chrisnewland.demofx.effect.sprite.Fireworks;
-import com.chrisnewland.demofx.effect.sprite.MaskStack;
-import com.chrisnewland.demofx.effect.sprite.Moire;
-import com.chrisnewland.demofx.effect.sprite.Rotations;
-import com.chrisnewland.demofx.effect.sprite.Sea;
-import com.chrisnewland.demofx.effect.sprite.Spin;
-import com.chrisnewland.demofx.effect.sprite.Tiles;
-import com.chrisnewland.demofx.effect.text.Credits;
-import com.chrisnewland.demofx.effect.text.CreditsSprite;
-import com.chrisnewland.demofx.effect.text.SpriteWave;
-import com.chrisnewland.demofx.effect.text.TextBounce;
-import com.chrisnewland.demofx.effect.text.TextFlash;
-import com.chrisnewland.demofx.effect.text.TextLabel;
-import com.chrisnewland.demofx.effect.text.TextLayers;
-import com.chrisnewland.demofx.effect.text.TextRing;
-import com.chrisnewland.demofx.effect.text.TextWave;
-import com.chrisnewland.demofx.effect.text.TextWaveSprite;
-import com.chrisnewland.demofx.effect.text.WordSearch;
+import com.chrisnewland.demofx.effect.sprite.*;
+import com.chrisnewland.demofx.effect.text.*;
 import com.chrisnewland.demofx.effect.video.ChromaKey;
 import com.chrisnewland.demofx.effect.video.Hue;
 import com.chrisnewland.demofx.effect.video.InverseChromaKey;
@@ -143,9 +116,11 @@ public class SimpleEffectFactory implements IEffectFactory
 		availableEffectNames.add("mandelbrot");
 		availableEffectNames.add("mask");
 		availableEffectNames.add("maskstack");
+		availableEffectNames.add("mesh");
 		availableEffectNames.add("mirrorx");
 		availableEffectNames.add("mirrory");
 		availableEffectNames.add("moire");
+		availableEffectNames.add("moremoire");
 		availableEffectNames.add("pentagons");
 		availableEffectNames.add("picinpic");
 		availableEffectNames.add("quadplay");
@@ -159,6 +134,7 @@ public class SimpleEffectFactory implements IEffectFactory
 		availableEffectNames.add("sheet");
 		availableEffectNames.add("shift");
 		availableEffectNames.add("sierpinski");
+		availableEffectNames.add("sinelines");
 		availableEffectNames.add("spin");
 		availableEffectNames.add("spritewave");
 		availableEffectNames.add("sprite3d");
@@ -181,6 +157,7 @@ public class SimpleEffectFactory implements IEffectFactory
 		availableEffectNames.add("tubestack");
 		availableEffectNames.add("twister");
 		availableEffectNames.add("twistersprite");
+		availableEffectNames.add("typetext");
 		availableEffectNames.add("vumeter");
 		availableEffectNames.add("wordsearch");
 	}
@@ -312,6 +289,9 @@ public class SimpleEffectFactory implements IEffectFactory
 		case "maskstack":
 			return new MaskStack(config);
 
+		case "mesh":
+			return new Mesh(config);
+
 		case "mirrorx":
 			return new MirrorX(config);
 
@@ -319,7 +299,10 @@ public class SimpleEffectFactory implements IEffectFactory
 			return new MirrorY(config);
 
 		case "moire":
-			return new Moire(config);
+			return new com.chrisnewland.demofx.effect.sprite.Moire(config);
+
+		case "moremoire":
+			return new MoreMoire(config);
 
 		case "pentagons":
 			return new ShapeEffect(config, 5);
@@ -359,6 +342,9 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "sierpinski":
 			return new Sierpinski(config);
+
+		case "sinelines":
+			return new SineLines(config);
 
 		case "snowfieldsprite":
 			return new SnowfieldSprite(config);
@@ -427,6 +413,9 @@ public class SimpleEffectFactory implements IEffectFactory
 			
 		case "twistersprite":
 			return new TwisterSprite(config);
+
+		case "typetext":
+			return new TypeText(config);
 
 		case "vumeter":
 			return new VUMeter(config);

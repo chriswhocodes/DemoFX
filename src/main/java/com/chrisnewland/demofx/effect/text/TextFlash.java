@@ -62,6 +62,16 @@ public class TextFlash extends AbstractEffect
 		init(string.toUpperCase().split(" "), true, colour, font, 50, 200);
 	}
 
+	public TextFlash(DemoConfig config, String string, String split, double yPercent, double fontSize, long showMillis)
+	{
+		super(config);
+
+		font = Font.font("Linux Biolinum Keyboard O", FontWeight.BOLD, fontSize);
+
+		init(string.toUpperCase().split(split), true, Color.WHITE, font, yPercent, showMillis);
+	}
+
+
 	private void init(String[] strings, boolean loopStringList, Color colour, Font font, double yPercent, long showMillis)
 	{
 		stringList = new ArrayList<>();
@@ -74,6 +84,8 @@ public class TextFlash extends AbstractEffect
 		this.font = font;
 		this.yPercent = yPercent;
 		this.showMillis = showMillis;
+
+		time = System.currentTimeMillis();
 
 		precalulateStringDimensions();
 	}

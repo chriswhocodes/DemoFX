@@ -2,7 +2,7 @@
  * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
-package com.chrisnewland.demofx.effect.effectfactory;
+package com.chrisnewland.demofx.effect.effectfactory.demoscript;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import java.util.List;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.IPixelSource;
+import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.fake3d.Fake3DShapeFactory;
 import com.chrisnewland.demofx.effect.fake3d.Object3D;
 import com.chrisnewland.demofx.effect.fake3d.Sheet;
@@ -46,6 +47,7 @@ import com.chrisnewland.demofx.effect.text.CreditsSprite;
 import com.chrisnewland.demofx.effect.text.TextBounce;
 import com.chrisnewland.demofx.effect.text.TextLayers;
 import com.chrisnewland.demofx.effect.text.TextRing;
+import com.chrisnewland.demofx.effect.text.TextRing.RingData;
 import com.chrisnewland.demofx.effect.text.TextWaveSprite;
 import com.chrisnewland.demofx.effect.text.WordSearch;
 import com.chrisnewland.demofx.effect.video.ChromaKey;
@@ -60,11 +62,11 @@ import javafx.scene.paint.Color;
 
 /*
  * 120 bpm
- * 
+ *
  * 1 bar = 2 seconds
  *
  * 4m24 264 seconds = 132 bars (2s) = 66 double bars (4s) = 33 quad bars (8s)
- * 
+ *
  * 000	start
  * 016	first chip notes
  * 032	bass comes in
@@ -76,22 +78,21 @@ import javafx.scene.paint.Color;
  * 256	outro (8s / 4 bars)
  * 264	end
  */
-public class DemoFX3ScriptFactory implements IEffectFactory
+public class DemoFX3 implements IEffectFactory
 {
 	private DemoConfig config;
 	private List<IEffect> effects = new ArrayList<>();
 	private long time = 0;
 	private static final long D = 4000;
 
-	@Override
-	public List<IEffect> getEffects(DemoConfig config)
+	@Override public List<IEffect> getEffects(DemoConfig config)
 	{
 		this.config = config;
 
 		String audio = getClass().getResource("/DemoFX3.mp3").toExternalForm();
 
 		System.out.println(audio);
-		
+
 		config.setAudioFilename(audio);
 
 		wordsearch();
@@ -130,7 +131,7 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 		long duration2D = 2 * D;
 		long duration3D = 2 * D;
 		long totalDuration = duration2D + duration3D;
-		
+
 		addEffect(time, totalDuration, new Glowboard(config, 16, Direction.N, Color.DARKORCHID));
 
 		Image quaver = ImageUtil.loadImageFromResources("quaver2.png");
@@ -178,7 +179,12 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 	{
 		long duration = D;
 
-		addEffect(time, duration, new TextRing(config));
+		TextRing.RingData[] ringData = new TextRing.RingData[] { new TextRing.RingData("DemoFX Part III", 100, 0.10, 1, 7.3, 8),
+				new TextRing.RingData("JavaFX Demoscene Engine", 160, 0.12, 1.2, 4.0, 6),
+				new TextRing.RingData("Coding by Chriswhocodes", 220, 0.13, 1.4, 3.8, 4),
+				new TextRing.RingData("Music by David Newland", 300, 0.15, 1.6, 3.6, 2), };
+
+		addEffect(time, duration, new TextRing(config, ringData));
 
 		time += duration;
 	}
@@ -351,10 +357,9 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 		addEffect(time, D, new Cogs(config, makeCogsHeart(config, Color.PURPLE)));
 		time += D;
 
-		addEffect(origTime, D * 4,
-				new TextWaveSprite(config,
-						new String[] { "Welcome to DemoFX part III", "A JavaFX Demoscene benchmark", "Here we go!" },
-						config.getHeight() * 0.5, 1, 10));
+		addEffect(origTime, D * 4, new TextWaveSprite(config,
+				new String[] { "Welcome to DemoFX part III", "A JavaFX Demoscene benchmark", "Here we go!" },
+				config.getHeight() * 0.5, 1, 10));
 	}
 
 	private void shadeBobs()
@@ -426,8 +431,9 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 		((IPixelSource) bobs).setPixelSink(inverseChroma);
 		addEffect(time, D * 2, inverseChroma);
 		addEffect(time, D * 2, new TextBounce(config, "Inverse chroma"));
-		addEffect(time, D * 2, new TextWaveSprite(config, new String[] { "Green-screening with subject replacement" },
-				config.getHeight() * 0.1, 1, 10));
+		addEffect(time, D * 2,
+				new TextWaveSprite(config, new String[] { "Green-screening with subject replacement" }, config.getHeight() * 0.1, 1,
+						10));
 		time += D * 2;
 	}
 
@@ -448,8 +454,9 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 		TexturedSphere planetEarth = new TexturedSphere(config, texture, config.getHeight() / 6, 0, 1, 890, 210);
 		addEffect(time, duration, planetEarth);
 
-		addEffect(time, duration, new TextWaveSprite(config, new String[] { "JavaFX ... It's not rocket science!" },
-				config.getHeight() * 0.8, 1, 10));
+		addEffect(time, duration,
+				new TextWaveSprite(config, new String[] { "JavaFX ... It's not rocket science!" }, config.getHeight() * 0.8, 1,
+						10));
 
 		time += duration;
 
@@ -521,7 +528,7 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 		long duration = 2 * D;
 
 		addEffect(time, duration, new Moire(config));
-		addEffect(time, duration, new TextBounce(config, "Moire"));
+		addEffect(time, duration, new TextBounce(config, "MoreMoire"));
 
 		time += duration;
 	}
@@ -668,8 +675,7 @@ public class DemoFX3ScriptFactory implements IEffectFactory
 
 		double gap = outer * 2 - inner / 4;
 
-		CogDef[] defs = new CogDef[] {
-				new CogDef(halfWidth + gap * 0.0, height - (yOffset + gap * 3.0), -4, false),
+		CogDef[] defs = new CogDef[] { new CogDef(halfWidth + gap * 0.0, height - (yOffset + gap * 3.0), -4, false),
 				new CogDef(halfWidth - gap * 0.8, height - (yOffset + gap * 3.6), 14, true),
 				new CogDef(halfWidth + gap * 0.8, height - (yOffset + gap * 3.6), 0, true),
 				new CogDef(halfWidth - gap * 1.2, height - (yOffset + gap * 4.5), 10, false),

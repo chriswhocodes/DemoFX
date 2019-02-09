@@ -188,7 +188,6 @@ public class DemoAnimationTimer extends AnimationTimer
 		}
 		else
 		{
-
 			if (config.getCount() > -1)
 			{
 				builder.append(config.getCount()).append(" | ");

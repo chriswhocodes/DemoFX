@@ -11,10 +11,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.chrisnewland.demofx.effect.IEffect;
-import com.chrisnewland.demofx.effect.effectfactory.ChristmasFXScriptFactory;
-import com.chrisnewland.demofx.effect.effectfactory.DemoFX3ScriptFactory;
-import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
-import com.chrisnewland.demofx.effect.effectfactory.SimpleEffectFactory;
+import com.chrisnewland.demofx.effect.effectfactory.*;
+import com.chrisnewland.demofx.effect.effectfactory.demoscript.Christmas;
+import com.chrisnewland.demofx.effect.effectfactory.demoscript.DemoFX3;
+import com.chrisnewland.demofx.effect.effectfactory.demoscript.MoreMoire;
 import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
 import com.chrisnewland.demofx.measurement.MeasurementChartBuilder;
 import com.chrisnewland.demofx.measurement.Measurements;
@@ -76,8 +76,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		}
 	}
 
-	@Override
-	public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
+	@Override public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
 	{
 		for (int i = 0; i < SPECTRUM_BANDS; i++)
 		{
@@ -86,8 +85,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		}
 	}
 
-	@Override
-	public float[] getData()
+	@Override public float[] getData()
 	{
 		return spectrumData;
 	}
@@ -122,10 +120,13 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 				switch (scriptName)
 				{
 				case "xmas":
-					effectFactory = new ChristmasFXScriptFactory();
+					effectFactory = new Christmas();
+					break;
+				case "moire":
+					effectFactory = new MoreMoire();
 					break;
 				default:
-					effectFactory = new DemoFX3ScriptFactory();
+					effectFactory = new DemoFX3();
 					break;
 				}
 			}
@@ -277,23 +278,41 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		pane.setCenter(vboxCharts);
 	}
 
-	private void initialiseAudio(String audioFilename, List<IEffect> effects)
+	private boolean initialiseSpectralEffects(MediaPlayer mediaPlayer)
 	{
-		Media media = new Media(audioFilename);
-
-		mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.setAudioSpectrumListener(this);
-		mediaPlayer.setAudioSpectrumInterval(1f / SAMPLES_PER_SECOND);
-		mediaPlayer.setAudioSpectrumNumBands(SPECTRUM_BANDS);
-		mediaPlayer.setCycleCount(1);
+		boolean result = false;
 
 		for (IEffect effect : effects)
 		{
 			if (effect instanceof ISpectralEffect)
 			{
+				result = true;
+				System.out.println("Found effect that uses spectral analyser: " + effect);
+
 				((ISpectralEffect) effect).setSpectrumDataProvider(this);
 			}
 		}
+
+		if (result)
+		{
+			mediaPlayer.setAudioSpectrumListener(this);
+			mediaPlayer.setAudioSpectrumInterval(1f / SAMPLES_PER_SECOND);
+			mediaPlayer.setAudioSpectrumNumBands(SPECTRUM_BANDS);
+		}
+
+		return result;
+	}
+
+
+	private void initialiseAudio(String audioFilename, List<IEffect> effects)
+	{
+		Media media = new Media(audioFilename);
+
+		mediaPlayer = new MediaPlayer(media);
+
+		mediaPlayer.setCycleCount(1);
+
+		initialiseSpectralEffects(mediaPlayer);
 
 		mediaPlayer.play();
 	}
@@ -368,8 +387,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		return "Unknown";
 	}
 
-	@SuppressWarnings("unchecked")
-	private String getPrismTryOrder()
+	@SuppressWarnings("unchecked") private String getPrismTryOrder()
 	{
 		Object result = null;
 
@@ -412,8 +430,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		return builder.toString();
 	}
 
-	@Override
-	public int getBandCount()
+	@Override public int getBandCount()
 	{
 		return spectrumData.length;
 	}

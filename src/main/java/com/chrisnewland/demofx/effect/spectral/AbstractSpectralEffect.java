@@ -21,12 +21,11 @@ public abstract class AbstractSpectralEffect extends AbstractEffect implements I
 	protected float heightFactor = 0;
 	protected double barWidth;
 	protected double halfBar;
-	
-	@Override
-	public void setSpectrumDataProvider(ISpectrumDataProvider provider)
+
+	@Override public void setSpectrumDataProvider(ISpectrumDataProvider provider)
 	{
 		this.spectrumProvider = provider;
-		
+
 		// high end of frequency range rarely used
 		// only plot low fraction of spectrum
 
@@ -42,9 +41,9 @@ public abstract class AbstractSpectralEffect extends AbstractEffect implements I
 		for (int i = 0; i < usableBandCount; i++)
 		{
 			bandMax[i] = -DECIBEL_RANGE;
-		}		
+		}
 	}
-	
+
 	public AbstractSpectralEffect(DemoConfig config)
 	{
 		super(config);

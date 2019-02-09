@@ -2,13 +2,14 @@
  * Copyright (c) 2015-2016 Chris Newland.
  * Licensed under https://github.com/chriswhocodes/demofx/blob/master/LICENSE-BSD
  */
-package com.chrisnewland.demofx.effect.effectfactory;
+package com.chrisnewland.demofx.effect.effectfactory.demoscript;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
+import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.fake3d.Sprite3D;
 import com.chrisnewland.demofx.effect.fake3d.Sprite3D.Shape3D;
 import com.chrisnewland.demofx.effect.fake3d.Starfield;
@@ -28,7 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class DemoFX2ScriptFactory implements IEffectFactory
+public class DemoFX2 implements IEffectFactory
 {
 	@Override
 	public List<IEffect> getEffects(DemoConfig config)
@@ -181,7 +182,7 @@ public class DemoFX2ScriptFactory implements IEffectFactory
 
 		Starfield starField2 = new Starfield(config, 3000, startStarfield3D, stopStarField3D);
 
-		Image image = new Image(DemoFX2ScriptFactory.class.getResourceAsStream("/glassyball.png"));
+		Image image = new Image(DemoFX2.class.getResourceAsStream("/glassyball.png"));
 
 		Sprite3D ring = new Sprite3D(config);
 		ring.addObject(Shape3D.RING, image, 1.0, startRing, stopRing);
