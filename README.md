@@ -13,16 +13,13 @@ Part III: https://www.youtube.com/watch?v=9jztG_l8qrk
 
 Christmas Demo 2017: https://youtu.be/npxfaHAAjBQ
 
+More Moiré: https://www.youtube.com/watch?v=B48aeSd379w
+
 Used to discover the best techniques for optimising JavaFX performance on the Raspberry Pi and Desktop.
 
-Compile in your IDE or with gradle:
+Compile with gradle:
 ```
-./gradlew build
-```
-Compile with gradle and another Java version (8 or 9):
-```
-./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/
-./gradlew build  -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/
+./gradlew jar
 ```
 
 Run with:
@@ -45,11 +42,11 @@ blur, bobs, bounce, burst, checkerboard, chord, chromakey, cogs, colourbackgroun
 concentric, credits, creditssprite, cubefield, cyclebackground, diamonds, doomfire, equaliser,
 equalisercubes, falling, feedback, fireworks, flash, glowboard, grid, hexagons,
 honeycomb, hue, imagebackground, inversechromakey, mandala, mandelbrot, mask,
-maskstack, mirrorx, mirrory, moire, pentagons, picinpic, quadplay, rain, rainbow,
-rawplayer, raytrace, rings, rotations, sea, sheet, shift, sierpinski, snowfieldsprite, spin,
+maskstack, mirrorx, mirrory, moire, moremoire, pentagons, picinpic, quadplay, rain, rainbow,
+rawplayer, raytrace, rings, rotations, sea, sheet, shift, sierpinski, sinelines, snowfieldsprite, spin,
 sprite3d, spritewave, squares, starfield, starfieldsprite, stars, texcube,
 texsphere, textbounce, textlabel, textlayers, textring, textwave, textwavesprite,
-tiles, triangles, tubestack, tunnel, twister, vumeter, wordsearch
+tiles, triangles, tubestack, tunnel, twister, typetext, vumeter, wordsearch
 
 ```
 Examples:
@@ -80,6 +77,9 @@ Examples:
 
 # Christmas DemoFX scripted demo:
 ./run.sh -s xmas -f true -w 1280 -h 720
+
+#More Moiré scripted demo
+./run.sh -s moire -f true -w 1280 -h 720
 ```
 In order to run in another java version, like java 9. JAVA_HOME should be set.
 In MAC:
