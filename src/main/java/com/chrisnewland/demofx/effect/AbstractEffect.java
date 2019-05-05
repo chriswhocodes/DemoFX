@@ -40,14 +40,14 @@ public abstract class AbstractEffect implements IEffect
 
 	protected long effectStartMillis = -1;
 	protected long effectStopMillis = -1;
-	
+
 	protected boolean effectStarted = false;
 	protected boolean effectFinished = false;
 
 	protected boolean renderOffScreen = false;
 
 	private Rotate rotate;
-	
+
 	public AbstractEffect(DemoConfig config)
 	{
 		this.config = config;
@@ -73,7 +73,8 @@ public abstract class AbstractEffect implements IEffect
 		{
 			setupOffScreen(config.getOffScreenWidth(), config.getOffScreenHeight());
 		}
-		if (COLOUR_CYCLE == null) {
+		if (COLOUR_CYCLE == null)
+		{
 			COLOUR_CYCLE = new ColourCycleCache(precalc);
 		}
 	}
@@ -118,7 +119,8 @@ public abstract class AbstractEffect implements IEffect
 		return COLOUR_CYCLE.colors[colourCycleAngle];
 	}
 
-	static Color generateColour(PreCalc precalc, int colourCycleAngle) {
+	static Color generateColour(PreCalc precalc, int colourCycleAngle)
+	{
 		double redFraction = 2 + precalc.sin(colourCycleAngle);
 		double greenFraction = 2 + precalc.sin(360 - colourCycleAngle);
 		double blueFraction = 2 + precalc.cos(colourCycleAngle);
@@ -137,6 +139,16 @@ public abstract class AbstractEffect implements IEffect
 		int red = start + (int) (range * precalc.getUnsignedRandom());
 		int green = start + (int) (range * precalc.getUnsignedRandom());
 		int blue = start + (int) (range * precalc.getUnsignedRandom());
+
+		return Color.rgb(red, green, blue);
+	}
+
+	protected final Color getRandomColour()
+	{
+
+		int red = (int) (255.0 * precalc.getUnsignedRandom());
+		int green = (int) (255.0 * precalc.getUnsignedRandom());
+		int blue = (int) (255.0 * precalc.getUnsignedRandom());
 
 		return Color.rgb(red, green, blue);
 	}
@@ -183,48 +195,41 @@ public abstract class AbstractEffect implements IEffect
 		gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
 	}
 
-	@Override
-	public void stop()
-	{
-	}
-	
-	@Override
-	public void start()
+	@Override public void stop()
 	{
 	}
 
-	@Override
-	public void setStartOffsetMillis(long start)
+	@Override public void start()
+	{
+	}
+
+	@Override public void setStartOffsetMillis(long start)
 	{
 		this.effectStartMillis = start;
 	}
 
-	@Override
-	public void setStopOffsetMillis(long stop)
+	@Override public void setStopOffsetMillis(long stop)
 	{
 		this.effectStopMillis = stop;
 	}
 
-	@Override
-	public long getStartOffsetMillis()
+	@Override public long getStartOffsetMillis()
 	{
 		return effectStartMillis;
 	}
 
-	@Override
-	public long getStopOffsetMillis()
+	@Override public long getStopOffsetMillis()
 	{
 		return effectStopMillis;
 	}
 
-	@Override
-	public boolean isVisible(long elapsed)
+	@Override public boolean isVisible(long elapsed)
 	{
 		if (effectFinished)
 		{
 			return false;
 		}
-		
+
 		boolean showEffect = true;
 
 		if (effectStartMillis != -1)
@@ -276,11 +281,14 @@ public abstract class AbstractEffect implements IEffect
 		}
 	}
 
-	final class ColourCycleCache {
+	final class ColourCycleCache
+	{
 		final Color[] colors = new Color[360];
-        
-		ColourCycleCache(PreCalc precalc) {
-			for (int i = 0; i < 360; i++) {
+
+		ColourCycleCache(PreCalc precalc)
+		{
+			for (int i = 0; i < 360; i++)
+			{
 				colors[i] = generateColour(precalc, i);
 			}
 		}

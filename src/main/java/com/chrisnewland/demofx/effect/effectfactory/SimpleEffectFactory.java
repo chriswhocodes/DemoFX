@@ -20,6 +20,7 @@ import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.Tunnel;
 import com.chrisnewland.demofx.effect.fractal.ChristmasTrees;
+import com.chrisnewland.demofx.effect.fractal.FractalRings;
 import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.pixel.Blur;
@@ -252,6 +253,9 @@ public class SimpleEffectFactory implements IEffectFactory
 		case "flash":
 			return new TextFlash(config);
 
+		case "fractalrings":
+			return new FractalRings(config);
+
 		case "gc":
 			return new GCVisualiser(config);
 
@@ -325,7 +329,7 @@ public class SimpleEffectFactory implements IEffectFactory
 			return new RayTrace(config);
 
 		case "rings":
-			return new Rings(config);
+			return new com.chrisnewland.demofx.effect.shape.Rings(config);
 
 		case "rotations":
 			return new Rotations(config);
