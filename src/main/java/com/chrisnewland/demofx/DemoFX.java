@@ -4,22 +4,17 @@
  */
 package com.chrisnewland.demofx;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.chrisnewland.demofx.effect.IEffect;
-import com.chrisnewland.demofx.effect.effectfactory.*;
+import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
+import com.chrisnewland.demofx.effect.effectfactory.SimpleEffectFactory;
 import com.chrisnewland.demofx.effect.effectfactory.demoscript.Christmas;
 import com.chrisnewland.demofx.effect.effectfactory.demoscript.DemoFX3;
 import com.chrisnewland.demofx.effect.effectfactory.demoscript.Moire;
 import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
 import com.chrisnewland.demofx.measurement.MeasurementChartBuilder;
 import com.chrisnewland.demofx.measurement.Measurements;
-
 import javafx.animation.AnimationTimer;
+import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -35,10 +30,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
-public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.List;
+
+public class DemoFX extends Application implements AudioSpectrumListener, ISpectrumDataProvider
 {
-	private DemoConfig config;
+	private final DemoConfig config;
 
 	private Label statsLabel;
 	private Label fxLabel;
@@ -51,7 +51,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 	private static final int SAMPLES_PER_SECOND = 60;
 
-	private float[] spectrumData = new float[SPECTRUM_BANDS];
+	private final float[] spectrumData = new float[SPECTRUM_BANDS];
 
 	private MediaPlayer mediaPlayer;
 
@@ -61,6 +61,11 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 	public DemoFX(DemoConfig config)
 	{
 		this.config = config;
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+
 	}
 
 	public void stopDemo()
@@ -363,6 +368,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 	private String getUsedPipeline()
 	{
+		/*
 		try
 		{
 			// JDK9 forbidden:
@@ -383,12 +389,13 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		{
 			System.out.println("Ignored exception while getting PrismSettings.tryOrder");
 		}
-
+		*/
 		return "Unknown";
 	}
 
 	@SuppressWarnings("unchecked") private String getPrismTryOrder()
 	{
+		/*
 		Object result = null;
 
 		// Java 7 returns String[]
@@ -428,6 +435,8 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		}
 
 		return builder.toString();
+		*/
+		return "Unknown";
 	}
 
 	@Override public int getBandCount()

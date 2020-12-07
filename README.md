@@ -1,28 +1,34 @@
 # DemoFX
-Performance test platform for JavaFX.
 
+Performance test platform for JavaFX.
 Effects can be layered and scheduled on a timeline.
 
 Videos of the demo effects:
 
-Part I : https://www.youtube.com/watch?v=N1rihYA8c2M
-
-Part II: https://www.youtube.com/watch?v=WZf0j4GUFYM
-
-Part III: https://www.youtube.com/watch?v=9jztG_l8qrk
-
-Christmas Demo 2017: https://youtu.be/npxfaHAAjBQ
-
-More Moiré: https://www.youtube.com/watch?v=B48aeSd379w
+* Part I : https://www.youtube.com/watch?v=N1rihYA8c2M
+* Part II: https://www.youtube.com/watch?v=WZf0j4GUFYM
+* Part III: https://www.youtube.com/watch?v=9jztG_l8qrk
+* Christmas Demo 2017: https://youtu.be/npxfaHAAjBQ
+* More Moiré: https://www.youtube.com/watch?v=B48aeSd379w
 
 Used to discover the best techniques for optimising JavaFX performance on the Raspberry Pi and Desktop.
 
-Compile with gradle:
+## Compile
+
+### Gradle
+
 ```
 ./gradlew jar
 ```
 
-Run with:
+### Maven
+
+```
+mvn clean package
+```
+
+## Run 
+
 ```
 ./run.sh [options]
 
