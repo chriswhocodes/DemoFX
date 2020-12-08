@@ -14,7 +14,6 @@ import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
 import com.chrisnewland.demofx.measurement.MeasurementChartBuilder;
 import com.chrisnewland.demofx.measurement.Measurements;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -36,7 +35,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-public class DemoFX extends Application implements AudioSpectrumListener, ISpectrumDataProvider
+public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 {
 	private final DemoConfig config;
 
@@ -61,11 +60,6 @@ public class DemoFX extends Application implements AudioSpectrumListener, ISpect
 	public DemoFX(DemoConfig config)
 	{
 		this.config = config;
-	}
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-
 	}
 
 	public void stopDemo()
@@ -363,7 +357,18 @@ public class DemoFX extends Application implements AudioSpectrumListener, ISpect
 
 		builder.append(lookupBuilder.toString());
 
+		builder.append(" | Java: ").append(getJavaVersion());
+		builder.append(" | JavaFX: ").append(getJavaFxVersion());
+
 		return builder.toString();
+	}
+
+	private String getJavaVersion() {
+		return System.getProperty("java.version");
+	}
+
+	private String getJavaFxVersion() {
+		return System.getProperty("javafx.version");
 	}
 
 	private String getUsedPipeline()

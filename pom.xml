@@ -45,7 +45,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.chrisnewland.demofx.DemoFX</mainClass>
+                            <mainClass>com.chrisnewland.demofx.DemoFXApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
