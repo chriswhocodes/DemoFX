@@ -4,21 +4,15 @@
  */
 package com.chrisnewland.demofx;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.chrisnewland.demofx.effect.IEffect;
-import com.chrisnewland.demofx.effect.effectfactory.*;
+import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
+import com.chrisnewland.demofx.effect.effectfactory.SimpleEffectFactory;
 import com.chrisnewland.demofx.effect.effectfactory.demoscript.Christmas;
 import com.chrisnewland.demofx.effect.effectfactory.demoscript.DemoFX3;
 import com.chrisnewland.demofx.effect.effectfactory.demoscript.Moire;
 import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
 import com.chrisnewland.demofx.measurement.MeasurementChartBuilder;
 import com.chrisnewland.demofx.measurement.Measurements;
-
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,10 +29,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.List;
 
 public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 {
-	private DemoConfig config;
+	private final DemoConfig config;
 
 	private Label statsLabel;
 	private Label fxLabel;
@@ -51,7 +50,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 	private static final int SAMPLES_PER_SECOND = 60;
 
-	private float[] spectrumData = new float[SPECTRUM_BANDS];
+	private final float[] spectrumData = new float[SPECTRUM_BANDS];
 
 	private MediaPlayer mediaPlayer;
 
@@ -321,9 +320,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 	{
 		StringBuilder builder = new StringBuilder();
 
-		builder.append("Try: ").append(getPrismTryOrder());
-		builder.append(" | Pipe: ").append(getUsedPipeline());
-		builder.append(" | Precalc: ");
+		builder.append("Precalc: ");
 
 		StringBuilder lookupBuilder = new StringBuilder();
 
@@ -358,76 +355,18 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 		builder.append(lookupBuilder.toString());
 
+		builder.append(" | Java: ").append(getJavaVersion());
+		builder.append(" | JavaFX: ").append(getJavaFxVersion());
+
 		return builder.toString();
 	}
 
-	private String getUsedPipeline()
-	{
-		try
-		{
-			// JDK9 forbidden:
-			String className = com.sun.prism.GraphicsPipeline.getPipeline().getClass().getName();
-
-			int lastDot = className.lastIndexOf('.');
-
-			if (lastDot != -1)
-			{
-				return className.substring(lastDot + 1);
-			}
-			else
-			{
-				return className;
-			}
-		}
-		catch (Throwable th)
-		{
-			System.out.println("Ignored exception while getting PrismSettings.tryOrder");
-		}
-
-		return "Unknown";
+	private String getJavaVersion() {
+		return System.getProperty("java.version");
 	}
 
-	@SuppressWarnings("unchecked") private String getPrismTryOrder()
-	{
-		Object result = null;
-
-		// Java 7 returns String[]
-		// Java 8 returns List<String>
-
-		try
-		{
-			// JDK9 forbidden:
-			result = com.sun.prism.impl.PrismSettings.tryOrder;
-		}
-		catch (Throwable th)
-		{
-			System.out.println("Ignored exception while getting PrismSettings.tryOrder");
-		}
-
-		List<String> tryOrderList = new ArrayList<>();
-
-		if (result instanceof String[])
-		{
-			tryOrderList.addAll(Arrays.asList((String[]) result));
-		}
-		else if (result instanceof List)
-		{
-			tryOrderList.addAll((List<String>) result);
-		}
-
-		StringBuilder builder = new StringBuilder();
-
-		for (String str : tryOrderList)
-		{
-			builder.append(str).append(",");
-		}
-
-		if (builder.length() > 0)
-		{
-			builder.deleteCharAt(builder.length() - 1);
-		}
-
-		return builder.toString();
+	private String getJavaFxVersion() {
+		return System.getProperty("javafx.version");
 	}
 
 	@Override public int getBandCount()

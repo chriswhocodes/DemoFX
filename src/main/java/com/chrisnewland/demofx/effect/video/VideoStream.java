@@ -77,7 +77,7 @@ public class VideoStream implements IPixelSource
 	// http://stackoverflow.com/questions/4041840/function-to-convert-ycbcr-to-rgb
 	public synchronized void snapshotVideo()
 	{
-		buf = player.impl_getLatestFrame();
+		/*buf = player.impl_getLatestFrame();
 
 		if (buf != null)
 		{
@@ -86,7 +86,7 @@ public class VideoStream implements IPixelSource
 			buf.getBufferForPlane(VideoDataBuffer.PACKED_FORMAT_PLANE).asIntBuffer().get(rawFrameData);
 			
 			buf.releaseFrame();
-		}
+		}*/
 	}
 
 	public int[] getRawFrameData()
