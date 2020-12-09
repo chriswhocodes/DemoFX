@@ -1,5 +1,8 @@
 package com.chrisnewland.demofx.effect.video;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.nio.IntBuffer;
 
 import com.chrisnewland.demofx.effect.IPixelSink;
@@ -24,13 +27,18 @@ public class VideoStream implements IPixelSource
 	private int frameWidth;
 	private int frameHeight;
 
+	private MethodHandle mhGetLatestFrame = null;
+
 	private VideoDataBuffer buf;
 
 	private PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbPreInstance();
 
 	public VideoStream(String mediaPath, int mediaWidth, int mediaHeight)
 	{
-		Media media = new Media(getClass().getResource(mediaPath).toExternalForm());
+		tryMethodHandle();
+
+		Media media = new Media(getClass().getResource(mediaPath)
+										  .toExternalForm());
 
 		player = new MediaPlayer(media);
 
@@ -47,6 +55,24 @@ public class VideoStream implements IPixelSource
 
 		rawFrameData = new int[pixelCount];
 		processedFrameData = new int[pixelCount];
+	}
+
+	private void tryMethodHandle()
+	{
+		try
+		{
+			MethodHandles.Lookup publicLookup = MethodHandles.publicLookup();
+
+			MethodType methodType = MethodType.methodType(VideoDataBuffer.class);
+
+			mhGetLatestFrame = publicLookup.findVirtual(MediaPlayer.class, "impl_getLatestFrame", methodType);
+
+			System.out.println("Obtained MethodHandle to MediaPlayer.impl_getLatestFrame");
+		}
+		catch (ReflectiveOperationException roe)
+		{
+			System.out.println("MediaPlayer.impl_getLatestFrame is not available, there will be no video playback");
+		}
 	}
 
 	public void start()
@@ -77,16 +103,30 @@ public class VideoStream implements IPixelSource
 	// http://stackoverflow.com/questions/4041840/function-to-convert-ycbcr-to-rgb
 	public synchronized void snapshotVideo()
 	{
-		/*buf = player.impl_getLatestFrame();
-
-		if (buf != null)
+		if (mhGetLatestFrame == null)
 		{
-			buf = buf.convertToFormat(VideoFormat.BGRA_PRE); // int format
+			return;
+		}
 
-			buf.getBufferForPlane(VideoDataBuffer.PACKED_FORMAT_PLANE).asIntBuffer().get(rawFrameData);
-			
-			buf.releaseFrame();
-		}*/
+		try
+		{
+			buf = (VideoDataBuffer) mhGetLatestFrame.invoke(player);
+
+			if (buf != null)
+			{
+				buf = buf.convertToFormat(VideoFormat.BGRA_PRE); // int format
+
+				buf.getBufferForPlane(VideoDataBuffer.PACKED_FORMAT_PLANE)
+				   .asIntBuffer()
+				   .get(rawFrameData);
+
+				buf.releaseFrame();
+			}
+		}
+		catch (Throwable t)
+		{
+			System.out.println("Could not grab frame: " + t.getMessage());
+		}
 	}
 
 	public int[] getRawFrameData()

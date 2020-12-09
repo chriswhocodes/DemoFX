@@ -1,76 +1,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.chrisnewland</groupId>
     <artifactId>demofx</artifactId>
     <version>0.0.1</version>
 
-	<properties>
-        	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<javac.source>1.8</javac.source>
-		<javac.target>1.8</javac.target>
+        <javac.source>1.8</javac.source>
+        <javac.target>1.8</javac.target>
 
-		<openjfx.version>15.0.1</openjfx.version>
-	</properties>
+        <openjfx.version>15.0.1</openjfx.version>
+    </properties>
 
-	<profiles>
-		<profile>
-			<id>with_built_in_javafx</id>
-			<activation>
-				<jdk>[1.8,10]</jdk>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-shade-plugin</artifactId>
-						<version>3.2.0</version>
-						<executions>
-							<execution>
-								<phase>package</phase>
-								<goals>
-									<goal>shade</goal>
-								</goals>
-								<configuration>
-									<shadedArtifactAttached>true</shadedArtifactAttached>
-									<shadedClassifierName>project-classifier</shadedClassifierName>
-									<outputFile>target/ui-shaded.jar</outputFile>
-									<transformers>
-										<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-											<mainClass>${main.class}</mainClass>
-										</transformer>
-									</transformers>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+    <profiles>
+        <profile>
+            <id>with_built_in_javafx</id>
+            <activation>
+                <jdk>[1.8,10]</jdk>
+            </activation>
+        </profile>
 
-		<profile>
-			<id>with_openjfx_from_maven_central</id>
-			<activation>
-				<jdk>[11,)</jdk>
-			</activation>
-			<dependencies>
-				<!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
-				<dependency>
-					<groupId>org.openjfx</groupId>
-					<artifactId>javafx-controls</artifactId>
-					<version>${openjfx.version}</version>
-					<type>pom</type>
-				</dependency>
-				<dependency>
-					<groupId>org.openjfx</groupId>
-					<artifactId>javafx-media</artifactId>
-					<version>${openjfx.version}</version>
-					<type>pom</type>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
+        <profile>
+            <id>with_openjfx_from_maven_central</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+            <dependencies>
+                <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+                <dependency>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-controls</artifactId>
+                    <version>${openjfx.version}</version>
+                    <type>pom</type>
+                </dependency>
+                <dependency>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-media</artifactId>
+                    <version>${openjfx.version}</version>
+                    <type>pom</type>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -79,15 +52,15 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-			<source>${javac.source}</source>
-			<target>${javac.target}</target>
+                    <source>${javac.source}</source>
+                    <target>${javac.target}</target>
                 </configuration>
             </plugin>
-		<plugin>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-resources-plugin</artifactId>
-                                        <version>3.0.2</version>
-                                </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+            </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.2.1</version>
@@ -109,6 +82,23 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.chrisnewland.demofx.DemoFXApplication</mainClass>
+                            <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                            <classpathScope>compile</classpathScope>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
