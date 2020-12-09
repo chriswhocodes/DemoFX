@@ -320,9 +320,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 	{
 		StringBuilder builder = new StringBuilder();
 
-		builder.append("Try: ").append(getPrismTryOrder());
-		builder.append(" | Pipe: ").append(getUsedPipeline());
-		builder.append(" | Precalc: ");
+		builder.append("Precalc: ");
 
 		StringBuilder lookupBuilder = new StringBuilder();
 
@@ -369,79 +367,6 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 	private String getJavaFxVersion() {
 		return System.getProperty("javafx.version");
-	}
-
-	private String getUsedPipeline()
-	{
-		/*
-		try
-		{
-			// JDK9 forbidden:
-			String className = com.sun.prism.GraphicsPipeline.getPipeline().getClass().getName();
-
-			int lastDot = className.lastIndexOf('.');
-
-			if (lastDot != -1)
-			{
-				return className.substring(lastDot + 1);
-			}
-			else
-			{
-				return className;
-			}
-		}
-		catch (Throwable th)
-		{
-			System.out.println("Ignored exception while getting PrismSettings.tryOrder");
-		}
-		*/
-		return "Unknown";
-	}
-
-	@SuppressWarnings("unchecked") private String getPrismTryOrder()
-	{
-		/*
-		Object result = null;
-
-		// Java 7 returns String[]
-		// Java 8 returns List<String>
-
-		try
-		{
-			// JDK9 forbidden:
-			result = com.sun.prism.impl.PrismSettings.tryOrder;
-		}
-		catch (Throwable th)
-		{
-			System.out.println("Ignored exception while getting PrismSettings.tryOrder");
-		}
-
-		List<String> tryOrderList = new ArrayList<>();
-
-		if (result instanceof String[])
-		{
-			tryOrderList.addAll(Arrays.asList((String[]) result));
-		}
-		else if (result instanceof List)
-		{
-			tryOrderList.addAll((List<String>) result);
-		}
-
-		StringBuilder builder = new StringBuilder();
-
-		for (String str : tryOrderList)
-		{
-			builder.append(str).append(",");
-		}
-
-		if (builder.length() > 0)
-		{
-			builder.deleteCharAt(builder.length() - 1);
-		}
-
-		return builder.toString();
-		*/
-		return "Unknown";
 	}
 
 	@Override public int getBandCount()
