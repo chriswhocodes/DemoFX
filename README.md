@@ -29,8 +29,15 @@ mvn clean package
 
 ## Run 
 
+Get the latest OpenFX from [the Gluon website](https://gluonhq.com/products/javafx/), 
+e.g. in `/opt/javafx-sdk-16`.
+
+![](screenshots/colorbackground-stars.jpg)
+![](screenshots/rainbow-bounce.jpg)
+
+
 ```
-./run.sh [options]
+bash run_on_mac.sh [options]
 
 -e <effects>               comma separated list of effects (See SimpleEffectFactory)
 -t <seconds>               run for t seconds
@@ -53,9 +60,10 @@ rawplayer, raytrace, rings, rotations, sea, sheet, shift, sierpinski, sinelines,
 sprite3d, spritewave, squares, starfield, starfieldsprite, stars, texcube,
 texsphere, textbounce, textlabel, textlayers, textring, textwave, textwavesprite,
 tiles, triangles, tubestack, tunnel, twister, typetext, vumeter, wordsearch
-
 ```
+
 Examples:
+
 ```
 # Default settings
 ./run.sh
@@ -87,14 +95,17 @@ Examples:
 #More Moiré scripted demo
 ./run.sh -s moire -f true -w 1280 -h 720
 ```
+
 In order to run in another java version, like java 9. JAVA_HOME should be set.
 In MAC:
+
 ```
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
 ./run.sh
 ```
 
 If the frame rate is not vsynced on Ubuntu then run:
+
 ```
 export _JAVA_OPTIONS="-Dquantum.multithreaded=false"
 ```
