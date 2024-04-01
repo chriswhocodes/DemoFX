@@ -11,7 +11,7 @@
         <javac.source>1.8</javac.source>
         <javac.target>1.8</javac.target>
 
-        <openjfx.version>15.0.1</openjfx.version>
+        <openjfx.version>17.0.10</openjfx.version>
     </properties>
 
     <profiles>
